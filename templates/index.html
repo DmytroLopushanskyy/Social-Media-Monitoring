@@ -1,24 +1,20 @@
-{% extends "layout.html" %}
-{% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <form method=POST action="{{ url_for('login') }}">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" name="pass" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Log In</button>
-            </form>
-            <br>
-            <div>
-                Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My title</title>
+</head>
+<body>
+    <form method=POST action="{{ url_for('add') }}">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Keyword</label>
+            <input type="text" class="form-control" name="keyword" placeholder="Add keyword">
         </div>
-    </div>
-</div>
-{% endblock %}
+        <button type="submit" class="btn btn-primary btn-block">Add</button>
+    </form>
+    <form method=POST action="{{ url_for('logout')}}">
+        <button type="submit" class="btn btn-primary btn-block">Logout</button>
+
+    </form>
+</body>
+</html>
