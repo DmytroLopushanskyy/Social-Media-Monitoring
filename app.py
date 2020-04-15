@@ -1,6 +1,6 @@
 from classes.user import User, to_class
-from flask import Flask, render_template, url_for, request, session, redirect
-
+from flask import Flask, render_template, url_for, request, session, redirect, flash
+from forms import LoginForm, RegistrationForm
 import pymongo
 import bcrypt
 import config
@@ -17,52 +17,58 @@ mongo = pymongo.MongoClient(
 @app.route('/')
 def index():
     if 'user' in session:
-        print(session['user'])
         return render_template('index.html')
-
-    return render_template('login.html')
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    users = mongo.db.users
-    login_user = users.find_one({'name': request.form['username']})
-
-    if login_user:
-        if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
-            session['user'] = User(request.form['username']).to_save()
-            return redirect(url_for('index'))
-
-    return 'Invalid username/password combination'
+    flash("Create an account or login firstly", 'warning')
+    return redirect(url_for('login'))
 
 
 @app.route('/add', methods=['POST'])
 def add():
     if request.method == 'POST':
         user = to_class(session['user'])
-        user.add_keyword(request.form['keyword'])
-    return render_template('index.html')
+        if request.form['keyword'] in user.keywords:
+            flash("This word is already in your dictionary", 'danger')
+        else:
+            user.add_keyword(request.form['keyword'])
+            flash("This word is added to your dictionary", 'success')
+    return redirect(url_for('index'))
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
     if request.method == 'POST':
         del session['user']
-    return render_template('login.html')
+    flash("You have logged out", "danger")
+    return redirect(url_for('login'))
+
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    if request.method == 'POST':
+    form = RegistrationForm()
+    if form.validate_on_submit():
         users = mongo.db.users
-        existing_user = users.find_one({'name': request.form['username']})
-        if len(request.form['pass']) <= 4:
-            return 'This password is to short'
-        if not existing_user:
-            hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({'name': request.form['username'], 'password': hashpass, 'keywords': []})
-            session['user'] = User(request.form['username']).to_save()
-            return redirect(url_for('index'))
-        return 'That username already exists!'
+        hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
+        users.insert({'name': form.username.data, 'email': form.email.data, 'password': hashpass, 'keywords': []})
+        session['user'] = form.username.data
+        flash(f"Account created for {form.username.data}!", 'success')
+        return redirect(url_for('index'))
+    return render_template('register.html', title='Register', form=form)
 
-    return render_template('register.html')
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        users = mongo.db.users
+        login_user = users.find_one({'name': form.username.data})
+
+        if login_user:
+            if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password']) == login_user['password']:
+                session['user'] = form.username.data
+                flash(f"You have logged in as {form.username.data}!", 'success')
+                return redirect(url_for('index'))
+        flash('Incorrect password or/and username', 'danger')
+    return render_template('login.html', title='Register', form=form)
 
 
 if __name__ == '__main__':

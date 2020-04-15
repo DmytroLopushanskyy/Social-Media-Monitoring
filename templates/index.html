@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My title</title>
-</head>
-<body>
-    <form method=POST action="{{ url_for('add') }}">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Keyword</label>
-            <input type="text" class="form-control" name="keyword" placeholder="Add keyword">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Add</button>
-    </form>
-    <form method=POST action="{{ url_for('logout')}}">
-        <button type="submit" class="btn btn-primary btn-block">Logout</button>
+{% extends "layout.html" %}
+{% block body %}
 
-    </form>
-</body>
-</html>
+<form method=POST action="{{ url_for('add') }}">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Keyword</label>
+        <input type="text" class="form-control" name="keyword" placeholder="Add keyword">
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Add</button>
+</form>
+<form method=POST action="{{ url_for('logout')}}">
+    <button type="submit" class="btn btn-primary btn-block">Logout</button>
+
+</form>
+{% endblock %}

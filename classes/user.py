@@ -12,7 +12,7 @@ def to_class(session_name):
     :param session_name: name
     :return: None
     """
-    return User(session_name['name'])
+    return User(session_name)
 
 
 class User:
@@ -22,21 +22,21 @@ class User:
         """Initialize User"""
         users = mongo.db.users
         login_user = users.find_one({'name': username})
+        print(username)
+        print(login_user,'HERE')
         self.username = login_user['name']
         self.password = login_user['password']
         self.keywords = login_user['keywords']
+        self.email = login_user['email']
 
     def add_keyword(self, new_word):
         """Add keyword to user"""
-        if new_word not in self.keywords:
-            self.keywords.append(new_word)
-            User.keywords.add(new_word)
 
-            mongo.db.users.update({"name": self.username}, {"$set": {"keywords": self.keywords}})
+        self.keywords.append(new_word)
+        User.keywords.add(new_word)
 
-        else:
-            return 'You already have this word in your keyword list'
+        mongo.db.users.update({"name": self.username}, {"$set": {"keywords": self.keywords}})
 
     def to_save(self):
         """Return user in json format"""
-        return {'name': self.username, 'password': self.password, 'keywords': self.keywords}
+        return {'name': self.username, 'password': self.password, 'keywords': self.keywords, 'email': self.email}
