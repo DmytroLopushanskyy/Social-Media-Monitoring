@@ -1,3 +1,6 @@
+"""
+Module work with Keywords
+"""
 import pymongo
 import config
 
@@ -6,6 +9,9 @@ mongo = pymongo.MongoClient(
 
 
 class Word:
+    """
+    This class represent only one word
+    """
     def __init__(self, word):
         """Initialize word"""
         self.keyword = word['keyword']
@@ -13,9 +19,15 @@ class Word:
 
 
 class Keywords:
+    """
+    This class represent all Keywords in list
+    """
     keywords = mongo.db.keywords
 
     def __init__(self):
+        """
+        Get all keywords from db
+        """
         self.keywords = {}
         all_keywords = Keywords.keywords.find({})
         for keyword in all_keywords:

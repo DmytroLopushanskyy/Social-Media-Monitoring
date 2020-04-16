@@ -1,3 +1,6 @@
+"""
+ This module used to work with user
+"""
 import pymongo
 import config
 from classes.keyword import Keywords
@@ -16,14 +19,15 @@ def to_class(session_name):
 
 
 class User:
+    """
+    Class to work with user easier
+    """
     keywords = Keywords()
 
     def __init__(self, username):
         """Initialize User"""
         users = mongo.db.users
         login_user = users.find_one({'name': username})
-        print(username)
-        print(login_user,'HERE')
         self.username = login_user['name']
         self.password = login_user['password']
         self.keywords = login_user['keywords']
@@ -39,4 +43,5 @@ class User:
 
     def to_save(self):
         """Return user in json format"""
-        return {'name': self.username, 'password': self.password, 'keywords': self.keywords, 'email': self.email}
+        return {'name': self.username, 'password': self.password,
+                'keywords': self.keywords, 'email': self.email}
