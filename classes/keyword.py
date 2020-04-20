@@ -2,12 +2,9 @@
 Module work with Keywords
 """
 import string
-import pymongo
 import config
 from ukr_stemmer import UkrainianStemmer
-
-mongo = pymongo.MongoClient(
-    config.mongoclient)
+from db_connect import mongo
 
 
 class Word:
@@ -34,7 +31,7 @@ class Word:
 
     def check_link(self, text, link):
         """
-        Get weight of the link and add it if nedd
+        Get weight of the link and add it if needed
         :param text: str
         :param link: str
         :return: None

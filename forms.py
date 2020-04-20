@@ -1,15 +1,11 @@
 """
-This module give information about forms
+This module gives information about forms
 """
+import ssl
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-
-import pymongo
-import config
-
-mongo = pymongo.MongoClient(
-    config.mongoclient)
+from db_connect import mongo
 
 
 class RegistrationForm(FlaskForm):

@@ -1,12 +1,9 @@
 """
  This module used to work with user
 """
-import pymongo
 import config
 from classes.keyword import words
-
-mongo = pymongo.MongoClient(
-    config.mongoclient)
+from db_connect import mongo
 
 
 class User:

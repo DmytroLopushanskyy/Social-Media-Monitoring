@@ -1,21 +1,18 @@
 """
 Main module run it to run application
 """
-import pymongo
 import bcrypt
 from flask import Flask, render_template, url_for, request, session, redirect, flash
 from forms import LoginForm, RegistrationForm
 import config
 from classes.user import to_class
+from db_connect import mongo
 
 
 app = Flask(__name__)
-app.secret_key = 'mysecret'
+app.secret_key = config.flask_key
 app.config['SECRET_KEY'] = config.secret_key
 app.config['MONGO_DBNAME'] = config.mongoname
-
-mongo = pymongo.MongoClient(
-    config.mongoclient)
 
 
 @app.route('/')
