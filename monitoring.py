@@ -13,9 +13,7 @@ def new_link(text, link):
     :return: None
     """
     words.add_new_link(text, link)
-    global users
-    for user in users:
-        user.check_user_weight(link)
+
 
 
 def update():
@@ -25,6 +23,7 @@ def update():
     """
     global users
     for user in users:
+        user.check_user_weight()
         user.update_links()
 
 

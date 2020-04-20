@@ -48,25 +48,29 @@ class User:
                 user_weight += keyword.links_dict[link]
         return user_weight
 
-    def check_user_weight(self, link):
+    def check_user_weight(self):
         """
         Sort weight of the user links to get most popular
         :param link: str
         :return:
         """
-        weight = self.get_user_weight(link)
-        to_add = True
-        for now_link in range(len(self.weights)):
-            now_weight = self.weights[now_link][0]
-            if weight > now_weight:
-                self.weights.insert(now_link, (weight, link))
-                to_add = False
-                break
-        if len(self.weights) < config.NUMBER_WORDS and to_add:
-            self.weights.append((weight, link))
-
-        if len(self.weights) > config.NUMBER_WORDS:
-            self.weights.pop()
+        new_links = []
+        for now in range(config.NUMBER_WORDS):
+            dct = {}
+            for link in self.keywords:
+                link = words[link]
+                try:
+                    dct[link.links[now][1]] = dct.get(link.links[now][1], 0) + 1
+                except IndexError:
+                    pass
+            maxi = 0
+            max_link = ''
+            for i in dct:
+                if dct[i] > maxi:
+                    maxi = dct[i]
+                    max_link = i
+            new_links.append(max_link)
+        self.weights = new_links
 
     def update_links(self):
         """
@@ -74,7 +78,7 @@ class User:
         :return:
         """
         print(self.weights)
-        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x[1] for x in self.weights]}})
+        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x for x in self.weights]}})
 
     def get_links(self):
         """
