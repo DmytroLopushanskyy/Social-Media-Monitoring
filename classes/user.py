@@ -66,7 +66,7 @@ class User:
             maxi = 0
             max_link = ''
             for i in dct:
-                if dct[i] > maxi:
+                if dct[i] > maxi and i not in new_links:
                     maxi = dct[i]
                     max_link = i
             new_links.append(max_link)
