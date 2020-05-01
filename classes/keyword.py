@@ -37,6 +37,7 @@ class Word:
         :return: None
         """
         weight = self.find_weight(text)
+        print("weight", weight)
         to_add = True
         for now_link in range(len(self.links)):
             now_weight = self.links[now_link][0]
@@ -45,6 +46,7 @@ class Word:
                 to_add = False
                 break
         if len(self.links) < config.NUMBER_WORDS and to_add:
+            print("added!")
             self.links.append((weight, link))
 
         if len(self.links) > config.NUMBER_WORDS:
@@ -57,6 +59,13 @@ class Word:
         """
         for now in self.links:
             self.links_dict[now[1]] = now[0]
+
+    def __str__(self):
+        """
+        String representation of a word.
+        :return: str
+        """
+        return "%s: %s" % (self.keyword, self.links_dict)
 
 
 class Keywords:
@@ -106,10 +115,18 @@ class Keywords:
         :param link: str
         :return: None
         """
+        print("Adding new link")
         for word in self.keywords:
             word = self.keywords[word]
             word.check_link(text, link)
             word.transform_to_dict()
 
-
-words = Keywords()
+    def __str__(self):
+        """
+        String representation of keywords.
+        :return: str
+        """
+        output = ""
+        for word in self.keywords:
+            output += str(word) + "\n"
+        return output

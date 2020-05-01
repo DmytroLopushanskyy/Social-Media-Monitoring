@@ -2,8 +2,10 @@
  This module used to work with user
 """
 import config
-from classes.keyword import words
 from db_connect import mongo
+from classes.keyword import Keywords
+
+words = Keywords()
 
 
 class User:
