@@ -2,8 +2,9 @@
  This module used to work with user
 """
 import config
-from classes.keyword import words
 from db_connect import mongo
+from classes.keyword import Keywords
+
 
 
 class User:
@@ -26,8 +27,8 @@ class User:
         """Add keyword to user"""
 
         self.keywords.append(new_word)
+        words = Keywords()
         words.add(new_word)
-
         mongo.db.users.update({"name": self.username}, {"$set": {"keywords": self.keywords}})
 
     def to_save(self):
@@ -42,6 +43,7 @@ class User:
         :return: int
         """
         user_weight = 0
+        words = Keywords()
         for keyword in self.keywords:
             keyword = words.keywords[keyword]
             if link in keyword.links_dict:
@@ -55,6 +57,8 @@ class User:
         :return:
         """
         new_links = []
+        words = Keywords()
+
         for now in range(config.NUMBER_WORDS):
             dct = {}
             for link in self.keywords:
@@ -66,7 +70,7 @@ class User:
             maxi = 0
             max_link = ''
             for i in dct:
-                if dct[i] > maxi and i not in new_links:
+                if dct[i] > maxi:
                     maxi = dct[i]
                     max_link = i
             new_links.append(max_link)
@@ -77,6 +81,7 @@ class User:
         Push changes
         :return:
         """
+        self.check_user_weight()
         print(self.weights)
         mongo.db.users.update({"name": self.username}, {"$set": {"links": [x for x in self.weights]}})
 
@@ -109,3 +114,4 @@ def get_all_users():
         print(user)
         users_name.append(User(user['name']))
     return users_name
+

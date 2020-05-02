@@ -83,6 +83,10 @@ def parse_telegram(parser):
                     if react_num:
                         reactions += int(react_num.group())
 
+            if text:
+                parser.new_link(text, 'https://t.me/' + source[1:] + '/' +
+                            str(post_id))
+
             logging.info("%s %s %s %s %s %s", views, reactions, link,
                          button_link, external_link_text, text)
 
@@ -101,7 +105,7 @@ def get_channels(path):
     """
     channels = set()
     with open(path, 'r', encoding='UTF-8') as file:
-        for line in file.readlines():
+        for line in file.readlines()[:10]:
             if line.startswith('@'):
                 channels.add(line)
     return channels
