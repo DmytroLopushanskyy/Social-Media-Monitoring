@@ -2,7 +2,6 @@
 Twitter parsing module
 """
 import time
-import json
 import requests
 import logging
 from datetime import datetime, timedelta
@@ -11,12 +10,16 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, \
     StaleElementReferenceException, NoSuchElementException
+from config import BOT_TOKEN
 
 
 def send(text):
     requests.get(
         'https://api.telegram.org/bot%s/sendMessage?chat_id=138918380&text=%s'
-        % ("687710974:AAG8ySZ0Jc77PqeslxhKZKEVrehHnCme40k", text))
+        % (BOT_TOKEN, text))
+    requests.get(
+        'https://api.telegram.org/bot%s/sendMessage?chat_id=426055346&text=%s'
+        % (BOT_TOKEN, text))
 
 
 def parse_tweets(browser, all_tweets, yesterday):
