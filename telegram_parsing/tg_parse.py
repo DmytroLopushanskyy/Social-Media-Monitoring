@@ -105,7 +105,7 @@ def get_channels(path):
     """
     channels = set()
     with open(path, 'r', encoding='UTF-8') as file:
-        for line in file.readlines():
+        for line in file.readlines()[:10]:
             if line.startswith('@'):
                 channels.add(line)
     return channels
