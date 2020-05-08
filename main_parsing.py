@@ -2,23 +2,18 @@
 Main parsing module.
 """
 import logging
-import random
 from datetime import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 from telegram_parsing.tg_parse import parse_telegram
+from twitter_parsing.twitter_parse import parse_twitter
 from classes.keyword import Keywords
 from classes.user import get_all_users
+from config import GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH
 
 SCHED = BlockingScheduler()
-
-# GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google-chrome'
-# CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-
-GOOGLE_CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-CHROMEDRIVER_PATH = '/home/bohdan/Downloads/chromedriver'
 
 req_proxy = RequestProxy()
 proxies = req_proxy.get_proxy_list()
@@ -28,13 +23,13 @@ class Parser:
     """
     Main Parser class.
     """
-    def __init__(self, keywords):
+    def __init__(self):
         """
         Parser initialisation by launching the browser.
         """
         self.browser = self.browser_setup()
         self.tg_sources_path = 'telegram_parsing/channels.txt'
-        self.keywords = keywords
+        self.keywords = Keywords()
 
     def parse_telegram(self):
         """
@@ -46,10 +41,10 @@ class Parser:
     def parse_twitter(self):
         """
         Launches telegram channels parsing.
+        :param keywords: list
         :return: None
         """
-        keywords = self.get_user_keywords()
-        parse_twitter(self, keywords)
+        parse_twitter(self)
         
     def get_user_keywords(self):
         """
@@ -95,9 +90,6 @@ class Parser:
         """
         self.keywords.add_new_link(text, link)
 
-
-    """
-    """
     @staticmethod
     def browser_setup(iter=0, update_proxies=False):
         """
@@ -143,15 +135,6 @@ class Parser:
 
 
 def update():
-    This function push information into database
-    :return: None
-    global users
-    for user in users:
-        user.check_user_weight()
-        user.update_links()
-
-
-def update():
     """
     This function push information into database
     :return: None
@@ -163,24 +146,23 @@ def update():
 
 
 @SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
-def start_parsing(update_proxies=True):
+def start_parsing():
     """
     Main parsing starting function.
     :return: None
     """
     logging.info("Retrieving all keywords from database")
-    words = Keywords()
-    print(words)
     logging.info("Parsing process started!")
-    main_parser = Parser(words)
-    main_parser.parse_telegram()
+    main_parser = Parser()
+    #main_parser.parse_telegram()
+    main_parser.parse_twitter()
     logging.info("Parsing process finished!")
-    print(words)
-    words.push_changes()
+    print(main_parser.keywords)
+    main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
         user.update_links()
-    words.clean_changes()
+    main_parser.keywords.clean_changes()
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)

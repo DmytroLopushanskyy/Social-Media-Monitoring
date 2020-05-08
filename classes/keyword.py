@@ -78,14 +78,6 @@ class Word:
         return "%s: %s" % (self.keyword, self.links_dict)
 
 
-    def __str__(self):
-        """
-        String representation of a word.
-        :return: str
-        """
-        return "%s: %s" % (self.keyword, self.links_dict)
-
-
 class Keywords:
     """
     This class represent all Keywords in list

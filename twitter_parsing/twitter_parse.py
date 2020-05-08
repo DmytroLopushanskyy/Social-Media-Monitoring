@@ -22,7 +22,7 @@ def send(text):
         % (BOT_TOKEN, text))
 
 
-def parse_tweets(browser, all_tweets, yesterday):
+def parse_tweets(browser, all_tweets, yesterday, parser):
     """
     Parse all tweets from search page.
     :param browser: Selenium browser
@@ -38,23 +38,41 @@ def parse_tweets(browser, all_tweets, yesterday):
             acc = tweet.find_element_by_css_selector('div[dir="ltr"]').\
                 find_element_by_tag_name('span').text
             time_posted = tweet.find_element_by_tag_name('time').text
+            links = tweet.find_elements_by_css_selector('a[role="link"]')
+            for link in links:
+                url = link.get_attribute('href')
+                if len(url.split('/')) == 6:
+                    print(url)
+                    break
         except (StaleElementReferenceException, NoSuchElementException):
             continue
         except Exception as e:
             logging.error("UNEXPECTED: " + str(e))
             return 'error'
         tweet_unique_info = acc, time_posted
-        #print(tweet_unique_info)
+
         if tweet_unique_info not in all_tweets:
-            all_tweets.add(tweet_unique_info)
-            # perform parsing
+            text = ""
+            try:
+                spans = tweet.find_element_by_css_selector('div[lang="uk"]'). \
+                    find_elements_by_tag_name('span')
+                for child in spans:
+                    text += child.text
+                print(text)
+            except (StaleElementReferenceException, NoSuchElementException):
+                logging.info("No Ukrainian text found!")
+                continue
+
+            if text:
+                parser.new_link(text, url)
+                all_tweets.add(tweet_unique_info)
 
         if time_posted.endswith(yesterday):
             return True
     return False
 
 
-def parse_twitter(parser, keywords):
+def parse_twitter(parser):
     """
     Main Twitter posts parsing function.
     :param parser: Parser
@@ -63,8 +81,9 @@ def parse_twitter(parser, keywords):
     """
     start = time.time()
     print(start)
+    keywords = parser.keywords.keywords
     browser = parser.browser
-    available_time = 10 * 60 * 60 / len(keywords)  # 10 hours total available
+    available_time = 0.5 * 60 * 60 / len(keywords)  # 10 hours total available
     logging.info("Maximum available time per word: %s seconds" % available_time)
 
     yesterday = datetime.now() - timedelta(days=1)
@@ -79,7 +98,7 @@ def parse_twitter(parser, keywords):
         loaded = False
         while not loaded:
             try:
-                url = 'https://twitter.com/search?q=%s&f=live' % keyword
+                url = 'https://twitter.com/search?q=' + keyword + '%20lang%3Auk&f=live'
                 browser.get(url)
                 WebDriverWait(browser, 7).until(
                     expected_conditions.presence_of_element_located(
@@ -91,6 +110,9 @@ def parse_twitter(parser, keywords):
                 proxies_iterations += 1
                 logging.error("Error while parsing! Trying %s time" % i)
                 if i % 20 == 0:
+                    browser.quit()
+                    time.sleep(15)
+                    logging.info("Reloading browser")
                     parser.browser = parser.browser_setup(proxies_iterations,
                                                           True)
 
@@ -106,7 +128,7 @@ def parse_twitter(parser, keywords):
         stop_parsing_count = 0
         iterations = 0
         while not finished and time.time() - main_start < available_time * (ind + 1):
-            finished = parse_tweets(browser, all_tweets, yesterday)
+            finished = parse_tweets(browser, all_tweets, yesterday, parser)
             if finished == 'error':
                 logging.info("IP Address Error. Changing it...")
                 send("IP Address Error. Changing it...")
