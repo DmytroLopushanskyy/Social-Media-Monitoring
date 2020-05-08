@@ -9,9 +9,8 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 from telegram_parsing.tg_parse import parse_telegram
-from twitter_parsing.twitter_parse import parse_twitter
 from classes.keyword import Keywords
-#from classes.user import get_all_users
+from classes.user import get_all_users
 
 SCHED = BlockingScheduler()
 
@@ -19,7 +18,7 @@ SCHED = BlockingScheduler()
 # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
 GOOGLE_CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-CHROMEDRIVER_PATH = '/usr/local/bin/chromedriver'
+CHROMEDRIVER_PATH = '/home/bohdan/Downloads/chromedriver'
 
 req_proxy = RequestProxy()
 proxies = req_proxy.get_proxy_list()
@@ -96,6 +95,9 @@ class Parser:
         """
         self.keywords.add_new_link(text, link)
 
+
+    """
+    """
     @staticmethod
     def browser_setup(iter=0, update_proxies=False):
         """
@@ -141,6 +143,15 @@ class Parser:
 
 
 def update():
+    This function push information into database
+    :return: None
+    global users
+    for user in users:
+        user.check_user_weight()
+        user.update_links()
+
+
+def update():
     """
     This function push information into database
     :return: None
@@ -159,14 +170,17 @@ def start_parsing(update_proxies=True):
     """
     logging.info("Retrieving all keywords from database")
     words = Keywords()
-    #print(words)
+    print(words)
     logging.info("Parsing process started!")
     main_parser = Parser(words)
-    #main_parser.parse_telegram()
-    main_parser.parse_twitter()
+    main_parser.parse_telegram()
     logging.info("Parsing process finished!")
-    #print(words)
-
+    print(words)
+    words.push_changes()
+    users = get_all_users()
+    for user in users:
+        user.update_links()
+    words.clean_changes()
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)

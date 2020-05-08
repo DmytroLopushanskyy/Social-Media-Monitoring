@@ -7,7 +7,7 @@ from forms import LoginForm, RegistrationForm
 import config
 from classes.user import to_class
 from db_connect import mongo
-
+from classes.keyword import ukrainian
 
 app = Flask(__name__)
 app.secret_key = config.flask_key
@@ -76,6 +76,10 @@ def add():
         user = to_class(session['user'])
         if request.form['keyword'] in user.keywords:
             flash("This word is already in your dictionary", 'danger')
+        elif not ukrainian(request.form['keyword']):
+            flash("This site only work with ukrainian words", 'danger')
+        elif len(request.form['keyword'].split()) > 1:
+            flash("Enter only one word!", 'danger')
         else:
             user.add_keyword(request.form['keyword'])
             flash("This word is added to your dictionary", 'success')
