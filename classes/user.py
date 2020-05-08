@@ -83,7 +83,7 @@ class User:
         """
         self.check_user_weight()
         print(self.weights)
-        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x for x in self.weights]}})
+        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x.replace('\n','') for x in self.weights]}})
 
     def get_links(self):
         """
