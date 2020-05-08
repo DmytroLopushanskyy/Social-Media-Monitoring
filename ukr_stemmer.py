@@ -25,7 +25,7 @@ class UkrainianStemmer():
         # http://uk.wikipedia.org/wiki/Рефлексивне_дієслово
         self.reflexive = r'(с[яьи])$'
         # http://uk.wikipedia.org/wiki/Прикметник + http://wapedia.mobi/uk/Прикметник
-        self.adjective = r'(ими|ій|ий|а|е|ова|ове|ів|є|їй|єє|еє|я|ім|ем|им|ім|их|іх|ою|йми|іми|у|ю|ого|ому|ої)$'
+        self.adjective = r'(ими|ій|ий|а|е|ова|ове|ів|є|їй|єє|еє|я|ім|ем|им|ім|их|іх|ою|йми|іми|у|ю|ого|ому|ої|на|ний|но)$'
         # http://uk.wikipedia.org/wiki/Дієприкметник
         self.participle = r'(ий|ого|ому|им|ім|а|ій|у|ою|ій|і|их|йми|их)$'
         # http://uk.wikipedia.org/wiki/Дієслово
@@ -83,7 +83,7 @@ class UkrainianStemmer():
 
 
 if __name__ == '__main__':
-    stemObj = UkrainianStemmer('Рефлексивного')
+    stemObj = UkrainianStemmer('коронавірусна')
     print(stemObj.stem_word())
     stemObj = UkrainianStemmer('Тямущий')
     print(stemObj.stem_word())
