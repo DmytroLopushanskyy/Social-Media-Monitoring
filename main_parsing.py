@@ -17,6 +17,7 @@ SCHED = BlockingScheduler()
 
 req_proxy = RequestProxy()
 proxies = req_proxy.get_proxy_list()
+next_run = datetime.now() + timedelta(hours=3)
 
 
 class Parser:
@@ -27,7 +28,7 @@ class Parser:
         """
         Parser initialisation by launching the browser.
         """
-        self.browser = self.browser_setup(use_proxy)
+        self.browser = self.browser_setup(use_proxy=use_proxy)
         self.tg_sources_path = 'telegram_parsing/channels.txt'
         self.keywords = Keywords()
 
@@ -146,7 +147,7 @@ def update():
         user.update_links()
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
+@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
 def start_parsing():
     """
     Main parsing starting function.
@@ -154,7 +155,7 @@ def start_parsing():
     """
     logging.info("Parsing process started!")
     main_parser = Parser()
-    #main_parser.parse_telegram()
+    main_parser.parse_telegram()
     # main_parser.parse_twitter()
     logging.info("Parsing process finished!")
     main_parser.keywords.push_changes()
@@ -162,7 +163,25 @@ def start_parsing():
     for user in users:
         user.update_links()
     main_parser.keywords.clean_changes()
-    print('HERE')
+    print('SUCCESS!')
+
+
+@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
+def start_twitter_parsing():
+    """
+    Main parsing starting function.
+    :return: None
+    """
+    logging.info("Parsing process started!")
+    main_parser = Parser(use_proxy=True)
+    main_parser.parse_twitter()
+    logging.info("Parsing process finished!")
+    main_parser.keywords.push_changes()
+    users = get_all_users()
+    for user in users:
+        user.update_links()
+    main_parser.keywords.clean_changes()
+    print('SUCCESS!')
 
 
 if __name__ == '__main__':

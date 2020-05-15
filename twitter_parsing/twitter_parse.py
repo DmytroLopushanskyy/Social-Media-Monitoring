@@ -22,6 +22,22 @@ def send(text):
         % (BOT_TOKEN, text))
 
 
+def get_tweet_interactions(tweet, interaction):
+    """
+    Returns interaction count based on its name and tweet data
+    :param tweet: Selenium WebElement
+    :param interaction: str (like, retweet, reply)
+    :return: str
+    """
+    count = tweet.find_element_by_css_selector(
+        'div[data-testid="' + interaction + '"]')
+    count = count.get_attribute('aria-label')
+    count = [int(s) for s in count.split() if s.isdigit()]
+    if not count:
+        count = [0]
+    return count[0]
+
+
 def parse_tweets(browser, all_tweets, yesterday, parser):
     """
     Parse all tweets from search page.
@@ -44,6 +60,12 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
                 if len(url.split('/')) == 6:
                     print(url)
                     break
+            likes = get_tweet_interactions(tweet, "like")
+            retweets = get_tweet_interactions(tweet, "retweet")
+            replies = get_tweet_interactions(tweet, "reply")
+            logging.info("likes_count: %s", likes)
+            logging.info("retweets_count: %s", retweets)
+            logging.info("reply_count: %s", replies)
         except (StaleElementReferenceException, NoSuchElementException):
             continue
         except Exception as e:
@@ -64,7 +86,7 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
                 continue
 
             if text:
-                parser.new_link(text, url) #, source="telegram|twitter", data=(views, reactions)|(likes, shares, comments)
+                parser.new_link(text, url, "twitter", (likes, retweets, replies))
                 all_tweets.add(tweet_unique_info)
 
         if time_posted.endswith(yesterday):
@@ -108,13 +130,14 @@ def parse_twitter(parser):
             except TimeoutException:
                 i += 1
                 proxies_iterations += 1
-                logging.error("Error while parsing! Trying %s time" % i)
-                if i % 20 == 0:
-                    browser.quit()
-                    time.sleep(15)
-                    logging.info("Reloading browser")
-                    parser.browser = parser.browser_setup(proxies_iterations,
-                                                          True)
+                if i % 10 == 0:
+                    logging.error("Proxy error! Trying %s time with renewal" % i)
+                    parser.browser = parser.browser_setup(iter=proxies_iterations,
+                                                          update_proxies=True)
+                elif i % 2 == 0:
+                    logging.error("Error with proxy! Trying %s time" % i)
+                    parser.browser = parser.browser_setup(proxies_iterations)
+
 
         if not loaded:
             continue
