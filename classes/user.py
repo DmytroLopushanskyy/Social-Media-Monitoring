@@ -6,7 +6,6 @@ from db_connect import mongo
 from classes.keyword import Keywords
 
 
-
 class User:
     """
     Class to work with user easier
@@ -29,7 +28,8 @@ class User:
         self.keywords.append(new_word)
         words = Keywords()
         words.add(new_word)
-        mongo.db.users.update({"name": self.username}, {"$set": {"keywords": self.keywords}})
+        mongo.db.users.update({"name": self.username},
+                              {"$set": {"keywords": self.keywords}})
 
     def to_save(self):
         """Return user in json format"""
@@ -83,7 +83,8 @@ class User:
         """
         self.check_user_weight()
         print(self.weights)
-        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x.replace('\n','') for x in self.weights]}})
+        mongo.db.users.update({"name": self.username}, {
+            "$set": {"links": [x.replace('\n', '') for x in self.weights]}})
 
     def get_links(self):
         """
@@ -114,4 +115,3 @@ def get_all_users():
         print(user)
         users_name.append(User(user['name']))
     return users_name
-

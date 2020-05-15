@@ -2,7 +2,7 @@
 Main parsing module.
 """
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -23,11 +23,11 @@ class Parser:
     """
     Main Parser class.
     """
-    def __init__(self):
+    def __init__(self, use_proxy=False):
         """
         Parser initialisation by launching the browser.
         """
-        self.browser = self.browser_setup()
+        self.browser = self.browser_setup(use_proxy)
         self.tg_sources_path = 'telegram_parsing/channels.txt'
         self.keywords = Keywords()
 
@@ -91,7 +91,7 @@ class Parser:
         self.keywords.add_new_link(text, link)
 
     @staticmethod
-    def browser_setup(iter=0, update_proxies=False):
+    def browser_setup(iter=0, update_proxies=False, use_proxy=True):
         """
         Initial browser setup
         :param update_proxies: bool
@@ -101,15 +101,16 @@ class Parser:
         global proxies
         if update_proxies:
             proxies = RequestProxy().get_proxy_list()
-        chosen_proxy = proxies[iter]
-        logging.info("Chosen Proxy: %s" % chosen_proxy)
-        PROXY = chosen_proxy.get_address()
-        webdriver.DesiredCapabilities.CHROME['proxy'] = {
-            "httpProxy": PROXY,
-            "ftpProxy": PROXY,
-            "sslProxy": PROXY,
-            "proxyType": "MANUAL",
-        }
+        if use_proxy:
+            chosen_proxy = proxies[iter]
+            logging.info("Chosen Proxy: %s" % chosen_proxy)
+            PROXY = chosen_proxy.get_address()
+            webdriver.DesiredCapabilities.CHROME['proxy'] = {
+                "httpProxy": PROXY,
+                "ftpProxy": PROXY,
+                "sslProxy": PROXY,
+                "proxyType": "MANUAL",
+            }
 
         options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
@@ -151,11 +152,9 @@ def start_parsing():
     Main parsing starting function.
     :return: None
     """
-    logging.info("Retrieving all keywords from database")
     logging.info("Parsing process started!")
     main_parser = Parser()
-    #main_parser.parse_telegram()
-    main_parser.parse_twitter()
+    main_parser.parse_telegram()
     logging.info("Parsing process finished!")
     print(main_parser.keywords)
     main_parser.keywords.push_changes()
@@ -163,6 +162,7 @@ def start_parsing():
     for user in users:
         user.update_links()
     main_parser.keywords.clean_changes()
+
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)

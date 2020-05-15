@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from twitter_parsing.twitter_parse import send
 
 
 def parse_telegram(parser):
@@ -28,7 +29,7 @@ def parse_telegram(parser):
     missed = set()
     got_text = 0
 
-    for source in channels:
+    for num, source in enumerate(channels):
         url = 'https://t.me/s/' + source[1:]
 
         response = requests.get(url)
@@ -43,15 +44,20 @@ def parse_telegram(parser):
                 expected_conditions.presence_of_element_located(
                     (By.CLASS_NAME, 'tgme_widget_message')))
         except TimeoutException:
-            logging.error("Error while parsing!")
+            logging.error("Error while parsing! %s" % url)
             continue
         posts = browser.find_element_by_class_name('tgme_channel_history')\
             .find_elements_by_class_name('tgme_widget_message_wrap')
         posts.reverse()
         for post in posts:
-            post_date = post.find_element_by_class_name('tgme_widget_message'
-                                                        '_service_date_wrap')\
-                .find_element_by_class_name('tgme_widget_message_service_date')
+            try:
+                post_date = post.find_element_by_class_name('tgme_widget_message'
+                                                            '_service_date_wrap')\
+                    .find_element_by_class_name('tgme_widget_message_service_date')
+            except:
+                send("Error with url " + url)
+                continue
+
             post_date = post_date.get_attribute('innerHTML')
             if post_date not in dates:
                 break
@@ -89,12 +95,18 @@ def parse_telegram(parser):
 
             logging.info("%s %s %s %s %s %s", views, reactions, link,
                          button_link, external_link_text, text)
+            
+        if num % 50 == 0:
+            send("Parsed %s TG channels out of %s" % (num, len(channels)))
+            
+    parse_data = "Parsing process finished. Result:\n%s missed channels;\n" \
+                 "%s new posts retrieved;\nTotal of %s channels parsed;\n" \
+                 "Total time taken: %.2f minutes" % \
+                 (len(missed), got_text, len(channels) - len(missed),
+                  (time.time() - start) / 60)
 
-    logging.info("Parsing process finished. Result:\n%s missed channels;\n"
-                 "%s new posts retrieved;\nTotal of %s channels parsed;\n"
-                 "Total time taken: %.2f minutes",
-                 len(missed), got_text, len(channels) - len(missed),
-                 (time.time() - start) / 60)
+    logging.info(parse_data)
+    send(parse_data)
 
 
 def get_channels(path):
@@ -105,7 +117,7 @@ def get_channels(path):
     """
     channels = set()
     with open(path, 'r', encoding='UTF-8') as file:
-        for line in file.readlines()[:10]:
+        for line in file.readlines():
             if line.startswith('@'):
                 channels.add(line)
     return channels

@@ -2,10 +2,11 @@
 Module work with Keywords
 """
 import string
+import re
 import config
 from ukr_stemmer import UkrainianStemmer
 from db_connect import mongo
-import re
+from classes.KeywordsADT import KeywordsADT
 
 
 def ukrainian(word):
@@ -78,7 +79,7 @@ class Word:
         return "%s: %s" % (self.keyword, self.links_dict)
 
 
-class Keywords:
+class Keywords(KeywordsADT):
     """
     This class represent all Keywords in list
     """
@@ -107,7 +108,9 @@ class Keywords:
         :return: None
         """
         if not mongo.db.keywords.find_one({'keyword': word}):
-            mongo.db.keywords.insert({'keyword': word, 'links': []})
+            mongo.db.keywords.insert({'keyword': word, 'links_telegram': [],
+                                      'links_twitter': [], 'data_telegram': [],
+                                      'data_twitter': []})
             self.keywords[word] = Word({'keyword': word, 'links': []})
 
     def __getitem__(self, item):
@@ -151,4 +154,4 @@ class Keywords:
         for word in self.keywords:
             word = self.keywords[word]
             mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links": []}})
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links": []}})
+

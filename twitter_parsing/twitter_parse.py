@@ -64,7 +64,7 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
                 continue
 
             if text:
-                parser.new_link(text, url)
+                parser.new_link(text, url) #, source="telegram|twitter", data=(views, reactions)|(likes, shares, comments)
                 all_tweets.add(tweet_unique_info)
 
         if time_posted.endswith(yesterday):
