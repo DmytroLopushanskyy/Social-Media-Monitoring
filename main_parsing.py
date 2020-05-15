@@ -49,6 +49,7 @@ class Parser:
     """
     Main Parser class.
     """
+
     def __init__(self, use_proxy=False):
         """
         Parser initialisation by launching the browser.

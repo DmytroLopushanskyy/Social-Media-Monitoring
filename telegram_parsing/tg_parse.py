@@ -12,7 +12,6 @@ from selenium.common.exceptions import TimeoutException
 from twitter_parsing.twitter_parse import send
 from config import logger
 
-
 def parse_telegram(parser):
     """
     Main Telegram channels parsing function.
@@ -117,7 +116,7 @@ def get_channels(path):
     """
     channels = set()
     with open(path, 'r', encoding='UTF-8') as file:
-        for line in file.readlines():
+        for line in file.readlines()[:100]:
             if line.startswith('@'):
                 channels.add(line)
     return channels
