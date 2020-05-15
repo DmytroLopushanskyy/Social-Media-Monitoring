@@ -3,7 +3,6 @@ Telegram parsing module
 """
 import re
 import time
-import logging
 from datetime import datetime, timedelta
 import requests
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,6 +10,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from twitter_parsing.twitter_parse import send
+from config import logger
 
 
 def parse_telegram(parser):
@@ -25,7 +25,7 @@ def parse_telegram(parser):
 
     dates = [get_date(datetime.now()),
              get_date(datetime.now() - timedelta(days=1))]
-    logging.info("Starting parsing process. Dates: %s", dates)
+    logger.info("Starting parsing process. Dates: %s", dates)
     missed = set()
     got_text = 0
 
@@ -34,7 +34,7 @@ def parse_telegram(parser):
 
         response = requests.get(url)
         if not response.url.startswith('https://t.me/s/'):  # catch redirect
-            logging.warning("Channel parsing not working!")
+            logger.warning("Channel parsing not working!")
             continue
 
         browser.get(url)
@@ -44,7 +44,7 @@ def parse_telegram(parser):
                 expected_conditions.presence_of_element_located(
                     (By.CLASS_NAME, 'tgme_widget_message')))
         except TimeoutException:
-            logging.error("Error while parsing! %s" % url)
+            logger.error("Error while parsing! %s" % url)
             continue
         posts = browser.find_element_by_class_name('tgme_channel_history') \
             .find_elements_by_class_name('tgme_widget_message_wrap')
@@ -93,7 +93,7 @@ def parse_telegram(parser):
                 parser.new_link(text, 'https://t.me/' + source[1:] + '/' +
                                 str(post_id), 'telegram', (reactions, views))
 
-            logging.info("%s %s %s %s %s %s", views, reactions, link,
+            logger.info("%s %s %s %s %s %s", views, reactions, link,
                          button_link, external_link_text, text)
             
         if num % 50 == 0:
@@ -105,7 +105,7 @@ def parse_telegram(parser):
                  (len(missed), got_text, len(channels) - len(missed),
                   (time.time() - start) / 60)
 
-    logging.info(parse_data)
+    logger.info(parse_data)
     send(parse_data)
 
 

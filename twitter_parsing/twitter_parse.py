@@ -3,14 +3,13 @@ Twitter parsing module
 """
 import time
 import requests
-import logging
 from datetime import datetime, timedelta
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, \
     StaleElementReferenceException, NoSuchElementException
-from config import BOT_TOKEN
+from config import BOT_TOKEN, logger
 
 
 def send(text):
@@ -63,13 +62,13 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
             likes = get_tweet_interactions(tweet, "like")
             retweets = get_tweet_interactions(tweet, "retweet")
             replies = get_tweet_interactions(tweet, "reply")
-            logging.info("likes_count: %s", likes)
-            logging.info("retweets_count: %s", retweets)
-            logging.info("reply_count: %s", replies)
+            logger.info("likes_count: %s", likes)
+            logger.info("retweets_count: %s", retweets)
+            logger.info("reply_count: %s", replies)
         except (StaleElementReferenceException, NoSuchElementException):
             continue
         except Exception as e:
-            logging.error("UNEXPECTED: " + str(e))
+            logger.error("UNEXPECTED: " + str(e))
             return 'error'
         tweet_unique_info = acc, time_posted
 
@@ -82,7 +81,7 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
                     text += child.text
                 print(text)
             except (StaleElementReferenceException, NoSuchElementException):
-                logging.info("No Ukrainian text found!")
+                logger.info("No Ukrainian text found!")
                 continue
 
             if text:
@@ -105,12 +104,12 @@ def parse_twitter(parser):
     print(start)
     keywords = parser.keywords.keywords
     browser = parser.browser
-    available_time = 0.5 * 60 * 60 / len(keywords)  # 10 hours total available
-    logging.info("Maximum available time per word: %s seconds" % available_time)
+    available_time = 0.5 * 60 * 60 / len(keywords)  # 30 minutes total available
+    logger.info("Maximum available time per word: %s seconds" % available_time)
 
     yesterday = datetime.now() - timedelta(days=1)
     yesterday = yesterday.strftime("  %d").replace(" 0", "")
-    logging.info("Starting parsing process. yesterday: %s", yesterday)
+    logger.info("Starting parsing process. yesterday: %s", yesterday)
     send("Starting parsing process.")
     proxies_iterations = 0
 
@@ -127,17 +126,16 @@ def parse_twitter(parser):
                         (By.CSS_SELECTOR,
                          'section[aria-labelledby="accessible-list-0"]')))
                 loaded = True
-            except TimeoutException:
+            except:
+                logger.error("Error with proxy! Trying %s time" % i)
                 i += 1
                 proxies_iterations += 1
-                if i % 10 == 0:
-                    logging.error("Proxy error! Trying %s time with renewal" % i)
+                if i % 20 == 0:
+                    logger.info("Refreshing proxy list")
                     parser.browser = parser.browser_setup(iter=proxies_iterations,
                                                           update_proxies=True)
                 elif i % 2 == 0:
-                    logging.error("Error with proxy! Trying %s time" % i)
                     parser.browser = parser.browser_setup(proxies_iterations)
-
 
         if not loaded:
             continue
@@ -153,7 +151,7 @@ def parse_twitter(parser):
         while not finished and time.time() - main_start < available_time * (ind + 1):
             finished = parse_tweets(browser, all_tweets, yesterday, parser)
             if finished == 'error':
-                logging.info("IP Address Error. Changing it...")
+                logger.info("IP Address Error. Changing it...")
                 send("IP Address Error. Changing it...")
                 proxies_iterations += 1
                 parser.browser = parser.browser_setup(proxies_iterations)
@@ -166,7 +164,7 @@ def parse_twitter(parser):
             else:
                 stop_parsing_count = 0
             if stop_parsing_count == 100:
-                logging.info("IP Address exhausted. Changing it...")
+                logger.info("IP Address exhausted. Changing it...")
                 send("IP Address exhausted. Changing it...")
                 send("Parsed %s tweets for word %s" % (last_len, keyword))
                 proxies_iterations += 1
@@ -178,52 +176,3 @@ def parse_twitter(parser):
 
         send("Parsed %s tweets for word %s. Taken %s minutes" %
              (len(all_tweets), keyword, (time.time() - main_start)/60))
-
-
-
-    #     tweets = browser.find_elements_by_css_selector(
-    #         'div[data-testid="tweet"]')
-    #     for post in tweets:
-    #         post_date = post.find_element_by_class_name('tgme_widget_message'
-    #                                                     '_service_date_wrap')\
-    #             .find_element_by_class_name('tgme_widget_message_service_date')
-    #         post_date = post_date.get_attribute('innerHTML')
-    #         if post_date not in yesterday:
-    #             break
-    #
-    #         post = post.find_element_by_class_name('tgme_widget_message')
-    #         post_id = post.get_attribute('data-post').split('/')[1]
-    #
-    #         link = parser.by_class(post, 'tgme_widget_message_link_preview')
-    #         text = parser.by_class(post, 'tgme_widget_message_text', True)
-    #         button_link = parser.\
-    #             by_class(post, 'tgme_widget_message_inline_button')
-    #         external_link_text = parser.\
-    #             by_class(post, 'tgme_widget_message_inline_button_text', True)
-    #         views = parser.by_class(post, 'tgme_widget_message_views', True)
-    #         reactions = 0
-    #
-    #         if text:
-    #             got_text += 1
-    #         if link:
-    #             link = link.get_attribute('href')
-    #         if button_link:
-    #             button_link = button_link.get_attribute('href')
-    #         if button_link == 'https://t.me/' + source[1:] + '/' + \
-    #                 str(post_id):
-    #             reactions_list = post.find_elements_by_class_name(
-    #                 'tgme_widget_message_inline_button_text')
-    #             for reaction_div in reactions_list:
-    #                 react_num = re.search(r'\d+', reaction_div.text)
-    #                 if react_num:
-    #                     reactions += int(react_num.group())
-    #
-    #         logging.info("%s %s %s %s %s %s", views, reactions, link,
-    #                      button_link, external_link_text, text)
-    #
-    # logging.info("Parsing process finished. Result:\n%s missed channels;\n"
-    #              "%s new posts retrieved;\nTotal of %s channels parsed;\n"
-    #              "Total time taken: %.2f minutes",
-    #              len(missed), got_text, len(channels) - len(missed),
-    #              (time.time() - start) / 60)
-

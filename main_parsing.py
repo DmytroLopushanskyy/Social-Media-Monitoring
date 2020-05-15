@@ -2,22 +2,47 @@
 Main parsing module.
 """
 import logging
+import urllib.request
+import socket
+import time
+import urllib.error
 from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.remote.remote_connection import LOGGER as selenium_logger
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 from telegram_parsing.tg_parse import parse_telegram
 from twitter_parsing.twitter_parse import parse_twitter
 from classes.keyword import Keywords
 from classes.user import get_all_users
-from config import GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH
+from config import GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, logger
+
+
+def is_bad_proxy(pip):
+    try:
+        proxy_handler = urllib.request.ProxyHandler({'http': pip})
+        opener = urllib.request.build_opener(proxy_handler)
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        urllib.request.install_opener(opener)
+        req=urllib.request.Request('http://www.google.com')
+        sock=urllib.request.urlopen(req)
+    except urllib.error.HTTPError as e:
+        print('Error code: ', e.code)
+        return e.code
+    except Exception as detail:
+        print("ERROR:", detail)
+        return True
+    return False
+
 
 SCHED = BlockingScheduler()
 
 req_proxy = RequestProxy()
 proxies = req_proxy.get_proxy_list()
 next_run = datetime.now() + timedelta(hours=3)
+
+selenium_logger.setLevel(logging.WARNING)
 
 
 class Parser:
@@ -91,27 +116,37 @@ class Parser:
         """
         self.keywords.add_new_link(text, link, source, info)
 
-    @staticmethod
-    def browser_setup(iter=0, update_proxies=False, use_proxy=True):
+    def browser_setup(self, iter=0, update_proxies=False, use_proxy=True):
         """
         Initial browser setup
         :param update_proxies: bool
         :param iter: int
         :return: Selenium WebDriver
         """
-        global proxies
+        global proxies, req_proxy
+
+
         if update_proxies:
-            proxies = RequestProxy().get_proxy_list()
+            req_proxy.__init__()
+            proxies = req_proxy.get_proxy_list()
+
         if use_proxy:
-            chosen_proxy = proxies[iter]
-            logging.info("Chosen Proxy: %s" % chosen_proxy)
-            PROXY = chosen_proxy.get_address()
-            webdriver.DesiredCapabilities.CHROME['proxy'] = {
-                "httpProxy": PROXY,
-                "ftpProxy": PROXY,
-                "sslProxy": PROXY,
-                "proxyType": "MANUAL",
-            }
+            socket.setdefaulttimeout(120)
+
+            for current_proxy in proxies:
+                proxy = current_proxy.get_address()
+                if not is_bad_proxy(proxy):
+                    logger.info("Chosen Proxy: %s", proxy)
+                    webdriver.DesiredCapabilities.CHROME['proxy'] = {
+                        "httpProxy": proxy,
+                        "ftpProxy": proxy,
+                        "sslProxy": proxy,
+                        "proxyType": "MANUAL",
+                    }
+                    break
+                else:
+                    print("%s is a BAD PROXY" % (current_proxy))
+
 
         options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
@@ -125,8 +160,21 @@ class Parser:
         options.binary_location = GOOGLE_CHROME_BIN
         options.add_argument('--disable-gpu')
         options.add_argument('--disable-dev-shm-usage')
+
         browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
                                    chrome_options=options)
+
+        if hasattr(self, 'browser'):
+            time.sleep(40)
+            self.browser.quit()
+            logger.info("browser quitted!")
+            time.sleep(40)
+            from twitter_parsing.twitter_parse import send
+            send("browser succesfully quitted!")
+        # time.sleep(10)
+        # logger.info("Reloading capabilities")
+        # browser.desired_capabilities.update(options.to_capabilities())
+
         #browser.set_window_position(0, 0)
         #browser.set_window_size(320, 9999)
         # browser.header_overrides = {
@@ -153,11 +201,11 @@ def start_parsing():
     Main parsing starting function.
     :return: None
     """
-    logging.info("Parsing process started!")
+    logger.info("Parsing process started!")
     main_parser = Parser()
     main_parser.parse_telegram()
     # main_parser.parse_twitter()
-    logging.info("Parsing process finished!")
+    logger.info("Parsing process finished!")
     main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
@@ -172,10 +220,10 @@ def start_twitter_parsing():
     Main parsing starting function.
     :return: None
     """
-    logging.info("Parsing process started!")
+    logger.info("Parsing process started!")
     main_parser = Parser(use_proxy=True)
     main_parser.parse_twitter()
-    logging.info("Parsing process finished!")
+    logger.info("Parsing process finished!")
     main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
@@ -185,5 +233,5 @@ def start_twitter_parsing():
 
 
 if __name__ == '__main__':
-    logging.getLogger().setLevel(logging.INFO)
+    logger.setLevel(logging.INFO)
     SCHED.start()
