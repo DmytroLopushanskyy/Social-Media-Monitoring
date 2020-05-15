@@ -46,7 +46,7 @@ def parse_telegram(parser):
         except TimeoutException:
             logging.error("Error while parsing! %s" % url)
             continue
-        posts = browser.find_element_by_class_name('tgme_channel_history')\
+        posts = browser.find_element_by_class_name('tgme_channel_history') \
             .find_elements_by_class_name('tgme_widget_message_wrap')
         posts.reverse()
         for post in posts:
@@ -67,9 +67,9 @@ def parse_telegram(parser):
 
             link = parser.by_class(post, 'tgme_widget_message_link_preview')
             text = parser.by_class(post, 'tgme_widget_message_text', True)
-            button_link = parser.\
+            button_link = parser. \
                 by_class(post, 'tgme_widget_message_inline_button')
-            external_link_text = parser.\
+            external_link_text = parser. \
                 by_class(post, 'tgme_widget_message_inline_button_text', True)
             views = parser.by_class(post, 'tgme_widget_message_views', True)
             reactions = 0
@@ -91,7 +91,7 @@ def parse_telegram(parser):
 
             if text:
                 parser.new_link(text, 'https://t.me/' + source[1:] + '/' +
-                            str(post_id))
+                                str(post_id), 'telegram', (reactions, views))
 
             logging.info("%s %s %s %s %s %s", views, reactions, link,
                          button_link, external_link_text, text)

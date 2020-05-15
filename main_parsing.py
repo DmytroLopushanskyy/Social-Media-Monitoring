@@ -37,7 +37,7 @@ class Parser:
         :return: None
         """
         parse_telegram(self)
-        
+
     def parse_twitter(self):
         """
         Launches telegram channels parsing.
@@ -45,7 +45,7 @@ class Parser:
         :return: None
         """
         parse_twitter(self)
-        
+
     def get_user_keywords(self):
         """
         Gets all user keywords from the database
@@ -80,7 +80,7 @@ class Parser:
         self.browser.close()
         self.browser.quit()
 
-    def new_link(self, text, link):
+    def new_link(self, text, link, source, info):
         """
         This function get information about post, and
         update weights of keywords and user to get most popular one
@@ -88,7 +88,7 @@ class Parser:
         :param link: str
         :return: None
         """
-        self.keywords.add_new_link(text, link)
+        self.keywords.add_new_link(text, link, source, info)
 
     @staticmethod
     def browser_setup(iter=0, update_proxies=False, use_proxy=True):
@@ -126,8 +126,8 @@ class Parser:
         options.add_argument('--disable-dev-shm-usage')
         browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
                                    chrome_options=options)
-        browser.set_window_position(0, 0)
-        browser.set_window_size(320, 9999)
+        #browser.set_window_position(0, 0)
+        #browser.set_window_size(320, 9999)
         # browser.header_overrides = {
         #     'user-agent': 'Mozilla/5.0',
         # }
@@ -154,14 +154,15 @@ def start_parsing():
     """
     logging.info("Parsing process started!")
     main_parser = Parser()
-    main_parser.parse_telegram()
+    #main_parser.parse_telegram()
+    # main_parser.parse_twitter()
     logging.info("Parsing process finished!")
-    print(main_parser.keywords)
     main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
         user.update_links()
     main_parser.keywords.clean_changes()
+    print('HERE')
 
 
 if __name__ == '__main__':
