@@ -2,15 +2,15 @@
 Main parsing module.
 """
 import logging
-import urllib.request
 import socket
-import time
+import urllib.request
 import urllib.error
 from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.remote_connection import LOGGER as selenium_logger
+from selenium.webdriver.remote.webdriver import WebDriver
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 from telegram_parsing.tg_parse import parse_telegram
 from twitter_parsing.twitter_parse import parse_twitter
@@ -19,17 +19,50 @@ from classes.user import get_all_users
 from config import GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, logger
 
 
+def attach_to_session(executor_url, session_id, options, proxy):
+    """
+    Attach browser to session.
+    """
+    original_execute = WebDriver.execute
+
+    def new_command_execute(self, command, params=None):
+        """ Mock the response """
+        if command == "newSession":
+
+            return {'success': 0, 'value': None, 'sessionId': session_id}
+        return original_execute(self, command, params)
+    # Patch the function before creating the driver object
+    WebDriver.execute = new_command_execute
+    webdriver.DesiredCapabilities.CHROME['proxy'] = {
+        "httpProxy": proxy,
+        "ftpProxy": proxy,
+        "sslProxy": proxy,
+        "proxyType": "MANUAL",
+    }
+    driver = webdriver.Remote(command_executor=executor_url,
+                              desired_capabilities={}, options=options)
+    driver.session_id = session_id
+    # Replace the patched function with original function
+    WebDriver.execute = original_execute
+    return driver
+
+
 def is_bad_proxy(pip):
+    """
+    Simple prxoy validation.
+    :param pip: str
+    :return: bool
+    """
     try:
         proxy_handler = urllib.request.ProxyHandler({'http': pip})
         opener = urllib.request.build_opener(proxy_handler)
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         urllib.request.install_opener(opener)
-        req=urllib.request.Request('http://www.google.com')
-        sock=urllib.request.urlopen(req)
-    except urllib.error.HTTPError as e:
-        print('Error code: ', e.code)
-        return e.code
+        req = urllib.request.Request('http://www.google.com')
+        urllib.request.urlopen(req)
+    except urllib.error.HTTPError as error:
+        print('Error code: ', error.code)
+        return error.code
     except Exception as detail:
         print("ERROR:", detail)
         return True
@@ -126,7 +159,6 @@ class Parser:
         """
         global proxies, req_proxy
 
-
         if update_proxies:
             req_proxy.__init__()
             proxies = req_proxy.get_proxy_list()
@@ -145,8 +177,9 @@ class Parser:
                         "proxyType": "MANUAL",
                     }
                     break
-                else:
-                    print("%s is a BAD PROXY" % (current_proxy))
+                print("%s is a BAD PROXY" % (current_proxy))
+        else:
+            proxy = None
 
 
         options = webdriver.ChromeOptions()
@@ -162,17 +195,15 @@ class Parser:
         options.add_argument('--disable-gpu')
         options.add_argument('--disable-dev-shm-usage')
 
-        browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
-                                   chrome_options=options)
-
         if hasattr(self, 'browser'):
-            time.sleep(40)
-            self.browser.quit()
-            logger.info("browser quitted!")
-            time.sleep(40)
+            executor_url = self.browser.command_executor._url
+            session_id = self.browser.session_id
+            browser = attach_to_session(executor_url, session_id, options, proxy)
             from twitter_parsing.twitter_parse import send
-            send("browser succesfully quitted!")
-        # time.sleep(10)
+            send("browser succesfully attached to session!")
+        else:
+            browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
+                                       chrome_options=options)
         # logger.info("Reloading capabilities")
         # browser.desired_capabilities.update(options.to_capabilities())
 
