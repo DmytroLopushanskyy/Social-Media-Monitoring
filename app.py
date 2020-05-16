@@ -39,7 +39,7 @@ def register():
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
         users.insert({'name': form.username.data,
                       'email': form.email.data, 'password': hashpass, 'keywords': [], 'links_twitter': [],
-                      'links_telegram': [], 'days_info': []})
+                      'links_telegram': []})
         session['user'] = form.username.data
         flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))

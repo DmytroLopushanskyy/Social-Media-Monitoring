@@ -83,13 +83,13 @@ class User:
                 new_links.append(max_link)
             self.weights[source] = new_links
 
-    def update_links(self):
+    def update_links(self,source_now):
         """
         Push changes
         :return:
         """
         self.check_user_weight()
-        for source in ['telegram', 'twitter']:
+        for source in [source_now]:
             print(self.weights[source])
             for x in range(len(self.weights[source])):
                 try:

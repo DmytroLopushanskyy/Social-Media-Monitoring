@@ -216,7 +216,7 @@ class Parser:
         return browser
 
 
-def update():
+def update(source):
     """
     This function push information into database
     :return: None
@@ -224,7 +224,7 @@ def update():
     global users
     for user in users:
         user.check_user_weight()
-        user.update_links()
+        user.update_links(source)
 
 
 @SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
@@ -241,8 +241,8 @@ def start_parsing():
     main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
-        user.update_links()
-    main_parser.keywords.clean_changes()
+        user.update_links('telegram')
+    main_parser.keywords.clean_changes('telegram')
     print('SUCCESS!')
 
 
@@ -259,8 +259,8 @@ def start_twitter_parsing():
     main_parser.keywords.push_changes()
     users = get_all_users()
     for user in users:
-        user.update_links()
-    main_parser.keywords.clean_changes()
+        user.update_links('twitter')
+    main_parser.keywords.clean_changes('twitter')
     print('SUCCESS!')
 
 

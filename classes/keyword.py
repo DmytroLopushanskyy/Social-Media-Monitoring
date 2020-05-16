@@ -9,6 +9,7 @@ import re
 import datetime
 from datetime import datetime, timedelta
 
+
 def ukrainian(word):
     for letter in word:
         if re.search('[\u0400-\u04FF]', letter):
@@ -200,19 +201,28 @@ class Keywords:
                                                                           'twitter_retweets': word.twitter_retweets,
                                                                           'days_info': days_info}})
 
-    def clean_changes(self):
+    def clean_changes(self, source):
         for word in self.keywords:
             word = self.keywords[word]
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [], 'links_twitter': [],
-                                                                          'telegram_views': 0,
-                                                                          'telegram_reaction': 0,
-                                                                          'telegram_posts': 0,
-                                                                          'twitter_posts': 0,
-                                                                          'twitter_likes': 0,
-                                                                          'twitter_replies': 0,
-                                                                          'twitter_retweets': 0
-                                                                          }})
-        self.keywords = {}
-        all_keywords = mongo.db.keywords.find({})
-        for keyword in all_keywords:
-            self.keywords[keyword['keyword']] = Word(keyword)
+            if source == 'telegram':
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [],
+                                                                              'telegram_views': 0,
+                                                                              'telegram_reaction': 0,
+                                                                              'telegram_posts': 0
+                                                                              }})
+                word.telegram_views = 0
+                word.telegram_posts = 0
+                word.telegram_reaction = 0
+                word.links['telegram'] = []
+            elif source == 'twitter':
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_twitter": [],
+                                                                              'twitter_likes': 0,
+                                                                              'twitter_replies': 0,
+                                                                              'twitter_retweets': 0,
+                                                                              'twitter_posts': 0
+                                                                              }})
+                word.twitter_posts = 0
+                word.twitter_retweets = 0
+                word.twitter_likes = 0
+                word.twitter_replies = 0
+                word.links['twitter'] = []
