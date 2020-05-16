@@ -6,7 +6,6 @@ from db_connect import mongo
 from classes.keyword import Keywords
 
 
-
 class User:
     """
     Class to work with user easier
@@ -20,7 +19,7 @@ class User:
         self.password = login_user['password']
         self.keywords = login_user['keywords']
         self.email = login_user['email']
-        self.weights = []
+        self.weights = {'telegram': [], 'twitter': []}
         self.dict_weights = {}
 
     def add_keyword(self, new_word):
@@ -29,7 +28,8 @@ class User:
         self.keywords.append(new_word)
         words = Keywords()
         words.add(new_word)
-        mongo.db.users.update({"name": self.username}, {"$set": {"keywords": self.keywords}})
+        mongo.db.users.update({"name": self.username},
+                              {"$set": {"keywords": self.keywords}})
 
     def to_save(self):
         """Return user in json format"""
@@ -56,25 +56,32 @@ class User:
         :param link: str
         :return:
         """
-        new_links = []
-        words = Keywords()
+        for source in ['telegram', 'twitter']:
+            new_links = []
+            words = Keywords()
+            for now in range(config.NUMBER_WORDS):
 
-        for now in range(config.NUMBER_WORDS):
-            dct = {}
-            for link in self.keywords:
-                link = words[link]
-                try:
-                    dct[link.links[now][1]] = dct.get(link.links[now][1], 0) + 1
-                except IndexError:
-                    pass
-            maxi = 0
-            max_link = ''
-            for i in dct:
-                if dct[i] > maxi:
-                    maxi = dct[i]
-                    max_link = i
-            new_links.append(max_link)
-        self.weights = new_links
+                dct = {}
+                dct1 = {}
+                for link in self.keywords:
+                    link = words[link]
+                    try:
+                        print(link.links[source][now])
+                        dct[link.links[source][now][1]] = dct.get(link.links[source][now][0], 0) + 1
+                        dct1[link.links[source][now][1]] = link.links[source][now]
+                    except IndexError:
+                        pass
+                maxi = 0
+                max_link = ''
+                for i in dct:
+                    try:
+                        if dct[i] > maxi and i not in [x[1] for x in new_links]:
+                            maxi = dct[i]
+                            max_link = dct1[i]
+                    except:
+                        pass
+                new_links.append(max_link)
+            self.weights[source] = new_links
 
     def update_links(self):
         """
@@ -82,15 +89,22 @@ class User:
         :return:
         """
         self.check_user_weight()
-        print(self.weights)
-        mongo.db.users.update({"name": self.username}, {"$set": {"links": [x.replace('\n','') for x in self.weights]}})
+        for source in ['telegram', 'twitter']:
+            print(self.weights[source])
+            for x in range(len(self.weights[source])):
+                try:
+                    self.weights[source][x][1] = self.weights[source][x][1].replace('\n', '')
+                except IndexError:
+                    pass
+            mongo.db.users.update({"name": self.username},
+                                  {"$set": {"links_" + source: self.weights[source]}})
 
-    def get_links(self):
+    def get_links(self, source):
         """
         Get user links
         :return: list of links
         """
-        return mongo.db.users.find_one({"name": self.username})['links']
+        return mongo.db.users.find_one({"name": self.username})['links_' + source]
 
 
 def to_class(session_name):
@@ -114,4 +128,3 @@ def get_all_users():
         print(user)
         users_name.append(User(user['name']))
     return users_name
-

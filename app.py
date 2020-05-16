@@ -38,7 +38,8 @@ def register():
         users = mongo.db.users
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
         users.insert({'name': form.username.data,
-                      'email': form.email.data, 'password': hashpass, 'keywords': []})
+                      'email': form.email.data, 'password': hashpass, 'keywords': [], 'links_twitter': [],
+                      'links_telegram': [], 'days_info': []})
         session['user'] = form.username.data
         flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))
@@ -57,7 +58,7 @@ def login():
         login_user = users.find_one({'name': form.username.data})
 
         if login_user:
-            if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password'])\
+            if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password']) \
                     == login_user['password']:
                 session['user'] = form.username.data
                 flash(f"You have logged in as {form.username.data}!", 'success')

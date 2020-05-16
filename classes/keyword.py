@@ -6,7 +6,8 @@ import config
 from ukr_stemmer import UkrainianStemmer
 from db_connect import mongo
 import re
-
+import datetime
+from datetime import datetime, timedelta
 
 def ukrainian(word):
     for letter in word:
@@ -24,8 +25,18 @@ class Word:
     def __init__(self, word):
         """Initialize word"""
         self.keyword = word['keyword']
-        self.links = word['links']
+        self.links = {}
+        self.links['twitter'] = word['links_twitter']
+        self.links['telegram'] = word['links_telegram']
+        self.days_info = word['days_info']
         self.links_dict = {}
+        self.twitter_replies = 0
+        self.twitter_likes = 0
+        self.twitter_retweets = 0
+        self.telegram_views = 0
+        self.telegram_reaction = 0
+        self.telegram_posts = 0
+        self.twitter_posts = 0
 
     def find_weight(self, text):
         """
@@ -38,7 +49,7 @@ class Word:
         weight = text.count(UkrainianStemmer(self.keyword).stem_word().lower())
         return weight
 
-    def check_link(self, text, link):
+    def check_link(self, text, link, source, info):
         """
         Get weight of the link and add it if needed
         :param text: str
@@ -47,20 +58,38 @@ class Word:
         """
         weight = self.find_weight(text)
         print("weight", weight)
+        if weight != 0:
+            if source == 'telegram':
+                self.telegram_reaction += info[0]
+                print(info[1])
+                try:
+                    self.telegram_views += int(info[1])
+                except:
+                    self.telegram_views += int(info[1].split('.')[0]) * 1000
+                self.telegram_posts += 1
+            elif source == 'twitter':
+                self.twitter_posts += 1
+                self.twitter_likes += int(info[0])
+                try:
+                    self.twitter_retweets += int(info[1])
+                except:
+                    self.twitter_retweets += int(info[1].split('.')[0]) * 1000
+                self.twitter_replies += int(info[2])
+
         to_add = True
-        for now_link in range(len(self.links)):
-            now_weight = self.links[now_link][0]
-            print(weight,now_weight)
+        for now_link in range(len(self.links[source])):
+            now_weight = self.links[source][now_link][0]
+            print(weight, now_weight)
             if weight > now_weight:
-                self.links.insert(now_link, (weight, link))
+                self.links[source].insert(now_link, (weight, link, text, info))
                 to_add = False
                 break
-        if len(self.links) < config.NUMBER_WORDS and to_add and weight > 0:
+        if len(self.links[source]) < config.NUMBER_WORDS and to_add and weight > 0:
             print("added!")
-            self.links.append((weight, link))
+            self.links[source].append((weight, link, text, info))
 
-        if len(self.links) > config.NUMBER_WORDS:
-            self.links.pop()
+        if len(self.links[source]) > config.NUMBER_WORDS:
+            self.links[source].pop()
 
     def transform_to_dict(self):
         """
@@ -68,14 +97,14 @@ class Word:
         :return: None
         """
         for now in self.links:
-            self.links_dict[now[1]] = now[0]
+            self.links_dict[now[1]] = now
 
     def __str__(self):
         """
         String representation of a word.
         :return: str
         """
-        return "%s: %s" % (self.keyword, self.links_dict)
+        return "%s: %s" % (self.keyword, self.links_dict[0])
 
 
 class Keywords:
@@ -107,8 +136,13 @@ class Keywords:
         :return: None
         """
         if not mongo.db.keywords.find_one({'keyword': word}):
-            mongo.db.keywords.insert({'keyword': word, 'links': []})
-            self.keywords[word] = Word({'keyword': word, 'links': []})
+            mongo.db.keywords.insert({'keyword': word, 'links_twitter': [],
+                                      'links_telegram': [], 'days_info': []})
+            self.keywords[word] = Word({'keyword': word, 'links_twitter': [],
+                                        'links_telegram': [], 'days_info': [],
+                                        'telegram_views': 0, 'telegram_reaction': 0, 'telegram_posts': 0,
+                                        'twitter_replies': 0, 'twitter_likes': 0, 'twitter_retweets': 0,
+                                        'twitter_posts': 0})
 
     def __getitem__(self, item):
         """
@@ -118,7 +152,7 @@ class Keywords:
         """
         return self.keywords[item]
 
-    def add_new_link(self, text, link):
+    def add_new_link(self, text, link, source, info):
         """
         Add new link to all words
         :param text: str
@@ -128,7 +162,7 @@ class Keywords:
         print("Adding new link")
         for word in self.keywords:
             word = self.keywords[word]
-            word.check_link(text, link)
+            word.check_link(text, link, source, info)
             word.transform_to_dict()
 
     def __str__(self):
@@ -144,11 +178,41 @@ class Keywords:
     def push_changes(self):
         for word in self.keywords:
             word = self.keywords[word]
-            print([x[1] for x in word.links],word.keyword)
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links": word.links}})
+            print([x[1] for x in word.links], word.keyword)
+            days_info = word.days_info
+            days_info.insert(0, {
+                'data': str(datetime.today())[:10],
+                'telegram_views': word.telegram_views,
+                'telegram_reaction': word.telegram_reaction,
+                'telegram_posts': word.telegram_posts,
+                'twitter_posts': word.twitter_posts,
+                'twitter_likes': word.twitter_likes,
+                'twitter_replies': word.twitter_replies,
+                'twitter_retweets': word.twitter_retweets})
+            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": word.links['telegram'],
+                                                                          'links_twitter': word.links['twitter'],
+                                                                          'telegram_views': word.telegram_views,
+                                                                          'telegram_reaction': word.telegram_reaction,
+                                                                          'telegram_posts': word.telegram_posts,
+                                                                          'twitter_posts': word.twitter_posts,
+                                                                          'twitter_likes': word.twitter_likes,
+                                                                          'twitter_replies': word.twitter_replies,
+                                                                          'twitter_retweets': word.twitter_retweets,
+                                                                          'days_info': days_info}})
 
     def clean_changes(self):
         for word in self.keywords:
             word = self.keywords[word]
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links": []}})
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links": []}})
+            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [], 'links_twitter': [],
+                                                                          'telegram_views': 0,
+                                                                          'telegram_reaction': 0,
+                                                                          'telegram_posts': 0,
+                                                                          'twitter_posts': 0,
+                                                                          'twitter_likes': 0,
+                                                                          'twitter_replies': 0,
+                                                                          'twitter_retweets': 0
+                                                                          }})
+        self.keywords = {}
+        all_keywords = mongo.db.keywords.find({})
+        for keyword in all_keywords:
+            self.keywords[keyword['keyword']] = Word(keyword)
