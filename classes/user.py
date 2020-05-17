@@ -119,6 +119,8 @@ class User:
         for x in data:
             if x == '':
                 continue
+            if len(x[1]) > 300:
+                x[1] = x[1][:297] + '...'
             to_return.append([x[1], x[2], x[3][0], x[3][1]])
             if source == 'twitter':
                 to_return[-1].append(x[3][2])
