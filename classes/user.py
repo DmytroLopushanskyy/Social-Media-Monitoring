@@ -83,21 +83,20 @@ class User:
                 new_links.append(max_link)
             self.weights[source] = new_links
 
-    def update_links(self):
+    def update_links(self,source):
         """
         Push changes
         :return:
         """
         self.check_user_weight()
-        for source in ['telegram', 'twitter']:
-            print(self.weights[source])
-            for x in range(len(self.weights[source])):
-                try:
-                    self.weights[source][x][1] = self.weights[source][x][1].replace('\n', '')
-                except IndexError:
-                    pass
-            mongo.db.users.update({"name": self.username},
-                                  {"$set": {"links_" + source: self.weights[source]}})
+        print(self.weights[source])
+        for x in range(len(self.weights[source])):
+            try:
+                self.weights[source][x][1] = self.weights[source][x][1].replace('\n', '')
+            except IndexError:
+                pass
+        mongo.db.users.update({"name": self.username},
+                              {"$set": {"links_" + source: self.weights[source]}})
 
     def get_links(self, source):
         """
