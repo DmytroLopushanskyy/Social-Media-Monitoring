@@ -159,7 +159,7 @@ def start_parsing():
     main_parser.parse_telegram()
     # main_parser.parse_twitter()
     logging.info("Parsing process finished!")
-    main_parser.keywords.push_changes()
+    main_parser.keywords.push_changes('telegram')
     users = get_all_users()
     for user in users:
         user.update_links()
@@ -177,7 +177,7 @@ def start_twitter_parsing():
     main_parser = Parser(use_proxy = True)
     main_parser.parse_twitter()
     logging.info("Parsing process finished!")
-    main_parser.keywords.push_changes()
+    main_parser.keywords.push_changes('twitter')
     users = get_all_users()
     for user in users:
         user.update_links()

@@ -9,6 +9,7 @@ import re
 import datetime
 from datetime import datetime, timedelta
 
+
 def ukrainian(word):
     for letter in word:
         if re.search('[\u0400-\u04FF]', letter):
@@ -28,7 +29,14 @@ class Word:
         self.links = {}
         self.links['twitter'] = word['links_twitter']
         self.links['telegram'] = word['links_telegram']
-        self.days_info = word['days_info']
+        try:
+            self.telegram_info = word['telegram_info']
+        except KeyError:
+            self.telegram_info = []
+        try:
+            self.twitter_info = word['twitter_info']
+        except KeyError:
+            self.twitter_info = []
         self.links_dict = {}
         self.twitter_replies = 0
         self.twitter_likes = 0
@@ -139,7 +147,7 @@ class Keywords:
             mongo.db.keywords.insert({'keyword': word, 'links_twitter': [],
                                       'links_telegram': [], 'days_info': []})
             self.keywords[word] = Word({'keyword': word, 'links_twitter': [],
-                                        'links_telegram': [], 'days_info': [],
+                                        'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
                                         'telegram_views': 0, 'telegram_reaction': 0, 'telegram_posts': 0,
                                         'twitter_replies': 0, 'twitter_likes': 0, 'twitter_retweets': 0,
                                         'twitter_posts': 0})
@@ -175,30 +183,36 @@ class Keywords:
             output += str(word) + "\n"
         return output
 
-    def push_changes(self):
+    def push_changes(self, source):
         for word in self.keywords:
             word = self.keywords[word]
-            print([x[1] for x in word.links], word.keyword)
-            days_info = word.days_info
-            days_info.insert(0, {
-                'data': str(datetime.today())[:10],
-                'telegram_views': word.telegram_views,
-                'telegram_reaction': word.telegram_reaction,
-                'telegram_posts': word.telegram_posts,
-                'twitter_posts': word.twitter_posts,
-                'twitter_likes': word.twitter_likes,
-                'twitter_replies': word.twitter_replies,
-                'twitter_retweets': word.twitter_retweets})
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": word.links['telegram'],
-                                                                          'links_twitter': word.links['twitter'],
-                                                                          'telegram_views': word.telegram_views,
-                                                                          'telegram_reaction': word.telegram_reaction,
-                                                                          'telegram_posts': word.telegram_posts,
-                                                                          'twitter_posts': word.twitter_posts,
-                                                                          'twitter_likes': word.twitter_likes,
-                                                                          'twitter_replies': word.twitter_replies,
-                                                                          'twitter_retweets': word.twitter_retweets,
-                                                                          'days_info': days_info}})
+            telegram_info = word.telegram_info
+            twitter_info = word.twitter_info
+            if source == 'telegram':
+                telegram_info.insert(0, {
+                    'data': str(datetime.today())[:10],
+                    'telegram_views': word.telegram_views,
+                    'telegram_reaction': word.telegram_reaction,
+                    'telegram_posts': word.telegram_posts})
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": word.links['telegram'],
+                                                                              'telegram_views': word.telegram_views,
+                                                                              'telegram_reaction': word.telegram_reaction,
+                                                                              'telegram_posts': word.telegram_posts,
+                                                                              'telegram_info': telegram_info}})
+            else:
+                twitter_info.insert(0, {
+                    'data': str(datetime.today())[:10],
+                    'twitter_posts': word.twitter_posts,
+                    'twitter_replies': 20,
+                    'twitter_likes': 20,
+                    'twitter_retweets': word.twitter_retweets})
+
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_twitter": word.links['twitter'],
+                                                                              'twitter_posts': word.twitter_posts,
+                                                                              'twitter_replies': word.twitter_replies,
+                                                                              'twitter_likes': word.twitter_likes,
+                                                                              'twitter_retweets': word.twitter_retweets,
+                                                                              'twitter_info': twitter_info}})
 
     def clean_changes(self):
         for word in self.keywords:
