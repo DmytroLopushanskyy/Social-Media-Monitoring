@@ -7,7 +7,7 @@ from forms import LoginForm, RegistrationForm
 import config
 from classes.user import to_class
 from db_connect import mongo
-from classes.keyword import Keywords
+from classes.keyword import Keywords, ukrainian
 from classes.user import User
 
 app = Flask(__name__)
@@ -22,6 +22,7 @@ def index():
     Home page
     :return: html
     """
+    print('HERE')
     if 'user' in session:
         user = User(session['user'])
         data = {'username': session['user'], 'keywords': user.get_full_data(),
@@ -43,10 +44,12 @@ def register():
     if form.validate_on_submit():
         users = mongo.db.users
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
+
         users.insert({'name': form.username.data,
                       'email': form.email.data, 'password': hashpass, 'keywords': [], 'links_twitter': [],
                       'links_telegram': []})
         session['user'] = form.username.data
+        print(session['user'])
         flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))
 
