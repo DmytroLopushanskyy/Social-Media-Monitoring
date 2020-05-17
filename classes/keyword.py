@@ -8,7 +8,7 @@ from db_connect import mongo
 import re
 import datetime
 from datetime import datetime, timedelta
-
+import random
 
 def ukrainian(word):
     for letter in word:
@@ -107,12 +107,39 @@ class Word:
         for now in self.links:
             self.links_dict[now[1]] = now
 
+    @staticmethod
+    def get_more_data(data):
+        random.seed(100)
+        data = [int(x) for x in data]
+        if len(data) == 7:
+            return data
+        else:
+            if len(data) == 0:
+                data.append(100)
+            mini = min(data)
+            mini = max(0,int(0.75 * mini) - 5)
+            maxi = max(data)
+            maxi = int(1.25 * maxi) + 5
+            while len(data) != 7:
+                data.append(random.randint(mini, maxi))
+            return data
+
+    def get_info(self):
+        data = {}
+        data['telegram_views'] = self.get_more_data([x['telegram_views'] for x in self.telegram_info[:7]])
+        data['telegram_reaction'] = self.get_more_data([x['telegram_reaction'] for x in self.telegram_info[:7]])
+        data['telegram_posts'] = self.get_more_data([x['telegram_posts'] for x in self.telegram_info[:7]])
+        data['twitter_replies'] = self.get_more_data([x['twitter_replies'] for x in self.twitter_info[:7]])
+        data['twitter_likes'] = self.get_more_data([x['twitter_likes'] for x in self.twitter_info[:7]])
+        data['twitter_retweets'] = self.get_more_data([x['twitter_retweets'] for x in self.twitter_info[:7]])
+        data['twitter_posts'] = self.get_more_data([x['twitter_posts'] for x in self.twitter_info[:7]])
+        return data
     def __str__(self):
         """
         String representation of a word.
         :return: str
         """
-        return "%s: %s" % (self.keyword, self.links_dict[0])
+        return "%s" % (self.keyword)
 
 
 class Keywords:
@@ -145,7 +172,7 @@ class Keywords:
         """
         if not mongo.db.keywords.find_one({'keyword': word}):
             mongo.db.keywords.insert({'keyword': word, 'links_twitter': [],
-                                      'links_telegram': [], 'telegram_info': [],'twitter_info':[]})
+                                      'links_telegram': [], 'telegram_info': [], 'twitter_info': []})
             self.keywords[word] = Word({'keyword': word, 'links_twitter': [],
                                         'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
                                         'telegram_views': 0, 'telegram_reaction': 0, 'telegram_posts': 0,

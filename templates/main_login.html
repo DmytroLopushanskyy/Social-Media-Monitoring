@@ -33,11 +33,11 @@
 				<form class="login100-form validate-form" method="POST" action="">
                     {{ form.hidden_tag() }}
 					<span class="login100-form-title">
-						Member Login
+						Вхід користувача
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        {{ form.username(class='form-control input100 form-control-lg', placeholder="Email") }}
+					<div class="wrap-input100 validate-input">
+                        {{ form.username(class='form-control input100 form-control-lg', placeholder="Зареєструватися") }}
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -45,7 +45,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-                        {{ form.password(class='form-control input100 form-control-lg',placeholder="Password") }}
+                        {{ form.password(class='form-control input100 form-control-lg',placeholder="Пароль") }}
 
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -55,14 +55,14 @@
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Login
+							Вхід
 						</button>
 					</div>
 
 					<div class="text-center p-t-136">
 
 						<a class="txt2" href=" {{ url_for('register')}}">
-							Create your Account
+							Створити аккаунт
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>

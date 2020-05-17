@@ -83,7 +83,7 @@ class User:
                 new_links.append(max_link)
             self.weights[source] = new_links
 
-    def update_links(self,source):
+    def update_links(self, source):
         """
         Push changes
         :return:
@@ -104,6 +104,26 @@ class User:
         :return: list of links
         """
         return mongo.db.users.find_one({"name": self.username})['links_' + source]
+
+    def get_full_data(self):
+        to_return = {}
+        keywords = Keywords()
+        for word in self.keywords:
+            to_return[word] = keywords[word].get_info()
+        print(to_return)
+        return to_return
+
+    def get_pretty_links(self, source):
+        data = self.get_links(source)
+        to_return = []
+        for x in data:
+            if x == '':
+                continue
+            to_return.append([x[1], x[2], x[3][0], x[3][1]])
+            if source == 'twitter':
+                to_return[-1].append(x[3][2])
+        return to_return
+
 
 
 def to_class(session_name):

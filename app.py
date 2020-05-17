@@ -7,8 +7,8 @@ from forms import LoginForm, RegistrationForm
 import config
 from classes.user import to_class
 from db_connect import mongo
-from classes.keyword import ukrainian
 from classes.keyword import Keywords
+from classes.user import User
 
 app = Flask(__name__)
 app.secret_key = config.flask_key
@@ -23,8 +23,12 @@ def index():
     :return: html
     """
     if 'user' in session:
-        print(session['user'],'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        return render_template('index.html', username = session['user'], keyword = Keywords().keywords)
+        user = User(session['user'])
+        data = {'username': session['user'], 'keywords': user.get_full_data(),
+                'links_telegram': user.get_pretty_links('telegram'),
+                'links_twitter': user.get_pretty_links('twitter')}
+        print(data)
+        return render_template('index.html', username=session['user'], data=data)
     flash("Create an account or login firstly", 'warning')
     return redirect(url_for('login'))
 
@@ -45,6 +49,7 @@ def register():
         session['user'] = form.username.data
         flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))
+
     return render_template('main_register.html', title='Register', form=form)
 
 
@@ -102,4 +107,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port = 5003)
+    app.run(debug=True, port=5003)
