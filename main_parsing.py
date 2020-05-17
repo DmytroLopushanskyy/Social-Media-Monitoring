@@ -237,12 +237,12 @@ def start_parsing():
     main_parser = Parser()
     main_parser.parse_telegram()
     # main_parser.parse_twitter()
-    logger.info("Parsing process finished!")
-    main_parser.keywords.push_changes()
+    logging.info("Parsing process finished!")
+    main_parser.keywords.push_changes('telegram')
     users = get_all_users()
     for user in users:
         user.update_links('telegram')
-    main_parser.keywords.clean_changes('telegram')
+    main_parser.keywords.clean_changes()
     print('SUCCESS!')
 
 
@@ -255,12 +255,12 @@ def start_twitter_parsing():
     logger.info("Parsing process started!")
     main_parser = Parser(use_proxy=True)
     main_parser.parse_twitter()
-    logger.info("Parsing process finished!")
-    main_parser.keywords.push_changes()
+    logging.info("Parsing process finished!")
+    main_parser.keywords.push_changes('twitter')
     users = get_all_users()
     for user in users:
         user.update_links('twitter')
-    main_parser.keywords.clean_changes('twitter')
+    main_parser.keywords.clean_changes()
     print('SUCCESS!')
 
 
