@@ -28,6 +28,7 @@ class RegistrationForm(FlaskForm):
         """
         user = mongo.db.users.find_one({'name': username.data})
         if user:
+            print(user)
             raise ValidationError('This username already taken. Please, choose another one')
 
     def validate_email(self, email):
