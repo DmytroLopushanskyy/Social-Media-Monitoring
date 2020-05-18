@@ -31,9 +31,7 @@ def index():
         data = {'username': session['user'], 'keywords': user.get_full_data(),
                 'telegram_links': user.get_pretty_links('telegram'),
                 'twitter_links': user.get_pretty_links('twitter')}
-        print(data)
         return render_template('index.html', username=session['user'], data=data)
-    flash("Create an account or login firstly", 'warning')
     return redirect(url_for('login'))
 
 
@@ -53,7 +51,6 @@ def register():
                       'links_telegram': []})
         session['user'] = form.username.data
         print(session['user'])
-        flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))
 
     return render_template('main_register.html', title='Register', form=form)
@@ -74,9 +71,7 @@ def login():
             if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password']) \
                     == login_user['password']:
                 session['user'] = login_user['name']
-                flash(f"You have logged in as {login_user['name']}!", 'success')
                 return redirect(url_for('index'))
-        flash('Incorrect password or/and email', 'danger')
     return render_template('main_login.html', title='Register', form=form)
 
 
@@ -86,17 +81,18 @@ def add():
     Add new keyword for user
     :return: redirect to Home page
     """
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     if request.method == 'POST':
         user = to_class(session['user'])
         if request.form['keyword'] in user.keywords:
-            flash("This word is already in your dictionary", 'danger')
-        elif not ukrainian(request.form['keyword']):
-            flash("This site only work with ukrainian words", 'danger')
+            flash("Це слово уже є у вашому словнику", 'danger')
         elif len(request.form['keyword'].split()) > 1:
-            flash("Enter only one word!", 'danger')
+            flash("Введіть рівно одне слово!", 'danger')
+        elif not ukrainian(request.form['keyword']):
+            flash("Цей сайт працює тільки з українськими словами", 'danger')
         else:
             user.add_keyword(request.form['keyword'])
-            flash("This word is added to your dictionary", 'success')
+            flash("Це слово додано у ваш словник", 'success')
     return redirect(url_for('index'))
 
 
@@ -108,7 +104,6 @@ def logout():
     """
     if request.method == 'POST':
         del session['user']
-    flash("You have logged out", "danger")
     return redirect(url_for('login'))
 
 
