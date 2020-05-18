@@ -65,15 +65,15 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         users = mongo.db.users
-        login_user = users.find_one({'name': form.username.data})
+        login_user = users.find_one({'email': form.email.data})
 
         if login_user:
             if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password']) \
                     == login_user['password']:
-                session['user'] = form.username.data
-                flash(f"You have logged in as {form.username.data}!", 'success')
+                session['user'] = login_user['name']
+                flash(f"You have logged in as {login_user['name']}!", 'success')
                 return redirect(url_for('index'))
-        flash('Incorrect password or/and username', 'danger')
+        flash('Incorrect password or/and email', 'danger')
     return render_template('main_login.html', title='Register', form=form)
 
 

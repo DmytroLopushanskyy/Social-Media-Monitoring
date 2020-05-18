@@ -69,11 +69,9 @@ class Word:
         :return: None
         """
         weight = self.find_weight(text)
-        print("weight", weight)
         if weight != 0:
             if source == 'telegram':
                 self.telegram_reaction += info[0]
-                print(info[1])
                 try:
                     self.telegram_views += int(info[1])
                 except:
@@ -91,7 +89,6 @@ class Word:
         to_add = True
         for now_link in range(len(self.links[source])):
             now_weight = self.links[source][now_link][0]
-            print(weight, now_weight)
             if weight > now_weight:
                 self.links[source].insert(now_link, (weight, link, text, info))
                 to_add = False
@@ -149,7 +146,6 @@ class Word:
         data['twitter_likes'] = self.get_more_data([x['twitter_likes'] for x in self.twitter_info[:7]])
         data['twitter_retweets'] = self.get_more_data([x['twitter_retweets'] for x in self.twitter_info[:7]])
         data['twitter_posts'] = self.get_more_data([x['twitter_posts'] for x in self.twitter_info[:7]])
-        print(self.links_data['telegram'],'!!!!!!!!!!!!!!!!!!!!!!!!!')
         data['telegram_links'] = [self.get_telegram_link_dict(x) for x in self.links_data['telegram']]
         return data
 
