@@ -68,7 +68,6 @@ class User:
                 for link in self.keywords:
                     link = words[link]
                     try:
-                        print(link.links[source][now])
                         dct[link.links[source][now][1]] = dct.get(link.links[source][now][0], 0) + 1
                         dct1[link.links[source][now][1]] = link.links[source][now]
                     except IndexError:
@@ -91,7 +90,6 @@ class User:
         :return:
         """
         self.check_user_weight()
-        print(self.weights[source])
         for x in range(len(self.weights[source])):
             try:
                 self.weights[source][x][1] = self.weights[source][x][1].replace('\n', '')
@@ -112,7 +110,6 @@ class User:
         keywords = Keywords()
         for word in self.keywords:
             to_return[word] = keywords[word].get_info()
-        print(to_return)
         return to_return
 
     def get_pretty_links(self, source):
@@ -148,6 +145,5 @@ def get_all_users():
     users = users.find({})
     users_name = []
     for user in users:
-        print(user)
         users_name.append(User(user['name']))
     return users_name
