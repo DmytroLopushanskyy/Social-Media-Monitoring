@@ -10,6 +10,7 @@ import datetime
 from datetime import datetime, timedelta
 import random
 
+
 def ukrainian(word):
     for letter in word:
         if re.search('[\u0400-\u04FF]', letter):
@@ -29,6 +30,9 @@ class Word:
         self.links = {}
         self.links['twitter'] = word['links_twitter']
         self.links['telegram'] = word['links_telegram']
+        self.links_data = {}
+        self.links_data['twitter'] = word['links_twitter_data']
+        self.links_data['telegram'] = word['links_telegram_data']
         try:
             self.telegram_info = word['telegram_info']
         except KeyError:
@@ -109,21 +113,33 @@ class Word:
 
     @staticmethod
     def get_more_data(data):
-        random.seed(100)
         data = [int(x) for x in data]
-        if len(data) == 7:
-            return data
-        else:
-            if len(data) == 0:
-                data.append(100)
-            mini = min(data)
-            mini = max(0,int(0.75 * mini) - 5)
-            maxi = max(data)
-            maxi = int(1.25 * maxi) + 5
-            while len(data) != 7:
-                data.append(random.randint(mini, maxi))
-            return data
+        while len(data) != 7:
+            data.append(0)
+        return data
 
+    @staticmethod
+    def get_telegram_link_dict(link):
+        data = dict()
+        data['link'] = link[1]
+        data['text'] = link[2][:297]
+        if len(link[2]) > 297:
+            data['text'] += '...'
+        data['telegram_reaction'] = link[3][0]
+        data['telegram_views'] = link[3][1]
+        return data
+    @staticmethod
+    def get_twitter_link_dict(link):
+        data = dict()
+        data['link'] = link[1]
+        data['text'] = link[2][:297]
+        if len(link[2]) > 297:
+            data['text'] += '...'
+        data['twitter_likes'] = link[3][0]
+        data['twitter_retweets'] = link[3][1]
+        data['twitter_replies'] = link[3][2]
+
+        return data
     def get_info(self):
         data = {}
         data['telegram_views'] = self.get_more_data([x['telegram_views'] for x in self.telegram_info[:7]])
@@ -133,7 +149,10 @@ class Word:
         data['twitter_likes'] = self.get_more_data([x['twitter_likes'] for x in self.twitter_info[:7]])
         data['twitter_retweets'] = self.get_more_data([x['twitter_retweets'] for x in self.twitter_info[:7]])
         data['twitter_posts'] = self.get_more_data([x['twitter_posts'] for x in self.twitter_info[:7]])
+        print(self.links_data['telegram'],'!!!!!!!!!!!!!!!!!!!!!!!!!')
+        data['telegram_links'] = [self.get_telegram_link_dict(x) for x in self.links_data['telegram']]
         return data
+
     def __str__(self):
         """
         String representation of a word.
@@ -238,6 +257,10 @@ class Keywords:
         for word in self.keywords:
             word = self.keywords[word]
             mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [], 'links_twitter': [],
+                                                                          "links_telegram_data": word.links['telegram'][
+                                                                                                 :5],
+                                                                          "links_twitter_data": word.links['twitter'][
+                                                                                                :5]
                                                                           }})
         self.keywords = {}
         all_keywords = mongo.db.keywords.find({})

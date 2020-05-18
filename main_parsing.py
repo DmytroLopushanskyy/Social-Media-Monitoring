@@ -128,8 +128,8 @@ class Parser:
         options.add_argument('--disable-dev-shm-usage')
         browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
                                    chrome_options=options)
-        browser.set_window_position(0, 0)
-        browser.set_window_size(320, 9999)
+        # browser.set_window_position(0, 0)
+        # browser.set_window_size(320, 9999)
         # browser.header_overrides = {
         #     'user-agent': 'Mozilla/5.0',
         # }
@@ -148,7 +148,7 @@ def update():
         user.update_links()
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
+@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
 def start_parsing():
     """
     Main parsing starting function.
@@ -167,7 +167,7 @@ def start_parsing():
     print('SUCCESS!')
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
+# @SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
 def start_twitter_parsing():
     """
     Main parsing starting function.
