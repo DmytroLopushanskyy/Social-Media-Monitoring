@@ -22,22 +22,35 @@
     <!--===============================================================================================-->
 </head>
 <body>
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="error_alert alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <div class="login100-pic js-tilt"  data-tilt>
+            <div class="login100-pic js-tilt" data-tilt>
                 <img src="../static/images/img-01.png" style="width: 120% !important" alt="IMG">
             </div>
 
             <form class="login100-form validate-form" method="POST" action="">
                 {{ form.hidden_tag() }}
                 <span class="login100-form-title">
-						Member Register
+						Реєстрація користувача
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    {{ form.username(class='form-control input100 form-control-lg', placeholder="Username") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control input100 form-control-lg is-invalid', placeholder="Ім'я користувача") }}
+                    {% else %}
+                        {{ form.username(class='form-control input100 form-control-lg', placeholder="Ім'я користувача") }}
+                    {% endif %}
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -45,7 +58,12 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    {{ form.email(class='form-control input100 form-control-lg', placeholder="Email") }}
+
+                    {% if form.email.errors %}
+                        {{ form.email(class='form-control input100 form-control-lg is-invalid', placeholder="Email") }}
+                    {% else %}
+                        {{ form.email(class='form-control input100 form-control-lg ', placeholder="Email") }}
+                    {% endif %}
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -53,8 +71,12 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    {{ form.password(class='form-control input100 form-control-lg',placeholder="Password") }}
 
+                    {% if form.password.errors %}
+                        {{ form.password(class='form-control input100 form-control-lg is-invalid',placeholder="Пароль") }}
+                    {% else %}
+                        {{ form.password(class='form-control input100 form-control-lg',placeholder="Пароль") }}
+                    {% endif %}
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -62,7 +84,12 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    {{ form.confirm_password(class='form-control input100 form-control-lg',placeholder="Confirm password") }}
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class='form-control input100 form-control-lg is-invalid',placeholder="Підтвердіть пароль") }}
+                    {% else %}
+                        {{ form.confirm_password(class='form-control input100 form-control-lg',placeholder="Підтвердіть пароль") }}
+
+                    {% endif %}
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -72,7 +99,7 @@
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn">
-                        Register
+                        Зареєструватися
                     </button>
                 </div>
 
@@ -80,7 +107,7 @@
                 <div class="text-center p-t-136">
 
                     <a class="txt2" href=" {{ url_for('login') }}">
-                        Already have an account?
+                        Уже маєте аккаунт?
                         <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -99,6 +126,8 @@
 <script src="../static/vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
 <script src="../static/vendor/tilt/tilt.jquery.min.js"></script>
+<script src="../static/scripts/error_hide.js"></script>
+
 <script>
     $('.js-tilt').tilt({
         scale: 1.1
