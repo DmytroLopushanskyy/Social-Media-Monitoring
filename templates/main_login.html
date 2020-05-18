@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login V1</title>
+    <title>TrackMe</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="../static/images/icons/favicon.ico"/>
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
@@ -19,18 +17,10 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="../static/css/util.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <link rel="icon" type="image/png" href="../static/images/shards-dashboards-logo.svg">
     <!--===============================================================================================-->
 </head>
 <body>
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="error_alert alert alert-{{ category }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 {% block body %}{% endblock %}
 <div class="limiter">
     <div class="container-login100">
@@ -69,8 +59,8 @@
                         Вхід
                     </button>
                 </div>
-
-                <div class="text-center p-t-136">
+                <p id="mess">Помилка з поштою!</p>
+                <div class="text-center p-t-50">
 
                     <a class="txt2" href=" {{ url_for('register') }}">
                         Створити аккаунт

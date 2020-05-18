@@ -117,26 +117,25 @@ class Word:
 
     @staticmethod
     def get_telegram_link_dict(link):
-        data = dict()
-        data['link'] = link[1]
-        data['text'] = link[2][:297]
+        data = [0] * 4
+        data[0] = link[1]
+        data[1] = link[2][:297]
         if len(link[2]) > 297:
-            data['text'] += '...'
-        data['telegram_reaction'] = link[3][0]
-        data['telegram_views'] = link[3][1]
+            data[1] += '...'
+        data[2] = link[3][0]
+        data[3] = link[3][1]
         return data
 
     @staticmethod
     def get_twitter_link_dict(link):
-        data = dict()
-        data['link'] = link[1]
-        data['text'] = link[2][:297]
+        data = [0] * 6
+        data[0] = link[1]
+        data[1] = link[2][:297]
         if len(link[2]) > 297:
-            data['text'] += '...'
-        data['twitter_likes'] = link[3][0]
-        data['twitter_retweets'] = link[3][1]
-        data['twitter_replies'] = link[3][2]
-
+            data[1] += '...'
+        data[2] = link[3][0]
+        data[3] = link[3][1]
+        data[4] = link[3][2]
         return data
 
     def get_info(self):
@@ -151,6 +150,7 @@ class Word:
         data['twitter_retweets'] = self.get_more_data([x['twitter_retweets'] for x in self.twitter_info[:7]])
         data['twitter_posts'] = self.get_more_data([x['twitter_posts'] for x in self.twitter_info[:7]])
         data['telegram_links'] = [self.get_telegram_link_dict(x) for x in self.links_data['telegram']]
+        data['twitter_links'] = [self.get_twitter_link_dict(x) for x in self.links_data['twitter']]
         return data
 
     def __str__(self):

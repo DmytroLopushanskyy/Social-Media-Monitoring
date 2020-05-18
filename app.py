@@ -23,12 +23,14 @@ def index():
     Home page
     :return: html
     """
-    print('HERE')
     if 'user' in session:
-        user = User(session['user'])
+        try:
+            user = User(session['user'])
+        except NameError:
+            return redirect(url_for('login'))
         data = {'username': session['user'], 'keywords': user.get_full_data(),
-                'links_telegram': user.get_pretty_links('telegram'),
-                'links_twitter': user.get_pretty_links('twitter')}
+                'telegram_links': user.get_pretty_links('telegram'),
+                'twitter_links': user.get_pretty_links('twitter')}
         print(data)
         return render_template('index.html', username=session['user'], data=data)
     flash("Create an account or login firstly", 'warning')
@@ -111,4 +113,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5003)
+    app.run(debug=True, port=5004)

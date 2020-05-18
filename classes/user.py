@@ -15,6 +15,8 @@ class User:
         """Initialize User"""
         users = mongo.db.users
         login_user = users.find_one({'name': username})
+        if login_user is None:
+            raise NameError("wrong username")
         self.username = login_user['name']
         self.password = login_user['password']
         self.keywords = login_user['keywords']
