@@ -31,7 +31,9 @@ def index():
         data = {'username': session['user'], 'keywords': user.get_full_data(),
                 'telegram_links': user.get_pretty_links('telegram'),
                 'twitter_links': user.get_pretty_links('twitter')}
+        print(data)
         return render_template('index.html', username=session['user'], data=data)
+    flash("Create an account or login firstly", 'warning')
     return redirect(url_for('login'))
 
 
@@ -42,7 +44,6 @@ def register():
     :return: html
     """
     form = RegistrationForm()
-    print()
     if form.validate_on_submit():
         users = mongo.db.users
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
@@ -52,9 +53,8 @@ def register():
                       'links_telegram': []})
         session['user'] = form.username.data
         print(session['user'])
+        flash(f"Account created for {form.username.data}!", 'success')
         return redirect(url_for('index'))
-    if request.method == 'POST':
-        flash("Невдалось стоворити користувача,\n перевірте чи усі дані введено коректно", 'danger')
 
     return render_template('main_register.html', title='Register', form=form)
 
@@ -74,10 +74,9 @@ def login():
             if bcrypt.hashpw(form.password.data.encode('utf-8'), login_user['password']) \
                     == login_user['password']:
                 session['user'] = login_user['name']
+                flash(f"You have logged in as {login_user['name']}!", 'success')
                 return redirect(url_for('index'))
-        flash("Неправильна пошта або пароль!", 'danger')
-    elif not form.validate_on_submit() and request.method == 'POST':
-        flash("Неправильна пошта або пароль!", 'danger')
+        flash('Incorrect password or/and email', 'danger')
     return render_template('main_login.html', title='Register', form=form)
 
 
@@ -87,18 +86,17 @@ def add():
     Add new keyword for user
     :return: redirect to Home page
     """
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     if request.method == 'POST':
         user = to_class(session['user'])
         if request.form['keyword'] in user.keywords:
-            flash("Це слово уже є у вашому словнику", 'danger')
-        elif len(request.form['keyword'].split()) > 1:
-            flash("Введіть рівно одне слово!", 'danger')
+            flash("This word is already in your dictionary", 'danger')
         elif not ukrainian(request.form['keyword']):
-            flash("Цей сайт працює тільки з українськими словами", 'danger')
+            flash("This site only work with ukrainian words", 'danger')
+        elif len(request.form['keyword'].split()) > 1:
+            flash("Enter only one word!", 'danger')
         else:
             user.add_keyword(request.form['keyword'])
-            flash("Це слово додано у ваш словник", 'success')
+            flash("This word is added to your dictionary", 'success')
     return redirect(url_for('index'))
 
 
@@ -110,8 +108,9 @@ def logout():
     """
     if request.method == 'POST':
         del session['user']
+    flash("You have logged out", "danger")
     return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5004)
+    app.run(debug=True)

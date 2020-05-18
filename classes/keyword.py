@@ -31,7 +31,6 @@ class Word:
         self.links['twitter'] = word['links_twitter']
         self.links['telegram'] = word['links_telegram']
         self.links_data = {}
-        print(word)
         self.links_data['twitter'] = word['links_twitter_data']
         self.links_data['telegram'] = word['links_telegram_data']
         try:
@@ -192,13 +191,12 @@ class Keywords:
         """
         if not mongo.db.keywords.find_one({'keyword': word}):
             mongo.db.keywords.insert({'keyword': word, 'links_twitter': [],
-                                      'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
-                                      'links_twitter_data': [], 'links_telegram_data': []})
+                                      'links_telegram': [], 'telegram_info': [], 'twitter_info': []})
             self.keywords[word] = Word({'keyword': word, 'links_twitter': [],
                                         'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
                                         'telegram_views': 0, 'telegram_reaction': 0, 'telegram_posts': 0,
                                         'twitter_replies': 0, 'twitter_likes': 0, 'twitter_retweets': 0,
-                                        'twitter_posts': 0, 'links_twitter_data': [], 'links_telegram_data': []})
+                                        'twitter_posts': 0})
 
     def __getitem__(self, item):
         """

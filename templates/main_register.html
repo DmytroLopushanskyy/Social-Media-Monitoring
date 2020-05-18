@@ -93,13 +93,7 @@
                     </button>
                 </div>
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <p id="mess">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+                <p id="mess">Помилка з поштою!</p>
                 <div class="text-center p-t-50">
 
                     <a class="txt2" href=" {{ url_for('login') }}">

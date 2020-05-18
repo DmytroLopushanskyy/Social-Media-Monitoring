@@ -95,7 +95,7 @@ def parse_telegram(parser):
             logger.info("%s %s %s %s %s %s", views, reactions, link,
                          button_link, external_link_text, text)
             
-        if num % 50 == 0:
+        if num % 10 == 0:
             send("Parsed %s TG channels out of %s" % (num, len(channels)))
             
     parse_data = "Parsing process finished. Result:\n%s missed channels;\n" \

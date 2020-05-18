@@ -227,7 +227,7 @@ def update(source):
         user.update_links(source)
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
+@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
 def start_parsing():
     """
     Main parsing starting function.
@@ -246,7 +246,7 @@ def start_parsing():
     print('SUCCESS!')
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
+@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
 def start_twitter_parsing():
     """
     Main parsing starting function.
