@@ -125,6 +125,7 @@ class Word:
         data['telegram_reaction'] = link[3][0]
         data['telegram_views'] = link[3][1]
         return data
+
     @staticmethod
     def get_twitter_link_dict(link):
         data = dict()
@@ -137,8 +138,11 @@ class Word:
         data['twitter_replies'] = link[3][2]
 
         return data
+
     def get_info(self):
         data = {}
+        if len(self.telegram_info) == 0:
+            return data
         data['telegram_views'] = self.get_more_data([x['telegram_views'] for x in self.telegram_info[:7]])
         data['telegram_reaction'] = self.get_more_data([x['telegram_reaction'] for x in self.telegram_info[:7]])
         data['telegram_posts'] = self.get_more_data([x['telegram_posts'] for x in self.telegram_info[:7]])
