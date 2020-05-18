@@ -1,6 +1,7 @@
 """
 Module work with Keywords
 """
+import copy
 import string
 import config
 from ukr_stemmer import UkrainianStemmer
@@ -138,6 +139,17 @@ class Word:
         data[4] = link[3][2]
         return data
 
+    def transform(self, data):
+        word = UkrainianStemmer(self.keyword).stem_word().lower()
+        main_text = copy.copy(data[1]).split(' ')
+        data[1] = [UkrainianStemmer(x).stem_word().lower() for x in data[1].split(' ')]
+        data[1] = [x.translate(str.maketrans('', '', string.punctuation)) for x in data[1]]
+        for i in range(len(data[1])):
+            if data[1][i] == word:
+                main_text[i] = '<b style="font-weight:750">{}</b>'.format(main_text[i])
+        data[1] = ' '.join(main_text)
+        return data
+
     def get_info(self):
         data = {}
         if len(self.telegram_info) == 0:
@@ -149,8 +161,8 @@ class Word:
         data['twitter_likes'] = self.get_more_data([x['twitter_likes'] for x in self.twitter_info[:7]])
         data['twitter_retweets'] = self.get_more_data([x['twitter_retweets'] for x in self.twitter_info[:7]])
         data['twitter_posts'] = self.get_more_data([x['twitter_posts'] for x in self.twitter_info[:7]])
-        data['telegram_links'] = [self.get_telegram_link_dict(x) for x in self.links_data['telegram']]
-        data['twitter_links'] = [self.get_twitter_link_dict(x) for x in self.links_data['twitter']]
+        data['telegram_links'] = [self.transform(self.get_telegram_link_dict(x)) for x in self.links_data['telegram']]
+        data['twitter_links'] = [self.transform(self.get_twitter_link_dict(x)) for x in self.links_data['twitter']]
         return data
 
     def __str__(self):
