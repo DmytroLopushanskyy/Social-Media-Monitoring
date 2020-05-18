@@ -42,6 +42,7 @@ def register():
     :return: html
     """
     form = RegistrationForm()
+    print()
     if form.validate_on_submit():
         users = mongo.db.users
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
@@ -52,6 +53,8 @@ def register():
         session['user'] = form.username.data
         print(session['user'])
         return redirect(url_for('index'))
+    if request.method == 'POST':
+        flash("Невдалось стоворити користувача,\n перевірте чи усі дані введено коректно", 'danger')
 
     return render_template('main_register.html', title='Register', form=form)
 
@@ -72,6 +75,9 @@ def login():
                     == login_user['password']:
                 session['user'] = login_user['name']
                 return redirect(url_for('index'))
+        flash("Неправильна пошта або пароль!", 'danger')
+    elif not form.validate_on_submit() and request.method == 'POST':
+        flash("Неправильна пошта або пароль!", 'danger')
     return render_template('main_login.html', title='Register', form=form)
 
 
