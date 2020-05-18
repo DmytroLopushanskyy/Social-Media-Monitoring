@@ -1,3 +1,74 @@
+.d-block-mobile {
+    display: none;
+}
+@media (max-width: 500px) {
+    .blog-comments__content {
+      width: 75%;
+    }
+}
+@media (max-width: 400px) {
+    .d-none-mobile {
+      display: none;
+    }
+    .d-block-mobile {
+      display: block;
+  }
+}
+
+.custom_nav {
+    background-color: #007bff;
+}
+
+.custom_nav:hover, .custom_nav a:hover, .custom_nav a:active {
+    background-color: #007bff !important;
+}
+
+.btn-white {
+  padding: 7px 8px !important;
+}
+
+.none {
+  display: none;
+}
+
+.center-div {
+  opacity: 0.6;
+  position: absolute;
+  top: 70%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 300px;
+  height: 300px;
+}
+
+/*Modal*/
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+
+.follow_btn {
+  cursor: pointer;
+  color: white;
+  padding: 10px 20px;
+}
+
+.follow_btn:active, .follow_btn:focus {
+  outline: none;
+}
+
 /*
  * Shards Dashboard Lite UI Kit v1.1.0
  * Project URL: https://designrevision.com/downloads/shards-dashboard-lite

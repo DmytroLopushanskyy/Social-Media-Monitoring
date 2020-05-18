@@ -167,7 +167,7 @@ class Parser:
             socket.setdefaulttimeout(120)
 
             for current_proxy in proxies:
-                proxy = current_proxy.get_address()
+                proxy = proxies[iter].get_address()
                 if not is_bad_proxy(proxy):
                     logger.info("Chosen Proxy: %s", proxy)
                     webdriver.DesiredCapabilities.CHROME['proxy'] = {
@@ -227,7 +227,7 @@ def update(source):
         user.update_links(source)
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
+@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
 def start_parsing():
     """
     Main parsing starting function.
@@ -242,11 +242,11 @@ def start_parsing():
     users = get_all_users()
     for user in users:
         user.update_links('telegram')
-    main_parser.keywords.clean_changes()
+    main_parser.keywords.clean_changes('telegram')
     print('SUCCESS!')
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=datetime.now())
+@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
 def start_twitter_parsing():
     """
     Main parsing starting function.
@@ -260,7 +260,7 @@ def start_twitter_parsing():
     users = get_all_users()
     for user in users:
         user.update_links('twitter')
-    main_parser.keywords.clean_changes()
+    main_parser.keywords.clean_changes('twitter')
     print('SUCCESS!')
 
 

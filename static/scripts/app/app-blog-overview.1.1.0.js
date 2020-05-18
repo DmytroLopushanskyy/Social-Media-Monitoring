@@ -3,15 +3,9 @@
  | Shards Dashboards: Blog Overview Template
  |--------------------------------------------------------------------------
  */
-
 'use strict';
-var keyword = '{{ keyword }}';
-console.log(keyword);
-(function ($) {
-  $(document).ready(function () {
 
-    // Blog overview date range init.
-    $('#blog-overview-date-range').datepicker({});
+function drawSmallCharts(data) {
     //
     // Small Stats
     //
@@ -21,27 +15,27 @@ console.log(keyword);
       {
         backgroundColor: 'rgba(0, 184, 216, 0.1)',
         borderColor: 'rgb(0, 184, 216)',
-        data: [1, 2, 1, 3, 5, 4, 7],
+        data: data[0]
       },
       {
         backgroundColor: 'rgba(23,198,113,0.1)',
         borderColor: 'rgb(23,198,113)',
-        data: [username.length, 2, 3, 3, 3, 4, 4]
+        data: data[1]
       },
       {
         backgroundColor: 'rgba(255,180,0,0.1)',
         borderColor: 'rgb(255,180,0)',
-        data: [2, 3, 3, 3, 4, 3, 3]
+        data: data[2]
       },
       {
         backgroundColor: 'rgba(255,65,105,0.1)',
         borderColor: 'rgb(255,65,105)',
-        data: [1, 7, 1, 3, 1, 4, 8]
+        data: data[3]
       },
       {
         backgroundColor: 'rgb(0,123,255,0.1)',
         borderColor: 'rgb(0,123,255)',
-        data: [3, 2, 3, 2, 4, 5, 4]
+        data: data[4],
       }
     ];
 
@@ -109,24 +103,24 @@ console.log(keyword);
         options: chartOptions
       });
     });
+}
 
-
+function drawLineChart(twitter_arr, telegram_arr) {
     //
     // Blog Overview Users
     //
-
     var bouCtx = document.getElementsByClassName('blog-overview-users')[0];
 
     // Data
     var bouData = {
       // Generate the days labels on the X axis.
-      labels: Array.from(new Array(7), function (_, i) {
+      labels: Array.from(new Array(telegram_arr.length), function (_, i) {
         return i === 0 ? 0 : i;
       }),
       datasets: [{
         label: 'Twitter',
         fill: 'start',
-        data: [500, 800, 320, 180, 240, 320, 230],
+        data: twitter_arr,
         backgroundColor: 'rgba(0,123,255,0.1)',
         borderColor: 'rgba(0,123,255,1)',
         pointBackgroundColor: '#ffffff',
@@ -137,7 +131,7 @@ console.log(keyword);
       }, {
         label: 'Telegram',
         fill: 'start',
-        data: [380, 430, 120, 230, 410, 740, 472],
+        data: telegram_arr,
         backgroundColor: 'rgba(255,65,105,0.1)',
         borderColor: 'rgba(255,65,105,1)',
         pointBackgroundColor: '#ffffff',
@@ -149,6 +143,9 @@ console.log(keyword);
         pointBorderColor: 'rgba(255,65,105,1)'
       }]
     };
+    var d = new Date();
+    var month_names_short = ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер',
+      'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'];
 
     // Options
     var bouOptions = {
@@ -171,7 +168,7 @@ console.log(keyword);
           ticks: {
             callback: function (tick, index) {
               // Jump every 7 values on the X axis labels to avoid clutter.
-              return index + ' day';
+              return (d.getDate() + index) + " " + month_names_short[d.getMonth()];
             }
           }
         }],
@@ -218,23 +215,21 @@ console.log(keyword);
 
     // Render the chart.
     window.BlogOverviewUsers.render();
+}
 
-    //
-    // Users by device pie chart
-    //
-
+function showPieChart(data) {
     // Data
     var ubdData = {
       datasets: [{
         hoverBorderColor: '#ffffff',
-        data: [68.3, 24.2, 7.5],
+        data: data,
         backgroundColor: [
           'rgba(0,123,255,0.9)',
           'rgba(0,123,255,0.5)',
           'rgba(0,123,255,0.3)'
         ]
       }],
-      labels: ["Desktop", "Tablet", "Mobile"]
+      labels: ["Впободання", "Коментарі", "Поширення"]
     };
 
     // Options
@@ -264,6 +259,4 @@ console.log(keyword);
       data: ubdData,
       options: ubdOptions
     });
-
-  });
-})(jQuery);
+}

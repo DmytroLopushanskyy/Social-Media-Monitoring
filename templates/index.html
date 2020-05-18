@@ -3,21 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Shards Dashboard Lite - Free Bootstrap Admin Template – DesignRevision</title>
+    <title>TrackMe</title>
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="../static/styles/shards-dashboards.1.1.0.min.css">
+    <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" href="../static/styles/shards-dashboards.1.1.0.css">
     <link rel="stylesheet" href="../static/styles/extras.1.1.0.min.css">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link rel="icon" type="image/png" href="../static/images/shards-dashboards-logo.svg">
   </head>
   <body class="h-100">
-
-    <div class="color-switcher-toggle animated pulse infinite">
-      <i class="material-icons">settings</i>
-    </div>
     <div class="container-fluid">
       <div class="row">
         <!-- Main Sidebar -->
@@ -26,8 +23,8 @@
             <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
               <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
                 <div class="d-table m-auto">
-                  <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="../static/images/shards-dashboards-logo.svg">
-                  <span class="d-none d-md-inline ml-1">Shards Dashboard</span>
+                  <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="../static/images/shards-dashboards-logo.svg" alt="Shards Dashboard">
+                  <span class="d-none d-md-inline ml-1">TrackMe</span>
                 </div>
               </a>
               <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
@@ -35,59 +32,22 @@
               </a>
             </nav>
           </div>
-          <form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
-            <div class="input-group input-group-seamless ml-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-search"></i>
-                </div>
-              </div>
-              <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
-          </form>
           <div class="nav-wrapper">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="index.html">
-                  <i class="material-icons">edit</i>
-                  <span>Blog Dashboard</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="components-blog-posts.html">
-                  <i class="material-icons">vertical_split</i>
-                  <span>Blog Posts</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="add-new-post.html">
-                  <i class="material-icons">note_add</i>
-                  <span>Add New Post</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">view_module</i>
-                  <span>Forms &amp; Components</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="tables.html">
-                  <i class="material-icons">table_chart</i>
-                  <span>Tables</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="login.html">
-                  <i class="material-icons">person</i>
-                  <span>User Profile</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="errors.html">
-                  <i class="material-icons">error</i>
-                  <span>Errors</span>
-                </a>
-              </li>
+            <ul class="nav flex-column" id="keywords_list">
+                {% for keyword in data.keywords %}
+                  <li class="nav-item">
+                    <a class="user_keyword nav-link {% if loop.index == 1 %} active {%  endif %}" href="index.html">
+                      <i class="material-icons">{% if loop.index == 1 %}check_circle{% else %}check_circle_outline{% endif %}</i>
+                      <span>{{keyword}}</span>
+                    </a>
+                  </li>
+                {% endfor %}
+                <li class="nav-item custom_nav" style="cursor: pointer;">
+                    <a class="nav-link" data-toggle="modal" data-target="#elegantModalForm" style="color: #fff;">
+                      <i class="material-icons" style="color: #fff;">control_point</i>
+                      <span> Додати слово </span>
+                    </a>
+                </li>
             </ul>
           </div>
         </aside>
@@ -96,25 +56,25 @@
           <div class="main-navbar sticky-top bg-white">
             <!-- Main Navbar -->
             <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-              <form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+              <form action="#" class="main-navbar__search w-100 d-md-flex d-lg-flex">
                 <div class="input-group input-group-seamless ml-3">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="fas fa-search"></i>
-                    </div>
-                  </div>
-                  <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
+{#                  <div class="input-group-prepend">#}
+{#                    <div class="input-group-text">#}
+{#                    </div>#}
+{#                  </div>#}
+                  <!-- <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div> -->
+                    <div style="flex: 1 1 auto;"></div>
               </form>
-              <ul class="navbar-nav border-left flex-row ">
+                <ul class="navbar-nav flex-row ">
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="d-none d-md-inline-block" id = 'username'>{{ username }}</span>
+                  <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="padding-top: 20px;">
+                    <span class="d-md-inline-block" id = 'username'>{{ data.username }}</span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-small">
                     <form method=POST action="{{ url_for('logout')}}">
                       <button class="dropdown-item text-danger" href="#">
 
-                      <i class="material-icons text-danger">&#xE879;</i> Logout </button>
+                      <i class="material-icons text-danger">&#xE879;</i> Вийти </button>
                   </form>
                   </div>
                 </li>
@@ -131,23 +91,31 @@
             <!-- Page Header -->
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="text-uppercase page-subtitle">Dashboard</span>
-                <h3 class="page-title">Blog Overview</h3>
+                <span class="text-uppercase page-subtitle" id="stats_text">Статистика за ключовим словом</span>
+                <h3 class="page-title" id="cur_word"></h3>
+              </div>
+            </div>
+              <div class="page-header row no-gutters py-4 none" id="no_data">
+              <div class="col-xs-12 text-center mb-0 center-div">
+                  <h4 class="page-title"></h4>
+                  <br><br>
+                  <p class="text-uppercase page-subtitle"></p>
+                  <p class="text-uppercase page-subtitle"></p>
               </div>
             </div>
             <!-- End Page Header -->
             <!-- Small Stats Blocks -->
-            <div class="row">
+            <div class="row" id="stats">
               <div class="col-lg col-md-6 col-sm-6 mb-4">
                 <div class="stats-small stats-small--1 card card-small">
                   <div class="card-body p-0 d-flex">
                     <div class="d-flex flex-column m-auto">
                       <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">Posts</span>
-                        <h6 class="stats-small__value count my-3">hahah</h6>
+                        <span class="stats-small__label text-uppercase">Постів у Twitter</span>
+                        <h6 class="stats-small__value count my-3" id="tweets"></h6>
                       </div>
                       <div class="stats-small__data">
-                        <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
+                        <span class="stats-small__percentage" id="tweets_perc"></span>
                       </div>
                     </div>
                     <canvas height="120" class="blog-overview-stats-small-1"></canvas>
@@ -159,11 +127,11 @@
                   <div class="card-body p-0 d-flex">
                     <div class="d-flex flex-column m-auto">
                       <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">Pages</span>
-                        <h6 class="stats-small__value count my-3">182</h6>
+                        <span class="stats-small__label text-uppercase">Постів у Telegram</span>
+                        <h6 class="stats-small__value count my-3" id="tg_posts"></h6>
                       </div>
                       <div class="stats-small__data">
-                        <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
+                        <span class="stats-small__percentage" id="tg_posts_perc"></span>
                       </div>
                     </div>
                     <canvas height="120" class="blog-overview-stats-small-2"></canvas>
@@ -175,11 +143,11 @@
                   <div class="card-body p-0 d-flex">
                     <div class="d-flex flex-column m-auto">
                       <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">Comments</span>
-                        <h6 class="stats-small__value count my-3">8,147</h6>
+                        <span class="stats-small__label text-uppercase">Взаємодії у Twitter</span>
+                        <h6 class="stats-small__value count my-3" id="tw_interactions"></h6>
                       </div>
                       <div class="stats-small__data">
-                        <span class="stats-small__percentage stats-small__percentage--decrease">3.8%</span>
+                        <span class="stats-small__percentage" id="tw_interactions_perc"></span>
                       </div>
                     </div>
                     <canvas height="120" class="blog-overview-stats-small-3"></canvas>
@@ -191,11 +159,11 @@
                   <div class="card-body p-0 d-flex">
                     <div class="d-flex flex-column m-auto">
                       <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">Users</span>
-                        <h6 class="stats-small__value count my-3">2,413</h6>
+                        <span class="stats-small__label text-uppercase">Взаємодії у Telegram</span>
+                        <h6 class="stats-small__value count my-3" id="tg_interactions"></h6>
                       </div>
                       <div class="stats-small__data">
-                        <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
+                        <span class="stats-small__percentage" id="tg_interactions_perc"></span>
                       </div>
                     </div>
                     <canvas height="120" class="blog-overview-stats-small-4"></canvas>
@@ -207,11 +175,11 @@
                   <div class="card-body p-0 d-flex">
                     <div class="d-flex flex-column m-auto">
                       <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">Subscribers</span>
-                        <h6 class="stats-small__value count my-3">17,281</h6>
+                        <span class="stats-small__label text-uppercase">Перегляди</span>
+                        <h6 class="stats-small__value count my-3" id="views"></h6>
                       </div>
                       <div class="stats-small__data">
-                        <span class="stats-small__percentage stats-small__percentage--decrease">2.4%</span>
+                        <span class="stats-small__percentage" id="views_perc"></span>
                       </div>
                     </div>
                     <canvas height="120" class="blog-overview-stats-small-5"></canvas>
@@ -220,30 +188,14 @@
               </div>
             </div>
             <!-- End Small Stats Blocks -->
-            <div class="row">
+            <div class="row" id="chart_stats">
               <!-- Users Stats -->
               <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
                 <div class="card card-small">
                   <div class="card-header border-bottom">
-                    <h6 class="m-0">Users</h6>
+                    <h6 class="m-0">Статистика постів за днями</h6>
                   </div>
-                  <div class="card-body pt-0">
-                    <div class="row border-bottom py-2 bg-light">
-                      <div class="col-12 col-sm-6">
-                        <div id="blog-overview-date-range" class="input-daterange input-group input-group-sm my-auto ml-auto mr-auto ml-sm-auto mr-sm-0" style="max-width: 350px;">
-                          <input type="text" class="input-sm form-control" name="start" placeholder="Start Date" id="blog-overview-date-range-1">
-                          <input type="text" class="input-sm form-control" name="end" placeholder="End Date" id="blog-overview-date-range-2">
-                          <span class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="material-icons"></i>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-12 col-sm-6 d-flex mb-2 mb-sm-0">
-                        <button type="button" class="btn btn-sm btn-white ml-auto mr-auto ml-sm-auto mr-sm-0 mt-3 mt-sm-0">View Full Report &rarr;</button>
-                      </div>
-                    </div>
+                  <div class="card-body pt-0" id="posts_chart">
                     <canvas height="130" style="max-width: 100% !important;" class="blog-overview-users"></canvas>
                   </div>
                 </div>
@@ -253,32 +205,16 @@
               <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card card-small h-100">
                   <div class="card-header border-bottom">
-                    <h6 class="m-0">Users by device</h6>
+                    <h6 class="m-0">Розподіл взаємодій у Twitter</h6>
                   </div>
-                  <div class="card-body d-flex py-0">
+                  <div class="card-body d-flex py-0" id="interactions_chart">
                     <canvas height="220" class="blog-users-by-device m-auto"></canvas>
-                  </div>
-                  <div class="card-footer border-top">
-                    <div class="row">
-                      <div class="col">
-                        <select class="custom-select custom-select-sm" style="max-width: 130px;">
-                          <option selected>Last Week</option>
-                          <option value="1">Today</option>
-                          <option value="2">Last Month</option>
-                          <option value="3">Last Year</option>
-                        </select>
-                      </div>
-                      <div class="col text-right view-report">
-                        <a href="#">Full report &rarr;</a>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
               <!-- End Users By Device Stats -->
               <!-- New Draft Component -->
-              <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <!-- Quick Post -->
+              <!-- <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card card-small h-100">
                   <div class="card-header border-bottom">
                     <h6 class="m-0">New Draft</h6>
@@ -296,113 +232,30 @@
                     </form>
                   </div>
                 </div>
-                <!-- End Quick Post -->
-              </div>
+              </div> -->
               <!-- End New Draft Component -->
               <!-- Discussions Component -->
-              <div class="col-lg-5 col-md-12 col-sm-12 mb-4">
-                <div class="card card-small blog-comments">
+              <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                <div class="card card-small blog-comments" id="top-tweets">
                   <div class="card-header border-bottom">
-                    <h6 class="m-0">Discussions</h6>
+                    <h6 class="m-0">Топ твітів</h6>
                   </div>
-                  <div class="card-body p-0">
-                    <div class="blog-comments__item d-flex p-3">
-                      <div class="blog-comments__avatar mr-3">
-                        <img src="images/avatars/1.jpg" alt="User avatar" /> </div>
-                      <div class="blog-comments__content">
-                        <div class="blog-comments__meta text-muted">
-                          <a class="text-secondary" href="#">James Johnson</a> on
-                          <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 3 days ago</span>
-                        </div>
-                        <p class="m-0 my-1 mb-2 text-muted">Well, the way they make shows is, they make one show ...</p>
-                        <div class="blog-comments__actions">
-                          <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-white">
-                              <span class="text-success">
-                                <i class="material-icons">check</i>
-                              </span> Approve </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-danger">
-                                <i class="material-icons">clear</i>
-                              </span> Reject </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-light">
-                                <i class="material-icons">more_vert</i>
-                              </span> Edit </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="blog-comments__item d-flex p-3">
-                      <div class="blog-comments__avatar mr-3">
-                        <img src="images/avatars/2.jpg" alt="User avatar" /> </div>
-                      <div class="blog-comments__content">
-                        <div class="blog-comments__meta text-muted">
-                          <a class="text-secondary" href="#">James Johnson</a> on
-                          <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 4 days ago</span>
-                        </div>
-                        <p class="m-0 my-1 mb-2 text-muted">After the avalanche, it took us a week to climb out. Now...</p>
-                        <div class="blog-comments__actions">
-                          <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-white">
-                              <span class="text-success">
-                                <i class="material-icons">check</i>
-                              </span> Approve </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-danger">
-                                <i class="material-icons">clear</i>
-                              </span> Reject </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-light">
-                                <i class="material-icons">more_vert</i>
-                              </span> Edit </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="blog-comments__item d-flex p-3">
-                      <div class="blog-comments__avatar mr-3">
-                        <img src="images/avatars/3.jpg" alt="User avatar" /> </div>
-                      <div class="blog-comments__content">
-                        <div class="blog-comments__meta text-muted">
-                          <a class="text-secondary" href="#">James Johnson</a> on
-                          <a class="text-secondary" href="#">Hello World!</a>
-                          <span class="text-muted">– 5 days ago</span>
-                        </div>
-                        <p class="m-0 my-1 mb-2 text-muted">My money's in that office, right? If she start giving me...</p>
-                        <div class="blog-comments__actions">
-                          <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-white">
-                              <span class="text-success">
-                                <i class="material-icons">check</i>
-                              </span> Approve </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-danger">
-                                <i class="material-icons">clear</i>
-                              </span> Reject </button>
-                            <button type="button" class="btn btn-white">
-                              <span class="text-light">
-                                <i class="material-icons">more_vert</i>
-                              </span> Edit </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                <div class="card card-small blog-comments" id="top-tg-posts">
+                  <div class="card-header border-bottom">
+                    <h6 class="m-0">Топ постів у Telegram</h6>
                   </div>
-                  <div class="card-footer border-top">
-                    <div class="row">
-                      <div class="col text-center view-report">
-                        <button type="submit" class="btn btn-white">View All Comments</button>
-                      </div>
-                    </div>
+
+
                   </div>
                 </div>
               </div>
               <!-- End Discussions Component -->
               <!-- Top Referrals Component -->
-              <div class="col-lg-3 col-md-12 col-sm-12 mb-4">
+              <!-- <div class="col-lg-4 col-md-12 col-sm-12 mb-4">
                 <div class="card card-small">
                   <div class="card-header border-bottom">
                     <h6 class="m-0">Top Referrals</h6>
@@ -459,33 +312,62 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- End Top Referrals Component -->
             </div>
           </div>
           <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
-            <ul class="nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Products</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
-              </li>
-            </ul>
-            <span class="copyright ml-auto my-auto mr-2">Copyright © 2018
-              <a href="https://designrevision.com" rel="nofollow">DesignRevision</a>
+{#            <ul class="nav">#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#">Home</a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#">Services</a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#">About</a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#">Products</a>#}
+{#              </li>#}
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href="#">Blog</a>#}
+{#              </li>#}
+{#            </ul>#}
+            <span class="copyright ml-auto my-auto mr-2">Розроблено Дмитром Лопушанським та Богданом Веєм.
+              <a href="https://github.com/DmytroLopushanskyy/Social-Media-Monitoring" target="_blank">Переглянути код на GitHub</a>
             </span>
           </footer>
         </main>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content form-elegant">
+          <!--Header-->
+          <div class="modal-header text-center" style="border:0px;">
+            <h4 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Додати нове ключове слово у список відстеження</strong></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body mx-4" style="border:0px;">
+            <!--Body-->
+            <div class="md-form mb-5">
+              <input type="text" id="keyword" placeholder="Введіть одне ключове слово кирилицею" class="form-control validate">
+            </div>
+
+            <div class="text-center mb-3">
+              <button type="button" class="nav-item custom_nav follow_btn">Відстежувати слово</button>
+            </div>
+          </div>
+
+        </div>
+        <!--/.Content-->
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -497,5 +379,218 @@
     <script src="../static/scripts/extras.1.1.0.js"></script>
     <script src="../static/scripts/shards-dashboards.1.1.0.js"></script>
     <script src="../static/scripts/app/app-blog-overview.1.1.0.js"></script>
+    <script>
+        function setTrend(now, yesterday, id) {
+            $("#" + id).removeClass("stats-small__percentage--decrease stats-small__percentage--increase");
+            var perc = 0;
+            if (yesterday != 0) {
+                perc = now * 100 / yesterday - 100;
+            }
+            $("#" + id).html(Math.round(perc) + "%");
+            if (perc <= 0) {
+                perc = -1 * perc;
+                $("#" + id).addClass("stats-small__percentage--decrease");
+            } else {
+                $("#" + id).addClass("stats-small__percentage--increase");
+            }
+        }
+
+        function generate_posts(data) {
+            data["links_twitter"].forEach(function(post) {
+                $("#top-tweets").append("<div class=\"card-body p-0\">\n" +
+                    "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
+                    "                      <div class=\"blog-comments__avatar mr-3\">\n" +
+                    "                        <img src=\"https://seeklogo.net/wp-content/uploads/2015/11/twitter-logo.png\" alt=\"User avatar\" /> </div>\n" +
+                    "                      <div class=\"blog-comments__content\">\n" +
+                    "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
+                    "                        <div class=\"blog-comments__actions\">\n" +
+                    "                          <div class=\"btn-group btn-group-sm\">\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-success\">\n" +
+                    "                                <i class=\"material-icons\">thumb_up</i>\n" +
+                    "                              </span>" + post[2] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-danger\">\n" +
+                    "                                <i class=\"material-icons\">comment</i>\n" +
+                    "                              </span>" + post[4] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">share</i>\n" +
+                    "                              </span>" + post[3] + "</button>\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                          </div>\n" +
+                    "                        </div>\n" +
+                    "                          <div class=\"blog-comments__actions\">\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                        </div>\n" +
+                    "                      </div>\n" +
+                    "                    </div>\n" +
+                    "                  </div>");
+            });
+            data["links_telegram"].forEach(function(post) {
+                $("#top-tg-posts").append("<div class=\"card-body p-0\">\n" +
+                    "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
+                    "                      <div class=\"blog-comments__avatar mr-3\">\n" +
+                    "                        <img src=\"https://cdn0.iconfinder.com/data/icons/social-network-24/512/Telegram-512.png\" alt=\"User avatar\" /> </div>\n" +
+                    "                      <div class=\"blog-comments__content\">\n" +
+                    "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
+                    "                        <div class=\"blog-comments__actions\">\n" +
+                    "                          <div class=\"btn-group btn-group-sm\">\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-success\">\n" +
+                    "                                <i class=\"material-icons\">visibility</i>\n" +
+                    "                              </span>" + post[3] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-danger\">\n" +
+                    "                                <i class=\"material-icons\">tag_faces</i>\n" +
+                    "                              </span>" + post[2] + "</button>\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                              </div>\n" +
+                    "                          </div>\n" +
+                    "                           <div class=\"blog-comments__actions\">\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                          </div>\n" +
+                    "                        </div>\n" +
+                    "                        </div>\n" +
+                    "                      </div>\n" +
+                    "                    </div>");
+            });
+        }
+
+        function showStatistics(keyword_name, keyword_data) {
+            console.log(keyword_data);
+            var last_index = keyword_data["twitter_likes"].length - 1;
+            var tw_interactions = keyword_data["twitter_likes"][last_index] + keyword_data["twitter_replies"][last_index] + keyword_data["twitter_retweets"][last_index];
+            var tw_interactions_yesterday = keyword_data["twitter_likes"][last_index-1] + keyword_data["twitter_replies"][last_index-1] + keyword_data["twitter_retweets"][last_index-1];
+            console.log("tw_interactions", tw_interactions, tw_interactions_yesterday);
+            var tg_interactions = keyword_data["telegram_reaction"][0];
+            var tg_interactions_yesterday = keyword_data["telegram_reaction"][1];
+
+            var views = keyword_data["telegram_views"][0];
+            var views_yesterday = keyword_data["telegram_views"][1];
+
+            var tweets = keyword_data["twitter_posts"][0];
+            var tweets_yesterday = keyword_data["twitter_posts"][1];
+
+            var tg_posts = keyword_data["telegram_posts"][0];
+            var tg_posts_yesterday = keyword_data["telegram_posts"][1];
+
+            setTrend(tw_interactions, tw_interactions_yesterday, "tw_interactions_perc");
+            setTrend(tg_interactions, tg_interactions_yesterday, "tg_interactions_perc");
+            setTrend(views, views_yesterday, "views_perc");
+            setTrend(tweets, tweets_yesterday, "tweets_perc");
+            setTrend(tg_posts, tg_posts_yesterday, "tg_posts_perc");
+
+            $("#tweets").html(tweets);
+            $("#tg_posts").html(tg_posts);
+            $("#cur_word").html(keyword_name);
+            $("#tw_interactions").html(tw_interactions);
+            $("#tg_interactions").html(tg_interactions);
+            $("#views").html(views);
+        }
+
+        function showCharts(keyword_data) {
+            var twitter_posts = keyword_data["twitter_posts"].slice().reverse();
+            var telegram_posts = keyword_data["telegram_posts"].slice().reverse();
+            $("#posts_chart").html("<canvas height=\"130\" style=\"max-width: 100% !important;\" class=\"blog-overview-users\"></canvas>");
+            drawLineChart(twitter_posts, telegram_posts);
+
+            var overview_data = [];
+
+            var tw_interactions = [];
+            for (var i = 0; i < keyword_data["twitter_likes"].length; i++) {
+                tw_interactions.push(keyword_data["twitter_likes"][i] + keyword_data["twitter_replies"][i] + keyword_data["twitter_retweets"][i]);
+            }
+            console.log(tw_interactions);
+            var tg_interactions = keyword_data["telegram_reaction"].slice().reverse();
+            var views = keyword_data["telegram_views"].slice().reverse();
+            var tweets = keyword_data["twitter_posts"].slice().reverse();
+            var tg_posts = keyword_data["telegram_posts"].slice().reverse();
+
+            overview_data.push(tweets);
+            overview_data.push(tg_posts);
+            overview_data.push(tw_interactions);
+            overview_data.push(tg_interactions);
+            overview_data.push(views);
+            console.log(overview_data);
+            drawSmallCharts(overview_data);
+
+            $("#interactions_chart").html("<canvas height=\"220\" class=\"blog-users-by-device m-auto\"></canvas>");
+            var last_index = keyword_data["twitter_likes"].length - 1;
+            var tw_interactions = [keyword_data["twitter_likes"][last_index], keyword_data["twitter_replies"][last_index], keyword_data["twitter_retweets"][last_index]];
+            showPieChart(tw_interactions);
+        }
+
+        var data = {{ data | safe }};
+        console.log(data);
+
+        $(document).ready(function() {
+            var keywords = data["keywords"];
+            if (Object.keys(keywords).length == 0) {
+                $("#no_data").removeClass("none");
+                $("#stats_text").addClass("none");
+                $("#stats").addClass("none");
+                $("#no_data h4").text("Вітаємо!");
+                $("#no_data div").children('p').eq(0).text("Додайте ключові слова, які Ви хочете відслідковувати, в меню");
+                $("#no_data h4").style.fontSize = "80px";
+                $("#no_data div p").style.fontSize = "20px";
+                return;
+            }
+            console.log(keywords);
+            for (var keyword_name in keywords) break;
+            var keyword_data = keywords[keyword_name];
+            showStatistics(keyword_name, keyword_data);
+            showCharts(keyword_data);
+            generate_posts(data);
+        });
+
+        $(".user_keyword").click(function(e){
+            e.preventDefault();
+            $("#keywords_list a").parent().find('a').removeClass("active");
+            $(".user_keyword i").parent().find('i').text("check_circle_outline");
+            $(this).addClass("active");
+            $(this).find("i").text("check_circle");
+            var keywords = data["keywords"];
+            var keyword_name = $(this).find("span").text();
+            var keyword_data = keywords[keyword_name];
+            if (Object.keys(keyword_data).length == 0) {
+                $("#no_data").removeClass("none");
+                $("#chart_stats").addClass("none");
+                $("#stats").addClass("none");
+                $("#no_data h4").text("Даних поки замало");
+                $("#no_data div").children('p').eq(0).text("Якщо Ви тільки додали ключове слово, то потрібно зачекати декілька днів для того, щоб з'явилася інформація.");
+                $("#no_data div").children('p').eq(1).text("Можливо, задане ключове слово зустрічається дуже рідко");
+                $("#no_data h4").style.fontSize = "30px";
+                $("#no_data div p").style.fontSize = "10px";
+                return;
+            } else {
+                $("#no_data").addClass("none");
+                $("#chart_stats").removeClass("none");
+                $("#stats_text").removeClass("none");
+                $("#stats").removeClass("none");
+                return;
+            }
+            console.log("data", keyword_name, keyword_data);
+            showStatistics(keyword_name, keyword_data);
+            showCharts(keyword_data);
+        })
+    </script>
   </body>
+
 </html>
