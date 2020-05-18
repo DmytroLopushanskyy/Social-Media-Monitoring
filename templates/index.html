@@ -422,221 +422,221 @@
 <script src="../static/scripts/shards-dashboards.1.1.0.js"></script>
 <script src="../static/scripts/app/app-blog-overview.1.1.0.js"></script>
 <script>
-    function setTrend(now, yesterday, id) {
-        $("#" + id).removeClass("stats-small__percentage--decrease stats-small__percentage--increase");
-        var perc = 100;
-        if (yesterday != 0) {
-            perc = now * 100 / yesterday - 100;
-        } else if (yesterday == 0 && now == 0) {
-            $("#" + id).html("");
-            return;
+        function setTrend(now, yesterday, id) {
+            $("#" + id).removeClass("stats-small__percentage--decrease stats-small__percentage--increase");
+            var perc = 100;
+            if (yesterday != 0) {
+                perc = now * 100 / yesterday - 100;
+            } else if (yesterday == 0 && now == 0) {
+                $("#" + id).html("");
+                return;
+            }
+            $("#" + id).html(Math.round(perc) + "%");
+            if (perc <= 0) {
+                perc = -1 * perc;
+                $("#" + id).addClass("stats-small__percentage--decrease");
+            } else {
+                $("#" + id).addClass("stats-small__percentage--increase");
+            }
         }
-        $("#" + id).html(Math.round(perc) + "%");
-        if (perc <= 0) {
-            perc = -1 * perc;
-            $("#" + id).addClass("stats-small__percentage--decrease");
-        } else {
-            $("#" + id).addClass("stats-small__percentage--increase");
-        }
-    }
 
-    function generate_posts(data) {
-        $("#top-tweets .card-body").remove();
-        data["twitter_links"].forEach(function (post) {
-            $("#top-tweets").append("<div class=\"card-body p-0\">\n" +
-                "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
-                "                      <div class=\"blog-comments__avatar mr-3\">\n" +
-                "                        <img src=\"https://seeklogo.net/wp-content/uploads/2015/11/twitter-logo.png\" alt=\"User avatar\" /> </div>\n" +
-                "                      <div class=\"blog-comments__content\">\n" +
-                "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
-                "                        <div class=\"blog-comments__actions\">\n" +
-                "                          <div class=\"btn-group btn-group-sm\">\n" +
-                "                            <button type=\"button\" class=\"btn btn-white\">\n" +
-                "                              <span class=\"text-success\">\n" +
-                "                                <i class=\"material-icons\">thumb_up</i>\n" +
-                "                              </span>" + post[2] + "</button>\n" +
-                "                            <button type=\"button\" class=\"btn btn-white\">\n" +
-                "                              <span class=\"text-danger\">\n" +
-                "                                <i class=\"material-icons\">comment</i>\n" +
-                "                              </span>" + post[4] + "</button>\n" +
-                "                            <button type=\"button\" class=\"btn btn-white\">\n" +
-                "                              <span class=\"text-light\">\n" +
-                "                                <i class=\"material-icons\">share</i>\n" +
-                "                              </span>" + post[3] + "</button>\n" +
-                "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
-                "                              <span class=\"text-light\">\n" +
-                "                                <i class=\"material-icons\">open_in_new</i>\n" +
-                "                              </span> Переглянути </a>\n" +
-                "                              </a>\n" +
-                "                          </div>\n" +
-                "                        </div>\n" +
-                "                          <div class=\"blog-comments__actions\">\n" +
-                "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
-                "                              <span class=\"text-light\">\n" +
-                "                                <i class=\"material-icons\">open_in_new</i>\n" +
-                "                              </span> Переглянути </a>\n" +
-                "                              </a>\n" +
-                "                        </div>\n" +
-                "                      </div>\n" +
-                "                    </div>\n" +
-                "                  </div>");
+        function generate_posts(data) {
+            $("#top-tweets .card-body").remove();
+            data["twitter_links"].forEach(function(post) {
+                $("#top-tweets").append("<div class=\"card-body p-0\">\n" +
+                    "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
+                    "                      <div class=\"blog-comments__avatar mr-3\">\n" +
+                    "                        <img src=\"https://seeklogo.net/wp-content/uploads/2015/11/twitter-logo.png\" alt=\"User avatar\" /> </div>\n" +
+                    "                      <div class=\"blog-comments__content\">\n" +
+                    "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
+                    "                        <div class=\"blog-comments__actions\">\n" +
+                    "                          <div class=\"btn-group btn-group-sm\">\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-success\">\n" +
+                    "                                <i class=\"material-icons\">thumb_up</i>\n" +
+                    "                              </span>" + post[2] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-danger\">\n" +
+                    "                                <i class=\"material-icons\">comment</i>\n" +
+                    "                              </span>" + post[4] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">share</i>\n" +
+                    "                              </span>" + post[3] + "</button>\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                          </div>\n" +
+                    "                        </div>\n" +
+                    "                          <div class=\"blog-comments__actions\">\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                        </div>\n" +
+                    "                      </div>\n" +
+                    "                    </div>\n" +
+                    "                  </div>");
+            });
+            $("#top-tg-posts .card-body").remove();
+            data["telegram_links"].forEach(function(post) {
+                $("#top-tg-posts").append("<div class=\"card-body p-0\">\n" +
+                    "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
+                    "                      <div class=\"blog-comments__avatar mr-3\">\n" +
+                    "                        <img src=\"https://cdn0.iconfinder.com/data/icons/social-network-24/512/Telegram-512.png\" alt=\"User avatar\" /> </div>\n" +
+                    "                      <div class=\"blog-comments__content\">\n" +
+                    "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
+                    "                        <div class=\"blog-comments__actions\">\n" +
+                    "                          <div class=\"btn-group btn-group-sm\">\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-success\">\n" +
+                    "                                <i class=\"material-icons\">visibility</i>\n" +
+                    "                              </span>" + post[3] + "</button>\n" +
+                    "                            <button type=\"button\" class=\"btn btn-white\">\n" +
+                    "                              <span class=\"text-danger\">\n" +
+                    "                                <i class=\"material-icons\">tag_faces</i>\n" +
+                    "                              </span>" + post[2] + "</button>\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                              </div>\n" +
+                    "                          </div>\n" +
+                    "                           <div class=\"blog-comments__actions\">\n" +
+                    "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
+                    "                              <span class=\"text-light\">\n" +
+                    "                                <i class=\"material-icons\">open_in_new</i>\n" +
+                    "                              </span> Переглянути </a>\n" +
+                    "                              </a>\n" +
+                    "                          </div>\n" +
+                    "                        </div>\n" +
+                    "                        </div>\n" +
+                    "                      </div>\n" +
+                    "                    </div>");
+            });
+        }
+
+        function showStatistics(keyword_name, keyword_data) {
+            console.log(keyword_data);
+            var tw_interactions = keyword_data["twitter_likes"][0] + keyword_data["twitter_replies"][0] + keyword_data["twitter_retweets"][0];
+            var tw_interactions_yesterday = keyword_data["twitter_likes"][1] + keyword_data["twitter_replies"][1] + keyword_data["twitter_retweets"][1];
+            console.log("tw_interactions", tw_interactions, tw_interactions_yesterday);
+            var tg_interactions = keyword_data["telegram_reaction"][0];
+            var tg_interactions_yesterday = keyword_data["telegram_reaction"][1];
+
+            var views = keyword_data["telegram_views"][0];
+            var views_yesterday = keyword_data["telegram_views"][1];
+
+            var tweets = keyword_data["twitter_posts"][0];
+            var tweets_yesterday = keyword_data["twitter_posts"][1];
+
+            var tg_posts = keyword_data["telegram_posts"][0];
+            var tg_posts_yesterday = keyword_data["telegram_posts"][1];
+
+            setTrend(tw_interactions, tw_interactions_yesterday, "tw_interactions_perc");
+            setTrend(tg_interactions, tg_interactions_yesterday, "tg_interactions_perc");
+            setTrend(views, views_yesterday, "views_perc");
+            setTrend(tweets, tweets_yesterday, "tweets_perc");
+            setTrend(tg_posts, tg_posts_yesterday, "tg_posts_perc");
+
+            $("#tweets").html(tweets);
+            $("#tg_posts").html(tg_posts);
+            $("#cur_word").html(keyword_name);
+            $("#tw_interactions").html(tw_interactions);
+            $("#tg_interactions").html(tg_interactions);
+            $("#views").html(views);
+        }
+
+        function showCharts(keyword_data) {
+            var twitter_posts = keyword_data["twitter_posts"].slice().reverse();
+            var telegram_posts = keyword_data["telegram_posts"].slice().reverse();
+            $("#posts_chart").html("<canvas height=\"130\" style=\"max-width: 100% !important;\" class=\"blog-overview-users\"></canvas>");
+            drawLineChart(twitter_posts, telegram_posts);
+
+            var overview_data = [];
+
+            var tw_interactions = [];
+            for (var i = 0; i < keyword_data["twitter_likes"].length; i++) {
+                console.log("test",keyword_data["twitter_likes"][i], keyword_data["twitter_replies"][i],  keyword_data["twitter_retweets"][i])
+                tw_interactions.unshift(keyword_data["twitter_likes"][i] + keyword_data["twitter_replies"][i] + keyword_data["twitter_retweets"][i]);
+            }
+            console.log(tw_interactions);
+            var tg_interactions = keyword_data["telegram_reaction"].slice().reverse();
+            var views = keyword_data["telegram_views"].slice().reverse();
+            var tweets = keyword_data["twitter_posts"].slice().reverse();
+            var tg_posts = keyword_data["telegram_posts"].slice().reverse();
+
+            overview_data.push(tweets);
+            overview_data.push(tg_posts);
+            overview_data.push(tw_interactions);
+            overview_data.push(tg_interactions);
+            overview_data.push(views);
+            console.log(overview_data);
+            drawSmallCharts(overview_data);
+
+            $("#interactions_chart").html("<canvas height=\"220\" class=\"blog-users-by-device m-auto\"></canvas>");
+            var tw_interactions = [keyword_data["twitter_likes"][0], keyword_data["twitter_replies"][0], keyword_data["twitter_retweets"][0]];
+            showPieChart(tw_interactions);
+        }
+
+        var data = {{ data | safe }};
+        console.log(data);
+
+        $(document).ready(function() {
+            var keywords = data["keywords"];
+            if (Object.keys(keywords).length == 0) {
+                $("#no_data").removeClass("none");
+                $("#stats_text").addClass("none");
+                $("#stats").addClass("none");
+                $("#no_data h4").text("Вітаємо!");
+                $("#no_data div").children('p').eq(0).text("Додайте ключові слова, які Ви хочете відслідковувати, в меню");
+                $("#no_data h4").style.fontSize = "80px";
+                $("#no_data div p").style.fontSize = "20px";
+                return;
+            }
+            console.log(keywords);
+            for (var keyword_name in keywords) break;
+            var keyword_data = keywords[keyword_name];
+            showStatistics(keyword_name, keyword_data);
+            showCharts(keyword_data);
+            generate_posts(keyword_data);
         });
-        $("#top-tg-posts .card-body").remove();
-        data["telegram_links"].forEach(function (post) {
-            $("#top-tg-posts").append("<div class=\"card-body p-0\">\n" +
-                "                    <div class=\"blog-comments__item d-flex p-3\">\n" +
-                "                      <div class=\"blog-comments__avatar mr-3\">\n" +
-                "                        <img src=\"https://cdn0.iconfinder.com/data/icons/social-network-24/512/Telegram-512.png\" alt=\"User avatar\" /> </div>\n" +
-                "                      <div class=\"blog-comments__content\">\n" +
-                "                        <p class=\"m-0 my-1 mb-2 text-muted\">" + post[1] + "</p>\n" +
-                "                        <div class=\"blog-comments__actions\">\n" +
-                "                          <div class=\"btn-group btn-group-sm\">\n" +
-                "                            <button type=\"button\" class=\"btn btn-white\">\n" +
-                "                              <span class=\"text-success\">\n" +
-                "                                <i class=\"material-icons\">visibility</i>\n" +
-                "                              </span>" + post[3] + "</button>\n" +
-                "                            <button type=\"button\" class=\"btn btn-white\">\n" +
-                "                              <span class=\"text-danger\">\n" +
-                "                                <i class=\"material-icons\">tag_faces</i>\n" +
-                "                              </span>" + post[2] + "</button>\n" +
-                "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-none-mobile\">\n" +
-                "                              <span class=\"text-light\">\n" +
-                "                                <i class=\"material-icons\">open_in_new</i>\n" +
-                "                              </span> Переглянути </a>\n" +
-                "                              </a>\n" +
-                "                              </div>\n" +
-                "                          </div>\n" +
-                "                           <div class=\"blog-comments__actions\">\n" +
-                "                              <a href=\"" + post[0] + "\" target='_blank' class=\"btn btn-white d-block-mobile\">\n" +
-                "                              <span class=\"text-light\">\n" +
-                "                                <i class=\"material-icons\">open_in_new</i>\n" +
-                "                              </span> Переглянути </a>\n" +
-                "                              </a>\n" +
-                "                          </div>\n" +
-                "                        </div>\n" +
-                "                        </div>\n" +
-                "                      </div>\n" +
-                "                    </div>");
-        });
-    }
 
-    function showStatistics(keyword_name, keyword_data) {
-        console.log(keyword_data);
-        var tw_interactions = keyword_data["twitter_likes"][0] + keyword_data["twitter_replies"][0] + keyword_data["twitter_retweets"][0];
-        var tw_interactions_yesterday = keyword_data["twitter_likes"][1] + keyword_data["twitter_replies"][1] + keyword_data["twitter_retweets"][1];
-        console.log("tw_interactions", tw_interactions, tw_interactions_yesterday);
-        var tg_interactions = keyword_data["telegram_reaction"][0];
-        var tg_interactions_yesterday = keyword_data["telegram_reaction"][1];
-
-        var views = keyword_data["telegram_views"][0];
-        var views_yesterday = keyword_data["telegram_views"][1];
-
-        var tweets = keyword_data["twitter_posts"][0];
-        var tweets_yesterday = keyword_data["twitter_posts"][1];
-
-        var tg_posts = keyword_data["telegram_posts"][0];
-        var tg_posts_yesterday = keyword_data["telegram_posts"][1];
-
-        setTrend(tw_interactions, tw_interactions_yesterday, "tw_interactions_perc");
-        setTrend(tg_interactions, tg_interactions_yesterday, "tg_interactions_perc");
-        setTrend(views, views_yesterday, "views_perc");
-        setTrend(tweets, tweets_yesterday, "tweets_perc");
-        setTrend(tg_posts, tg_posts_yesterday, "tg_posts_perc");
-
-        $("#tweets").html(tweets);
-        $("#tg_posts").html(tg_posts);
-        $("#cur_word").html(keyword_name);
-        $("#tw_interactions").html(tw_interactions);
-        $("#tg_interactions").html(tg_interactions);
-        $("#views").html(views);
-    }
-
-    function showCharts(keyword_data) {
-        var twitter_posts = keyword_data["twitter_posts"].slice().reverse();
-        var telegram_posts = keyword_data["telegram_posts"].slice().reverse();
-        $("#posts_chart").html("<canvas height=\"130\" style=\"max-width: 100% !important;\" class=\"blog-overview-users\"></canvas>");
-        drawLineChart(twitter_posts, telegram_posts);
-
-        var overview_data = [];
-
-        var tw_interactions = [];
-        for (var i = 0; i < keyword_data["twitter_likes"].length; i++) {
-            console.log("test", keyword_data["twitter_likes"][i], keyword_data["twitter_replies"][i], keyword_data["twitter_retweets"][i])
-            tw_interactions.unshift(keyword_data["twitter_likes"][i] + keyword_data["twitter_replies"][i] + keyword_data["twitter_retweets"][i]);
-        }
-        console.log(tw_interactions);
-        var tg_interactions = keyword_data["telegram_reaction"].slice().reverse();
-        var views = keyword_data["telegram_views"].slice().reverse();
-        var tweets = keyword_data["twitter_posts"].slice().reverse();
-        var tg_posts = keyword_data["telegram_posts"].slice().reverse();
-
-        overview_data.push(tweets);
-        overview_data.push(tg_posts);
-        overview_data.push(tw_interactions);
-        overview_data.push(tg_interactions);
-        overview_data.push(views);
-        console.log(overview_data);
-        drawSmallCharts(overview_data);
-
-        $("#interactions_chart").html("<canvas height=\"220\" class=\"blog-users-by-device m-auto\"></canvas>");
-        var tw_interactions = [keyword_data["twitter_likes"][0], keyword_data["twitter_replies"][0], keyword_data["twitter_retweets"][0]];
-        showPieChart(tw_interactions);
-    }
-
-    var data = {{ data | safe }};
-    console.log(data);
-
-    $(document).ready(function () {
-        var keywords = data["keywords"];
-        if (Object.keys(keywords).length == 0) {
-            $("#no_data").removeClass("none");
-            $("#stats_text").addClass("none");
-            $("#stats").addClass("none");
-            $("#no_data h4").text("Вітаємо!");
-            $("#no_data div").children('p').eq(0).text("Додайте ключові слова, які Ви хочете відслідковувати, в меню");
-            $("#no_data h4").style.fontSize = "80px";
-            $("#no_data div p").style.fontSize = "20px";
-            return;
-        }
-        console.log(keywords);
-        for (var keyword_name in keywords) break;
-        var keyword_data = keywords[keyword_name];
-        showStatistics(keyword_name, keyword_data);
-        showCharts(keyword_data);
-        generate_posts(keyword_data);
-    });
-
-    $(".user_keyword").click(function (e) {
-        e.preventDefault();
-        $("#keywords_list a").parent().find('a').removeClass("active");
-        $(".user_keyword i").parent().find('i').text("check_circle_outline");
-        $(this).addClass("active");
-        $(this).find("i").text("check_circle");
-        var keywords = data["keywords"];
-        var keyword_name = $(this).find("span").text();
-        var keyword_data = keywords[keyword_name];
-        if (Object.keys(keyword_data).length == 0) {
-            $("#no_data").removeClass("none");
-            $("#chart_stats").addClass("none");
-            $("#stats").addClass("none");
-            $("#no_data h4").text("Даних поки замало");
-            $("#no_data div").children('p').eq(0).text("Якщо Ви тільки додали ключове слово, то потрібно зачекати декілька днів для того, щоб з'явилася інформація.");
-            $("#no_data div").children('p').eq(1).text("Можливо, задане ключове слово зустрічається дуже рідко");
-            $("#no_data h4").style.fontSize = "30px";
-            $("#no_data div p").style.fontSize = "10px";
-            return;
-        } else {
-            $("#no_data").addClass("none");
-            $("#chart_stats").removeClass("none");
-            $("#stats_text").removeClass("none");
-            $("#stats").removeClass("none");
-        }
-        console.log("data", keyword_name, keyword_data);
-        showStatistics(keyword_name, keyword_data);
-        showCharts(keyword_data);
-        generate_posts(keyword_data);
-    })
-</script>
-</body>
+        $(".user_keyword").click(function(e){
+            e.preventDefault();
+            $("#keywords_list a").parent().find('a').removeClass("active");
+            $(".user_keyword i").parent().find('i').text("check_circle_outline");
+            $(this).addClass("active");
+            $(this).find("i").text("check_circle");
+            var keywords = data["keywords"];
+            var keyword_name = $(this).find("span").text();
+            var keyword_data = keywords[keyword_name];
+            if (Object.keys(keyword_data).length == 0) {
+                $("#no_data").removeClass("none");
+                $("#chart_stats").addClass("none");
+                $("#stats").addClass("none");
+                $("#no_data h4").text("Даних поки замало");
+                $("#no_data div").children('p').eq(0).text("Якщо Ви тільки додали ключове слово, то потрібно зачекати декілька днів для того, щоб з'явилася інформація.");
+                $("#no_data div").children('p').eq(1).text("Можливо, задане ключове слово зустрічається дуже рідко");
+                $("#no_data h4").style.fontSize = "30px";
+                $("#no_data div p").style.fontSize = "10px";
+                return;
+            } else {
+                $("#no_data").addClass("none");
+                $("#chart_stats").removeClass("none");
+                $("#stats_text").removeClass("none");
+                $("#stats").removeClass("none");
+            }
+            console.log("data", keyword_name, keyword_data);
+            showStatistics(keyword_name, keyword_data);
+            showCharts(keyword_data);
+            generate_posts(keyword_data);
+        })
+    </script>
+  </body>
 
 </html>
