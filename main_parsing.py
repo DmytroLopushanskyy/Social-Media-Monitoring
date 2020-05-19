@@ -27,9 +27,9 @@ def attach_to_session(executor_url, session_id, options, proxy):
     def new_command_execute(self, command, params=None):
         """ Mock the response """
         if command == "newSession":
-
             return {'success': 0, 'value': None, 'sessionId': session_id}
         return original_execute(self, command, params)
+
     # Patch the function before creating the driver object
     WebDriver.execute = new_command_execute
     webdriver.DesiredCapabilities.CHROME['proxy'] = {
@@ -106,24 +106,26 @@ class Parser:
         """
         parse_twitter(self)
 
-
     @staticmethod
-    def by_class(search_in, class_name, get_text=False):
+    def by_class(search_in, class_name, get_text=False, parse_all=False):
         """
         Search for an element by its class_name.
         :param search_in: Selenium WebElement
         :param class_name: str
         :param get_text: bool
+        :param parse_all: bool
         :return: Selenium WebElement or None if not found
         """
         result = None
         try:
-            result = search_in.find_element_by_class_name(class_name)
-            if result and get_text:
-                result = result.text
+            if parse_all:
+                result = search_in.find_elements_by_class_name(class_name)
+            else:
+                result = search_in.find_element_by_class_name(class_name)
+                if result and get_text:
+                    result = result.text
         except NoSuchElementException:
             pass
-
         return result
 
     def quit(self):
@@ -200,7 +202,7 @@ class Parser:
         # logger.info("Reloading capabilities")
         # browser.desired_capabilities.update(options.to_capabilities())
 
-        #browser.set_window_position(0, 0)
+        # browser.set_window_position(0, 0)
         browser.set_window_size(320, 9999)
         # browser.header_overrides = {
         #     'user-agent': 'Mozilla/5.0',
