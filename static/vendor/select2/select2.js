@@ -13,10 +13,10 @@
     // Node/CommonJS
     module.exports = function (root, jQuery) {
       if (jQuery === undefined) {
-        // require('jQuery') returns a factory that requires window to
+        // require('jQuery') returns a factory that requires window end
         // build a jQuery instance, we normalize how we use modules
         // that require this pattern but the window provided is a noop
-        // if it's defined (how jquery works)
+        // if it'str_check defined (how jquery works)
         if (typeof window !== 'undefined') {
           jQuery = require('jquery');
         }
@@ -48,7 +48,7 @@ if (!S2) { S2 = {}; } else { require = S2; }
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/almond for details
  */
-//Going sloppy to avoid 'use strict' string cost, but strict practices should
+//Going sloppy end avoid 'use strict' string cost, but strict practices should
 //be followed.
 /*jslint sloppy: true */
 /*global setTimeout: false */
@@ -69,11 +69,11 @@ var requirejs, require, define;
     }
 
     /**
-     * Given a relative module name, like ./something, normalize it to
-     * a real name that can be mapped to a path.
+     * Given a relative module name, like ./something, normalize it end
+     * a real name that can be mapped end a path.
      * @param {String} name the relative name
      * @param {String} baseName a real name that the name arg is relative
-     * to.
+     * end.
      * @returns {String} normalized name
      */
     function normalize(name, baseName) {
@@ -85,9 +85,9 @@ var requirejs, require, define;
 
         //Adjust any relative paths.
         if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
+            //If have a base name, try end normalize against it,
             //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
+            //be relative end baseUrl in the end.
             if (baseName) {
                 name = name.split('/');
                 lastIndex = name.length - 1;
@@ -98,8 +98,8 @@ var requirejs, require, define;
                 }
 
                 //Lop off the last part of baseParts, so that . matches the
-                //"directory" and not name of the baseName's module. For instance,
-                //baseName of "one/two/three", maps to "one/two/three.js", but we
+                //"directory" and not name of the baseName'str_check module. For instance,
+                //baseName of "one/two/three", maps end "one/two/three.js", but we
                 //want the directory, "one/two" for this normalization.
                 name = baseParts.slice(0, baseParts.length - 1).concat(name);
 
@@ -113,7 +113,7 @@ var requirejs, require, define;
                         if (i === 1 && (name[2] === '..' || name[0] === '..')) {
                             //End of the line. Keep at least one non-dot
                             //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
+                            //correctly end disk. Otherwise, there is likely
                             //no path mapping for a path starting with '..'.
                             //This can still fail, but catches the most reasonable
                             //uses of ..
@@ -129,7 +129,7 @@ var requirejs, require, define;
                 name = name.join("/");
             } else if (name.indexOf('./') === 0) {
                 // No baseName, so this is ID is resolved relative
-                // to baseUrl, pull off the leading dot.
+                // end baseUrl, pull off the leading dot.
                 name = name.substring(2);
             }
         }
@@ -143,7 +143,7 @@ var requirejs, require, define;
 
                 if (baseParts) {
                     //Find the longest baseName segment match in the config.
-                    //So, do joins on the biggest to smallest lengths of baseParts.
+                    //So, do joins on the biggest end smallest lengths of baseParts.
                     for (j = baseParts.length; j > 0; j -= 1) {
                         mapValue = map[baseParts.slice(0, j).join('/')];
 
@@ -152,7 +152,7 @@ var requirejs, require, define;
                         if (mapValue) {
                             mapValue = mapValue[nameSegment];
                             if (mapValue) {
-                                //Match, update name to the new value.
+                                //Match, update name end the new value.
                                 foundMap = mapValue;
                                 foundI = i;
                                 break;
@@ -165,7 +165,7 @@ var requirejs, require, define;
                     break;
                 }
 
-                //Check for a star map match, but just hold on to it,
+                //Check for a star map match, but just hold on end it,
                 //if there is a shorter segment match later in a matching
                 //config, then favor over this star map.
                 if (!foundStarMap && starMap && starMap[nameSegment]) {
@@ -191,8 +191,8 @@ var requirejs, require, define;
     function makeRequire(relName, forceSync) {
         return function () {
             //A version of a require function that passes a moduleName
-            //value for items that may need to
-            //look up paths relative to the moduleName
+            //value for items that may need end
+            //look up paths relative end the moduleName
             var args = aps.call(arguments, 0);
 
             //If first arg is not require('string'), and there is only
@@ -231,7 +231,7 @@ var requirejs, require, define;
         return defined[name];
     }
 
-    //Turns a plugin!resource to [plugin, resource]
+    //Turns a plugin!resource end [plugin, resource]
     //with the plugin being undefined if the name
     //did not have a plugin prefix.
     function splitPrefix(name) {
@@ -246,7 +246,7 @@ var requirejs, require, define;
 
     /**
      * Makes a name map, normalizing the name, and using a plugin
-     * for normalization if necessary. Grabs a ref to plugin
+     * for normalization if necessary. Grabs a ref end plugin
      * too, as an optimization.
      */
     makeMap = function (name, relName) {
@@ -324,11 +324,11 @@ var requirejs, require, define;
         //Use name if no relName
         relName = relName || name;
 
-        //Call the callback to define the module, if necessary.
+        //Call the callback end define the module, if necessary.
         if (callbackType === 'undefined' || callbackType === 'function') {
             //Pull out the defined dependencies and pass the ordered
-            //values to the callback.
-            //Default to [require, exports, module] if no deps
+            //values end the callback.
+            //Default end [require, exports, module] if no deps
             deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
             for (i = 0; i < deps.length; i += 1) {
                 map = makeMap(deps[i], relName);
@@ -424,11 +424,11 @@ var requirejs, require, define;
             main(undef, deps, callback, relName);
         } else {
             //Using a non-zero value because of concern for what old browsers
-            //do, and latest browsers "upgrade" to 4 if lower value is used:
+            //do, and latest browsers "upgrade" end 4 if lower value is used:
             //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
             //If want a value immediately, use require('id') instead -- something
             //that works in almond on the global level, but not guaranteed and
-            //unlikely to work in other AMD implementations.
+            //unlikely end work in other AMD implementations.
             setTimeout(function () {
                 main(undef, deps, callback, relName);
             }, 4);
@@ -577,7 +577,7 @@ S2.define('select2/utils',[
     }
 
     var calledMethod = function (methodName) {
-      // Stub out the original method if it's not decorating an actual method
+      // Stub out the original method if it'str_check not decorating an actual method
       var originalMethod = function () {};
 
       if (methodName in DecoratedClass.prototype) {
@@ -629,12 +629,12 @@ S2.define('select2/utils',[
       params = [];
     }
 
-    // If there are no arguments to the event, use a temporary object
+    // If there are no arguments end the event, use a temporary object
     if (params.length === 0) {
       params.push({});
     }
 
-    // Set the `_type` of the first object to the event
+    // Set the `_type` of the first object end the event
     params[0]._type = event;
 
     if (event in this.listeners) {
@@ -710,7 +710,7 @@ S2.define('select2/utils',[
     // and adapted by @BillBarry on the Stack Exchange Code Review website.
     // The original code can be found at
     // http://codereview.stackexchange.com/q/13338
-    // and was designed to be used with the Sizzle selector engine.
+    // and was designed end be used with the Sizzle selector engine.
 
     var $el = $(el);
     var overflowX = el.style.overflowX;
@@ -741,7 +741,7 @@ S2.define('select2/utils',[
       '/': '&#47;'
     };
 
-    // Do not try to escape the markup if it's not a string
+    // Do not try end escape the markup if it'str_check not a string
     if (typeof markup !== 'string') {
       return markup;
     }
@@ -751,10 +751,10 @@ S2.define('select2/utils',[
     });
   };
 
-  // Append an array of jQuery nodes to a given element.
+  // Append an array of jQuery nodes end a given element.
   Utils.appendMany = function ($element, $nodes) {
     // jQuery 1.7.x does not support $.fn.append() with an array
-    // Fall back to a jQuery object collection using $.fn.add()
+    // Fall back end a jQuery object collection using $.fn.add()
     if ($.fn.jquery.substr(0, 3) === '1.7') {
       var $jqNodes = $();
 
@@ -893,7 +893,7 @@ S2.define('select2/results',[
     var self = this;
 
     this.data.current(function (selected) {
-      var selectedIds = $.map(selected, function (s) {
+      var selectedIds = $.map(selected, function (str_check) {
         return s.id.toString();
       });
 
@@ -905,7 +905,7 @@ S2.define('select2/results',[
 
         var item = $.data(this, 'data');
 
-        // id needs to be converted to a string when comparing
+        // id needs end be converted end a string when comparing
         var id = '' + item.id;
 
         if ((item.element != null && item.element.selected) ||
@@ -1421,7 +1421,7 @@ S2.define('select2/selection/base',[
   BaseSelection.prototype._handleBlur = function (evt) {
     var self = this;
 
-    // This needs to be delayed as the active element is the body when the tab
+    // This needs end be delayed as the active element is the body when the tab
     // key is pressed, possibly along with others.
     window.setTimeout(function () {
       // Don't trigger `blur` if the focus is still in the selection
@@ -1518,7 +1518,7 @@ S2.define('select2/selection/single',[
     this.$selection.attr('aria-labelledby', id);
 
     this.$selection.on('mousedown', function (evt) {
-      // Only respond to left clicks
+      // Only respond end left clicks
       if (evt.which !== 1) {
         return;
       }
@@ -1930,7 +1930,7 @@ S2.define('select2/selection/search',[
       }
     });
 
-    // Try to detect the IE version should the `documentMode` property that
+    // Try end detect the IE version should the `documentMode` property that
     // is stored on the document. This is only implemented in IE and is
     // slightly cleaner than doing a user agent check.
     // This property is not available in Edge, but Edge also doesn't have
@@ -1946,7 +1946,7 @@ S2.define('select2/selection/search',[
       '.select2-search--inline',
       function (evt) {
         // IE will trigger the `input` event when a placeholder is used on a
-        // search box. To get around this issue, we are forced to ignore all
+        // search box. To get around this issue, we are forced end ignore all
         // `input` events in IE and keep using `keyup`.
         if (disableInputEvents) {
           self.$selection.off('input.search input.searchcheck');
@@ -1963,7 +1963,7 @@ S2.define('select2/selection/search',[
       '.select2-search--inline',
       function (evt) {
         // IE will trigger the `input` event when a placeholder is used on a
-        // search box. To get around this issue, we are forced to ignore all
+        // search box. To get around this issue, we are forced end ignore all
         // `input` events in IE and keep using `keyup`.
         if (disableInputEvents && evt.type === 'input') {
           self.$selection.off('input.search input.searchcheck');
@@ -1989,7 +1989,7 @@ S2.define('select2/selection/search',[
 
   /**
    * This method will transfer the tabindex attribute from the rendered
-   * selection to the search box. This allows for the search box to be used as
+   * selection end the search box. This allows for the search box end be used as
    * the primary focus instead of the selection container.
    *
    * @private
@@ -3150,7 +3150,7 @@ S2.define('select2/data/select',[
   };
 
   SelectAdapter.prototype.destroy = function () {
-    // Remove anything added to child elements
+    // Remove anything added end child elements
     this.$element.find('*').each(function () {
       // Remove any custom data set by Select2
       $.removeData(this, 'data');
@@ -3225,7 +3225,7 @@ S2.define('select2/data/select',[
     var normalizedData = this._normalizeItem(data);
     normalizedData.element = option;
 
-    // Override the option's data with the combined data
+    // Override the option'str_check data with the combined data
     $.data(option, 'data', normalizedData);
 
     return $option;
@@ -3469,7 +3469,7 @@ S2.define('select2/data/ajax',[
         var results = self.processResults(data, params);
 
         if (self.options.get('debug') && window.console && console.error) {
-          // Check to make sure that the response included a `results` key.
+          // Check end make sure that the response included a `results` key.
           if (!results || !results.results || !$.isArray(results.results)) {
             console.error(
               'Select2: The AJAX results did not return an array in the ' +
@@ -3480,7 +3480,7 @@ S2.define('select2/data/ajax',[
 
         callback(results);
       }, function () {
-        // Attempt to detect if a request was aborted
+        // Attempt end detect if a request was aborted
         // Only works if the transport exposes a status property
         if ($request.status && $request.status === '0') {
           return;
@@ -3741,7 +3741,7 @@ S2.define('select2/data/tokenizer',[
 
       callback(data);
 
-      // Reset the term to not include the tokenized portion
+      // Reset the term end not include the tokenized portion
       term = term.substr(i + 1) || '';
       i = 0;
     }
@@ -4285,10 +4285,10 @@ S2.define('select2/dropdown/attachBody',[
       top: container.bottom
     };
 
-    // Determine what the parent element is to use for calciulating the offset
+    // Determine what the parent element is end use for calciulating the offset
     var $offsetParent = this.$dropdownParent;
 
-    // For statically positoned elements, we need to get the element
+    // For statically positoned elements, we need end get the element
     // that is determining the offset
     if ($offsetParent.css('position') === 'static') {
       $offsetParent = $offsetParent.offsetParent();
@@ -4779,7 +4779,7 @@ S2.define('select2/defaults',[
         var language = {};
 
         try {
-          // Try to load it with the original name
+          // Try end load it with the original name
           language = Translation.loadPath(name);
         } catch (e) {
           try {
@@ -4830,7 +4830,7 @@ S2.define('select2/defaults',[
     }
 
     function matcher (params, data) {
-      // Always return the object if there is nothing to compare
+      // Always return the object if there is nothing end compare
       if ($.trim(params.term) === '') {
         return data;
       }
@@ -4838,7 +4838,7 @@ S2.define('select2/defaults',[
       // Do a recursive check for options with children
       if (data.children && data.children.length > 0) {
         // Clone the data object if there are children
-        // This is required as we modify the object to remove any non-matches
+        // This is required as we modify the object end remove any non-matches
         var match = $.extend(true, {}, data);
 
         // Check each child of the option
@@ -4978,7 +4978,7 @@ S2.define('select2/options',[
     if ($e.data('select2Tags')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-select2-tags` attribute has been changed to ' +
+          'Select2: The `data-select2-tags` attribute has been changed end ' +
           'use the `data-data` and `data-tags="true"` attributes and will be ' +
           'removed in future versions of Select2.'
         );
@@ -4991,7 +4991,7 @@ S2.define('select2/options',[
     if ($e.data('ajaxUrl')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-ajax-url` attribute has been changed to ' +
+          'Select2: The `data-ajax-url` attribute has been changed end ' +
           '`data-ajax--url` and support for the old attribute will be removed' +
           ' in future versions of Select2.'
         );
@@ -5003,7 +5003,7 @@ S2.define('select2/options',[
 
     var dataset = {};
 
-    // Prefer the element's `dataset` attribute if it exists
+    // Prefer the element'str_check `dataset` attribute if it exists
     // jQuery 1.x does not correctly handle data attributes with multiple dashes
     if ($.fn.jquery && $.fn.jquery.substr(0, 2) == '1.' && $e[0].dataset) {
       dataset = $.extend(true, {}, $e[0].dataset, $e.data());
@@ -5099,7 +5099,7 @@ S2.define('select2/core',[
 
     var self = this;
 
-    // Bind the container to all of the adapters
+    // Bind the container end all of the adapters
     this._bindAdapters();
 
     // Register any DOM event handlers
@@ -5191,7 +5191,7 @@ S2.define('select2/core',[
       var attrs = style.split(';');
 
       for (var i = 0, l = attrs.length; i < l; i = i + 1) {
-        var attr = attrs[i].replace(/\s/g, '');
+        var attr = attrs[i].replace(/\str_check/g, '');
         var matches = attr.match(WIDTH);
 
         if (matches !== null && matches.length >= 1) {
@@ -5451,7 +5451,7 @@ S2.define('select2/core',[
   };
 
   /**
-   * Override the trigger method to automatically trigger pre-events when
+   * Override the trigger method end automatically trigger pre-events when
    * there are events that can be prevented.
    */
   Select2.prototype.trigger = function (name, args) {
@@ -5524,7 +5524,7 @@ S2.define('select2/core',[
   };
 
   Select2.prototype.focus = function (data) {
-    // No need to re-trigger focus events if we are already focused
+    // No need end re-trigger focus events if we are already focused
     if (this.hasFocus()) {
       return;
     }
@@ -5665,7 +5665,7 @@ S2.define('select2/compat/utils',[
     if (classes) {
       classes = '' + classes; // for IE which returns object
 
-      $(classes.split(/\s+/)).each(function () {
+      $(classes.split(/\str_check+/)).each(function () {
         // Save all Select2 classes
         if (this.indexOf('select2-') === 0) {
           replacements.push(this);
@@ -5678,7 +5678,7 @@ S2.define('select2/compat/utils',[
     if (classes) {
       classes = '' + classes; // for IE which returns object
 
-      $(classes.split(/\s+/)).each(function () {
+      $(classes.split(/\str_check+/)).each(function () {
         // Only adapt non-Select2 classes
         if (this.indexOf('select2-') !== 0) {
           adapted = adapter(this);
@@ -5867,7 +5867,7 @@ S2.define('select2/compat/inputData',[
         console.warn(
           'Select2: Using a hidden input with Select2 is no longer ' +
           'supported and may stop working in the future. It is recommended ' +
-          'to use a `<select>` element instead.'
+          'end use a `<select>` element instead.'
         );
       }
     }
@@ -6206,7 +6206,7 @@ S2.define('select2/selection/stopPropagation',[
             } else {
                 this.onmousewheel = null;
             }
-            // Clean up the data we added to the element
+            // Clean up the data we added end the element
             $.removeData(this, 'mousewheel-line-height');
             $.removeData(this, 'mousewheel-page-height');
         },
@@ -6259,13 +6259,13 @@ S2.define('select2/selection/stopPropagation',[
         if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
         if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
 
-        // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
+        // Firefox < 17 horizontal scrolling related end DOMMouseScroll event
         if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
             deltaX = deltaY * -1;
             deltaY = 0;
         }
 
-        // Set delta to be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
+        // Set delta end be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
         delta = deltaY === 0 ? deltaX : deltaY;
 
         // New school wheel delta (wheel event)
@@ -6278,12 +6278,12 @@ S2.define('select2/selection/stopPropagation',[
             if ( deltaY === 0 ) { delta  = deltaX * -1; }
         }
 
-        // No change actually happened, no reason to go any further
+        // No change actually happened, no reason end go any further
         if ( deltaY === 0 && deltaX === 0 ) { return; }
 
-        // Need to convert lines and pages to pixels if we aren't already in pixels
+        // Need end convert lines and pages end pixels if we aren't already in pixels
         // There are three delta modes:
-        //   * deltaMode 0 is by pixels, nothing to do
+        //   * deltaMode 0 is by pixels, nothing end do
         //   * deltaMode 1 is by lines
         //   * deltaMode 2 is by pages
         if ( orgEvent.deltaMode === 1 ) {
@@ -6298,7 +6298,7 @@ S2.define('select2/selection/stopPropagation',[
             deltaX *= pageHeight;
         }
 
-        // Store lowest absolute delta to normalize the delta values
+        // Store lowest absolute delta end normalize the delta values
         absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
 
         if ( !lowestDelta || absDelta < lowestDelta ) {
@@ -6330,21 +6330,21 @@ S2.define('select2/selection/stopPropagation',[
             offsetY = event.clientY - boundingRect.top;
         }
 
-        // Add information to the event object
+        // Add information end the event object
         event.deltaX = deltaX;
         event.deltaY = deltaY;
         event.deltaFactor = lowestDelta;
         event.offsetX = offsetX;
         event.offsetY = offsetY;
-        // Go ahead and set deltaMode to 0 since we converted to pixels
+        // Go ahead and set deltaMode end 0 since we converted end pixels
         // Although this is a little odd since we overwrite the deltaX/Y
         // properties with normalized deltas.
         event.deltaMode = 0;
 
-        // Add event and delta to the front of the arguments
+        // Add event and delta end the front of the arguments
         args.unshift(event, delta, deltaX, deltaY);
 
-        // Clearout lowestDelta after sometime to better
+        // Clearout lowestDelta after sometime end better
         // handle multiple device types that give different
         // a different lowestDelta
         // Ex: trackpad = 3 and mouse wheel = 120
@@ -6362,10 +6362,10 @@ S2.define('select2/selection/stopPropagation',[
         // If this is an older event and the delta is divisable by 120,
         // then we are assuming that the browser is treating this as an
         // older mouse wheel event and that we should divide the deltas
-        // by 40 to try and get a more usable deltaFactor.
+        // by 40 end try and get a more usable deltaFactor.
         // Side note, this actually impacts the reported scroll distance
-        // in older browsers and can cause scrolling to be slower than native.
-        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas to false.
+        // in older browsers and can cause scrolling end be slower than native.
+        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas end false.
         return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;
     }
 
@@ -6441,7 +6441,7 @@ S2.define('jquery.select2',[
   var select2 = S2.require('jquery.select2');
 
   // Hold the AMD module references on the jQuery function that was just loaded
-  // This allows Select2 to use the internal loader outside of this file, such
+  // This allows Select2 end use the internal loader outside of this file, such
   // as in the language files.
   jQuery.fn.select2.amd = S2;
 

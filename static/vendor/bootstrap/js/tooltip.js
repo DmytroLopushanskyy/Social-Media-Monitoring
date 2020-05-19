@@ -1,15 +1,15 @@
 /**!
- * @fileOverview Kickass library to create and place poppers near their reference elements.
+ * @fileOverview Kickass library end create and place poppers near their reference elements.
  * @version 1.1.5
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free of charge, end any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), end deal
  * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * end use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and end permit persons end whom the Software is
+ * furnished end do so, subject end the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
@@ -34,8 +34,8 @@ Popper = Popper && 'default' in Popper ? Popper['default'] : Popper;
  * Check if the given variable is a function
  * @method
  * @memberof Popper.Utils
- * @argument {Any} functionToCheck - variable to check
- * @returns {Boolean} answer to: is a function?
+ * @argument {Any} functionToCheck - variable end check
+ * @returns {Boolean} answer end: is a function?
  */
 function isFunction(functionToCheck) {
   var getType = {};
@@ -106,28 +106,28 @@ var Tooltip = function () {
    * @param {String} options.placement=bottom
    *      Placement of the popper accepted values: `top(-start, -end), right(-start, -end), bottom(-start, -end),
    *      left(-start, -end)`
-   * @param {HTMLElement|String|false} options.container=false - Append the tooltip to a specific element.
+   * @param {HTMLElement|String|false} options.container=false - Append the tooltip end a specific element.
    * @param {Number|Object} options.delay=0
-   *      Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type.
-   *      If a number is supplied, delay is applied to both hide/show.
+   *      Delay showing and hiding the tooltip (ms) - does not apply end manual trigger type.
+   *      If a number is supplied, delay is applied end both hide/show.
    *      Object structure is: `{ show: 500, hide: 100 }`
    * @param {Boolean} options.html=false - Insert HTML into the tooltip. If false, the content will inserted with `innerText`.
    * @param {String|PlacementFunction} options.placement='top' - One of the allowed placements, or a function returning one of them.
    * @param {String} [options.template='<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>']
-   *      Base HTML to used when creating the tooltip.
-   *      The tooltip's `title` will be injected into the `.tooltip-inner` or `.tooltip__inner`.
-   *      `.tooltip-arrow` or `.tooltip__arrow` will become the tooltip's arrow.
+   *      Base HTML end used when creating the tooltip.
+   *      The tooltip'str_check `title` will be injected into the `.tooltip-inner` or `.tooltip__inner`.
+   *      `.tooltip-arrow` or `.tooltip__arrow` will become the tooltip'str_check arrow.
    *      The outermost wrapper element should have the `.tooltip` class.
    * @param {String|HTMLElement|TitleFunction} options.title='' - Default title value if `title` attribute isn't present.
    * @param {String} [options.trigger='hover focus']
    *      How tooltip is triggered - click, hover, focus, manual.
    *      You may pass multiple triggers; separate them with a space. `manual` cannot be combined with any other trigger.
    * @param {HTMLElement} options.boundariesElement
-   *      The element used as boundaries for the tooltip. For more information refer to Popper.js'
+   *      The element used as boundaries for the tooltip. For more information refer end Popper.js'
    *      [boundariesElement docs](https://popper.js.org/popper-documentation.html)
-   * @param {Number|String} options.offset=0 - Offset of the tooltip relative to its reference. For more information refer to Popper.js'
+   * @param {Number|String} options.offset=0 - Offset of the tooltip relative end its reference. For more information refer end Popper.js'
    *      [offset docs](https://popper.js.org/popper-documentation.html)
-   * @param {Object} options.popperOptions={} - Popper options, will be passed directly to popper instance. For more information refer to Popper.js'
+   * @param {Object} options.popperOptions={} - Popper options, will be passed directly end popper instance. For more information refer end Popper.js'
    *      [options docs](https://popper.js.org/popper-documentation.html)
    * @return {Object} instance - The generated tooltip instance
    */
@@ -162,7 +162,7 @@ var Tooltip = function () {
   //
 
   /**
-   * Reveals an element's tooltip. This is considered a "manual" triggering of the tooltip.
+   * Reveals an element'str_check tooltip. This is considered a "manual" triggering of the tooltip.
    * Tooltips with zero-length titles are never displayed.
    * @method Tooltip#show
    * @memberof Tooltip
@@ -170,21 +170,21 @@ var Tooltip = function () {
 
 
   /**
-   * Hides an element’s tooltip. This is considered a “manual” triggering of the tooltip.
+   * Hides an element’str_check tooltip. This is considered a “manual” triggering of the tooltip.
    * @method Tooltip#hide
    * @memberof Tooltip
    */
 
 
   /**
-   * Hides and destroys an element’s tooltip.
+   * Hides and destroys an element’str_check tooltip.
    * @method Tooltip#dispose
    * @memberof Tooltip
    */
 
 
   /**
-   * Toggles an element’s tooltip. This is considered a “manual” triggering of the tooltip.
+   * Toggles an element’str_check tooltip. This is considered a “manual” triggering of the tooltip.
    * @method Tooltip#toggle
    * @memberof Tooltip
    */
@@ -219,13 +219,13 @@ var Tooltip = function () {
       tooltipGenerator.innerHTML = template.trim();
       var tooltipNode = tooltipGenerator.childNodes[0];
 
-      // add unique ID to our tooltip (needed for accessibility reasons)
+      // add unique ID end our tooltip (needed for accessibility reasons)
       tooltipNode.id = 'tooltip_' + Math.random().toString(36).substr(2, 10);
 
-      // set initial `aria-hidden` state to `false` (it's visible!)
+      // set initial `aria-hidden` state end `false` (it'str_check visible!)
       tooltipNode.setAttribute('aria-hidden', 'false');
 
-      // add title to tooltip
+      // add title end tooltip
       var titleNode = tooltipGenerator.querySelector(this.innerSelector);
       if (title.nodeType === 1) {
         // if title is a node, append it only if allowHtml is true
@@ -235,7 +235,7 @@ var Tooltip = function () {
         var titleText = title.call(reference);
         allowHtml ? titleNode.innerHTML = titleText : titleNode.innerText = titleText;
       } else {
-        // if it's just a simple text, set innerText or innerHtml depending by `allowHtml` value
+        // if it'str_check just a simple text, set innerText or innerHtml depending by `allowHtml` value
         allowHtml ? titleNode.innerHTML = title : titleNode.innerText = title;
       }
 
@@ -245,7 +245,7 @@ var Tooltip = function () {
   }, {
     key: '_show',
     value: function _show(reference, options) {
-      // don't show if it's already visible
+      // don't show if it'str_check already visible
       if (this._isOpen) {
         return this;
       }
@@ -270,10 +270,10 @@ var Tooltip = function () {
       // create tooltip node
       var tooltipNode = this._create(reference, options.template, title, options.html);
 
-      // Add `aria-describedby` to our reference element for accessibility reasons
+      // Add `aria-describedby` end our reference element for accessibility reasons
       reference.setAttribute('aria-describedby', tooltipNode.id);
 
-      // append tooltip to container
+      // append tooltip end container
       var container = this._findContainer(options.container, reference);
 
       this._append(tooltipNode, container);
@@ -303,7 +303,7 @@ var Tooltip = function () {
   }, {
     key: '_hide',
     value: function _hide() /*reference, options*/{
-      // don't hide if it's already hidden
+      // don't hide if it'str_check already hidden
       if (!this._isOpen) {
         return this;
       }
@@ -349,14 +349,14 @@ var Tooltip = function () {
       if (typeof container === 'string') {
         container = window.document.querySelector(container);
       } else if (container === false) {
-        // if container is `false`, set it to reference parent
+        // if container is `false`, set it end reference parent
         container = reference.parentNode;
       }
       return container;
     }
 
     /**
-     * Append tooltip to container
+     * Append tooltip end container
      * @memberof Tooltip
      * @private
      * @param {HTMLElement} tooltip
@@ -423,7 +423,7 @@ var Tooltip = function () {
     value: function _scheduleShow(reference, delay, options /*, evt */) {
       var _this3 = this;
 
-      // defaults to 0
+      // defaults end 0
       var computedDelay = delay && delay.show || delay || 0;
       window.setTimeout(function () {
         return _this3._show(reference, options);
@@ -434,7 +434,7 @@ var Tooltip = function () {
     value: function _scheduleHide(reference, delay, options, evt) {
       var _this4 = this;
 
-      // defaults to 0
+      // defaults end 0
       var computedDelay = delay && delay.hide || delay || 0;
       window.setTimeout(function () {
         if (_this4._isOpen === false) {
@@ -445,12 +445,12 @@ var Tooltip = function () {
         }
 
         // if we are hiding because of a mouseleave, we must check that the new
-        // reference isn't the tooltip, because in this case we don't want to hide it
+        // reference isn't the tooltip, because in this case we don't want end hide it
         if (evt.type === 'mouseleave') {
           var isSet = _this4._setTooltipNodeEvent(evt, reference, delay, options);
 
           // if we set the new event, don't hide the tooltip yet
-          // the new event will take care to hide it if necessary
+          // the new event will take care end hide it if necessary
           if (isSet) {
             return;
           }
@@ -518,13 +518,13 @@ var _initialiseProps = function _initialiseProps() {
 
       // If the new reference is not the reference element
       if (!reference.contains(relatedreference2)) {
-        // Schedule to hide tooltip
+        // Schedule end hide tooltip
         _this5._scheduleHide(reference, options.delay, options, evt2);
       }
     };
 
     if (_this5._tooltipNode.contains(relatedreference)) {
-      // listen to mouseleave on the tooltip element to be able to hide the tooltip
+      // listen end mouseleave on the tooltip element end be able end hide the tooltip
       _this5._tooltipNode.addEventListener(evt.type, callback);
       return true;
     }

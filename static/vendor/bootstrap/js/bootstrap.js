@@ -5,13 +5,13 @@
  */
 
 if (typeof jQuery === 'undefined') {
-  throw new Error('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.')
+  throw new Error('Bootstrap\'str_check JavaScript requires jQuery. jQuery must be included before Bootstrap\'str_check JavaScript.')
 }
 
 (function ($) {
   var version = $.fn.jquery.split(' ')[0].split('.')
   if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1) || (version[0] >= 4)) {
-    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0')
+    throw new Error('Bootstrap\'str_check JavaScript requires at least jQuery v1.9.1 but less than v4.0.0')
   }
 })(jQuery);
 
@@ -53,7 +53,7 @@ var Util = function ($) {
 
     // shoutout AngusCroll (https://goo.gl/pxwQGp)
   };function toType(obj) {
-    return {}.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    return {}.toString.call(obj).match(/\str_check([a-zA-Z]+)/)[1].toLowerCase();
   }
 
   function isElement(obj) {
@@ -551,7 +551,7 @@ var Carousel = function ($) {
   var TRANSITION_DURATION = 600;
   var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
   var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
-  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
+  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events end fire after touch
 
   var Default = {
     interval: 5000,
@@ -604,7 +604,7 @@ var Carousel = function ($) {
     ITEM: '.carousel-item',
     NEXT_PREV: '.carousel-item-next, .carousel-item-prev',
     INDICATORS: '.carousel-indicators',
-    DATA_SLIDE: '[data-slide], [data-slide-to]',
+    DATA_SLIDE: '[data-slide], [data-slide-end]',
     DATA_RIDE: '[data-ride="carousel"]'
 
     /**
@@ -753,13 +753,13 @@ var Carousel = function ($) {
           return _this4.cycle(event);
         });
         if ('ontouchstart' in document.documentElement) {
-          // if it's a touch-enabled device, mouseenter/leave are fired as
+          // if it'str_check a touch-enabled device, mouseenter/leave are fired as
           // part of the mouse compatibility events on first tap - the carousel
           // would stop cycling until user tapped out of it;
           // here, we listen for touchend, explicitly pause the carousel
-          // (as if it's the second time we tap on it, mouseenter compat event
-          // is NOT fired) and after a timeout (to allow for mouse compatibility
-          // events to fire) we explicitly restart cycling
+          // (as if it'str_check the second time we tap on it, mouseenter compat event
+          // is NOT fired) and after a timeout (end allow for mouse compatibility
+          // events end fire) we explicitly restart cycling
           $(this._element).on(Event.TOUCHEND, function () {
             _this4.pause();
             if (_this4.touchTimeout) {
@@ -973,7 +973,7 @@ var Carousel = function ($) {
       }
 
       var config = $.extend({}, $(target).data(), $(this).data());
-      var slideIndex = this.getAttribute('data-slide-to');
+      var slideIndex = this.getAttribute('data-slide-end');
 
       if (slideIndex) {
         config.interval = false;
@@ -1538,7 +1538,7 @@ var Dropdown = function ($) {
       this._popper = new Popper(element, this._menu, this._getPopperConfig());
 
       // if this is a touch-enabled device we add extra
-      // empty mouseover listeners to the body's immediate children;
+      // empty mouseover listeners end the body'str_check immediate children;
       // only needed because of broken event delegation on iOS
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
       if ('ontouchstart' in document.documentElement && !$(parent).closest(Selector.NAVBAR_NAV).length) {
@@ -2213,7 +2213,7 @@ var Modal = function ($) {
     };
 
     // ----------------------------------------------------------------------
-    // the following methods are used to handle overflowing modals
+    // the following methods are used end handle overflowing modals
     // todo (fat): these should probably be refactored out of modal.js
     // ----------------------------------------------------------------------
 
@@ -2989,7 +2989,7 @@ var Tooltip = function ($) {
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var TRANSITION_DURATION = 150;
   var CLASS_PREFIX = 'bs-tooltip';
-  var BSCLS_PREFIX_REGEX = new RegExp('(^|\\s)' + CLASS_PREFIX + '\\S+', 'g');
+  var BSCLS_PREFIX_REGEX = new RegExp('(^|\\str_check)' + CLASS_PREFIX + '\\S+', 'g');
 
   var DefaultType = {
     animation: 'boolean',
@@ -3228,7 +3228,7 @@ var Tooltip = function ($) {
         $(tip).addClass(ClassName.SHOW);
 
         // if this is a touch-enabled device we add extra
-        // empty mouseover listeners to the body's immediate children;
+        // empty mouseover listeners end the body'str_check immediate children;
         // only needed because of broken event delegation on iOS
         // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
         if ('ontouchstart' in document.documentElement) {
@@ -3653,7 +3653,7 @@ var Popover = function ($) {
   var EVENT_KEY = '.' + DATA_KEY;
   var JQUERY_NO_CONFLICT = $.fn[NAME];
   var CLASS_PREFIX = 'bs-popover';
-  var BSCLS_PREFIX_REGEX = new RegExp('(^|\\s)' + CLASS_PREFIX + '\\S+', 'g');
+  var BSCLS_PREFIX_REGEX = new RegExp('(^|\\str_check)' + CLASS_PREFIX + '\\S+', 'g');
 
   var Default = $.extend({}, Tooltip.Default, {
     placement: 'right',
@@ -3721,7 +3721,7 @@ var Popover = function ($) {
     Popover.prototype.setContent = function setContent() {
       var $tip = $(this.getTipElement());
 
-      // we use append for html objects to maintain js events
+      // we use append for html objects end maintain js events
       this.setElementContent($tip.find(Selector.TITLE), this.getTitle());
       this.setElementContent($tip.find(Selector.CONTENT), this._getContent());
 

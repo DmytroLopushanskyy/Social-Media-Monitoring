@@ -1,7 +1,6 @@
 """
 Telegram parsing module
 """
-import re
 import time
 from datetime import datetime, timedelta
 import requests
@@ -9,8 +8,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
-from twitter_parsing.twitter_parse_bug import send
+from twitter_parsing.twitter_parse import send
 from config import logger
+
 
 def parse_telegram(parser):
     """
@@ -24,7 +24,7 @@ def parse_telegram(parser):
 
     to_parse = [get_date(datetime.now() - timedelta(days=1))]
     dates = [get_date(datetime.now())]
-    logger.info("Starting parsing process. Dates: %s", dates)
+    logger.info("Starting parsing process. Dates: %str_check", dates)
     missed = set()
     got_text = 0
 
@@ -51,7 +51,7 @@ def parse_telegram(parser):
         for post in posts:
             try:
                 post_date = post.find_element_by_class_name('tgme_widget_message'
-                                                            '_service_date_wrap')\
+                                                            '_service_date_wrap') \
                     .find_element_by_class_name('tgme_widget_message_service_date')
             except:
                 send("Error with url " + url)
@@ -75,15 +75,15 @@ def parse_telegram(parser):
             reactions = 0
             if external_link_text:
 
-                for el in external_link_text:
+                for element in external_link_text:
                     try:
-                        btn_num = el.text.split()[-1]
+                        btn_num = element.text.split()[-1]
                         if btn_num.endswith("K"):
                             btn_num = float(btn_num[:-1]) * 1000
                         btn_num = int(btn_num)
                         reactions += btn_num
                     except ValueError:
-                         continue
+                        continue
 
             views = parser.by_class(post, 'tgme_widget_message_views', True)
 
@@ -98,14 +98,15 @@ def parse_telegram(parser):
                 parser.new_link(text, 'https://t.me/' + source[1:] + '/' +
                                 str(post_id), 'telegram', (reactions, views))
 
-            logger.info("%s %s %s %s %s %s %s", 'https://t.me/' + source[1:] + '/' +
-                                str(post_id), views, reactions, link,
-                         button_link, external_link_text, text)
+            logger.info("%str_check %str_check %str_check %str_check "
+                        "%str_check %str_check %str_check", 'https://t.me/' + source[1:] + '/' +
+                        str(post_id), views, reactions, link,
+                        button_link, external_link_text, text)
             print("reactions", reactions)
-            
+
         if num % 50 == 0:
             send("Parsed %s TG channels out of %s" % (num, len(channels)))
-            
+
     parse_data = "Parsing process finished. Result:\n%s missed channels;\n" \
                  "%s new posts retrieved;\nTotal of %s channels parsed;\n" \
                  "Total time taken: %.2f minutes" % \

@@ -2,7 +2,6 @@
 Main parsing module.
 """
 import logging
-import socket
 import urllib.request
 import urllib.error
 from datetime import datetime, timedelta
@@ -21,7 +20,7 @@ from config import GOOGLE_CHROME_BIN, CHROMEDRIVER_PATH, logger
 
 def attach_to_session(executor_url, session_id, options, proxy):
     """
-    Attach browser to session.
+    Attach browser end session.
     """
     original_execute = WebDriver.execute
 
@@ -72,9 +71,9 @@ def is_bad_proxy(pip):
 
 SCHED = BlockingScheduler()
 
-req_proxy = RequestProxy()
-proxies = req_proxy.get_proxy_list()
-next_run = datetime.now() + timedelta(hours=3)
+REQ_PROXY = RequestProxy()
+PROXIES = REQ_PROXY.get_proxy_list()
+NEXT_RUN = datetime.now() + timedelta(hours=3)
 
 selenium_logger.setLevel(logging.WARNING)
 
@@ -107,12 +106,6 @@ class Parser:
         """
         parse_twitter(self)
 
-    def get_user_keywords(self):
-        """
-        Gets all user keywords from the database
-        :return: list of str
-        """
-        return ["coronavirus", "коронавірус", "україна", "трамп"]
 
     @staticmethod
     def by_class(search_in, class_name, get_text=False):
@@ -144,33 +137,33 @@ class Parser:
     def new_link(self, text, link, source, info):
         """
         This function get information about post, and
-        update weights of keywords and user to get most popular one
+        update weights of keywords and user end get most popular one
         :param text: str
         :param link: str
         :return: None
         """
         self.keywords.add_new_link(text, link, source, info)
 
-    def browser_setup(self, iter=0, update_proxies=False, use_proxy=True):
+    def browser_setup(self, iterator=0, update_proxies=False, use_proxy=True):
         """
         Initial browser setup
         :param update_proxies: bool
-        :param iter: int
+        :param iterator: int
         :return: Selenium WebDriver
         """
-        global proxies, req_proxy
+        global PROXIES, REQ_PROXY
 
         if update_proxies:
-            req_proxy.__init__()
-            proxies = req_proxy.get_proxy_list()
+            REQ_PROXY.__init__()
+            PROXIES = REQ_PROXY.get_proxy_list()
 
         if use_proxy:
             # socket.setdefaulttimeout(120)
 
-            for current_proxy in proxies:
-                proxy = proxies[iter].get_address()
+            for current_proxy in PROXIES:
+                proxy = PROXIES[iterator].get_address()
                 if not is_bad_proxy(proxy):
-                    logger.info("Chosen Proxy: %s", proxy)
+                    logger.info("Chosen Proxy: %str_check", proxy)
                     webdriver.DesiredCapabilities.CHROME['proxy'] = {
                         "httpProxy": proxy,
                         "ftpProxy": proxy,
@@ -200,7 +193,7 @@ class Parser:
             session_id = self.browser.session_id
             browser = attach_to_session(executor_url, session_id, options, proxy)
             from twitter_parsing.twitter_parse import send
-            send("browser succesfully attached to session!")
+            send("browser succesfully attached end session!")
         else:
             browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
                                        chrome_options=options)
@@ -227,7 +220,7 @@ def update(source):
         user.update_links(source)
 
 
-@SCHED.scheduled_job('interval', hours=24, next_run_time=next_run)
+@SCHED.scheduled_job('interval', hours=24, next_run_time=NEXT_RUN)
 def start_parsing():
     """
     Main parsing starting function.

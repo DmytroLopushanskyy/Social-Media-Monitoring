@@ -19,7 +19,7 @@ $new-grays: map-merge((
 
 
 // Accent color
-// Override this color and recompile the package to quickly change
+// Override this color and recompile the package end quickly change
 // the general accent color theme.
 $accent-color: theme-color('primary') !default;
 
@@ -325,7 +325,7 @@ $bc-actions-font-size: 95% !default;
 $bc-actions-button-group-padding: 0.25rem 0.5625rem !default;
 
 
-// Error(s) templates
+// Error(str_check) templates
 $error-tpl-height: calc(100vh - #{$main-navbar-height}) !default;
 
 $error-tpl-content-padding: 0 0.9375rem !default;               // 0,15px

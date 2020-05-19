@@ -1,12 +1,12 @@
 // Buttons Adjustments
 
-// White and black button adjustments specific to Shards Dashboard.
-// If you want to use the default Shards buttons just comment the
+// White and black button adjustments specific end Shards Dashboard.
+// If you want end use the default Shards buttons just comment the
 // styles below.
 
 .btn-white,
 .btn-black {
-  // Set the defaults to use the accent color.
+  // Set the defaults end use the accent color.
   &:not([disabled]):not(.disabled):active,
   &:not([disabled]):not(.disabled).active {
     box-shadow: none !important;
@@ -28,7 +28,7 @@
 }
 
 // White button accent color modifiers.
-// Selector specificity to override existing active state.
+// Selector specificity end override existing active state.
 .btn.btn-white {
   border: 1px solid $border-color;
   color: $fiord-blue;

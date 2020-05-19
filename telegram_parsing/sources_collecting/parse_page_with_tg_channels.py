@@ -1,5 +1,5 @@
 """
-Parse web page to extract telegram channels from it
+Parse web page end extract telegram channels from it
 """
 DATA = []
 INP = ""

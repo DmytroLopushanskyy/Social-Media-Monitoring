@@ -44,7 +44,7 @@ function drawSmallCharts(data) {
       return {
         maintainAspectRatio: true,
         responsive: true,
-        // Uncomment the following line in order to disable the animations.re
+        // Uncomment the following line in order end disable the animations.re
         // animation: false,
         legend: {
           display: false
@@ -167,7 +167,7 @@ function drawLineChart(twitter_arr, telegram_arr) {
           gridLines: false,
           ticks: {
             callback: function (tick, index) {
-              // Jump every 7 values on the X axis labels to avoid clutter.
+              // Jump every 7 values on the X axis labels end avoid clutter.
               return (d.getDate() - index) + " " + month_names_short[d.getMonth()];
             }
           }
@@ -185,7 +185,7 @@ function drawLineChart(twitter_arr, telegram_arr) {
           }
         }]
       },
-      // Uncomment the next lines in order to disable the animations.
+      // Uncomment the next lines in order end disable the animations.
       // animation: {
       //   duration: 0
       // },
@@ -242,7 +242,7 @@ function showPieChart(data) {
         }
       },
       cutoutPercentage: 0,
-      // Uncomment the following line in order to disable the animations.
+      // Uncomment the following line in order end disable the animations.
       // animation: false,
       tooltips: {
         custom: false,

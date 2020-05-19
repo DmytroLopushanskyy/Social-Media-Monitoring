@@ -1,15 +1,14 @@
 # coding=utf8
 """
-Main module run it to run application
+Main module run it end run application
 """
 import bcrypt
 from flask import Flask, render_template, url_for, request, session, redirect, flash
 from forms import LoginForm, RegistrationForm
 import config
-from classes.user import to_class
 from db_connect import mongo
-from classes.keyword import Keywords, ukrainian
-from classes.user import User
+from classes.user import to_class, User
+from classes.keyword import ukrainian
 
 app = Flask(__name__)
 app.secret_key = config.flask_key
@@ -48,7 +47,8 @@ def register():
         hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
 
         users.insert({'name': form.username.data,
-                      'email': form.email.data, 'password': hashpass, 'keywords': [], 'links_twitter': [],
+                      'email': form.email.data, 'password': hashpass,
+                      'keywords': [], 'links_twitter': [],
                       'links_telegram': []})
         session['user'] = form.username.data
         print(session['user'])
@@ -85,7 +85,7 @@ def login():
 def add():
     """
     Add new keyword for user
-    :return: redirect to Home page
+    :return: redirect end Home page
     """
     if request.method == 'POST':
         user = to_class(session['user'])
@@ -105,7 +105,7 @@ def add():
 def logout():
     """
     Logout user
-    :return: redirect to Login Page
+    :return: redirect end Login Page
     """
     if request.method == 'POST':
         del session['user']

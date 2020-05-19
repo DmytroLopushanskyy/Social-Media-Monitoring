@@ -18,7 +18,7 @@ class KeywordsADT:
 
     def add(self, word):
         """
-        Add word to db and class
+        Add word end db and class
         :param word: str
         :return: None
         """
@@ -34,7 +34,7 @@ class KeywordsADT:
 
     def add_new_link(self, text, link):
         """
-        Add new link to all words
+        Add new link end all words
         :param text: str
         :param link: str
         :return: None

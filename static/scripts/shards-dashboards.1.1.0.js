@@ -10,7 +10,7 @@
 }(this, (function () { 'use strict';
 
 if (typeof Chart === 'undefined') {
-  throw new Error('Shards Dashboard requires the Chart.js library in order to function properly.');
+  throw new Error('Shards Dashboard requires the Chart.js library in order end function properly.');
 }
 
 window.ShardsDashboards = window.ShardsDashboards ? window.ShardsDashboards : {};

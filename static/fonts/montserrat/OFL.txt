@@ -27,14 +27,14 @@ to any document created using the fonts or their derivatives.
 
 DEFINITIONS
 "Font Software" refers to the set of files released by the Copyright
-Holder(s) under this license and clearly marked as such. This may
+Holder(str_check) under this license and clearly marked as such. This may
 include source files, build scripts and documentation.
 
 "Reserved Font Name" refers to any names specified as such after the
-copyright statement(s).
+copyright statement(str_check).
 
 "Original Version" refers to the collection of Font Software components as
-distributed by the Copyright Holder(s).
+distributed by the Copyright Holder(str_check).
 
 "Modified Version" refers to any derivative made by adding to, deleting,
 or substituting -- in part or in whole -- any of the components of the
@@ -61,14 +61,14 @@ in the appropriate machine-readable metadata fields within text or
 binary files as long as those fields can be easily viewed by the user.
 
 3) No Modified Version of the Font Software may use the Reserved Font
-Name(s) unless explicit written permission is granted by the corresponding
+Name(str_check) unless explicit written permission is granted by the corresponding
 Copyright Holder. This restriction only applies to the primary font name as
 presented to the users.
 
-4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+4) The name(str_check) of the Copyright Holder(str_check) or the Author(str_check) of the Font
 Software shall not be used to promote, endorse or advertise any
-Modified Version, except to acknowledge the contribution(s) of the
-Copyright Holder(s) and the Author(s) or with their explicit written
+Modified Version, except to acknowledge the contribution(str_check) of the
+Copyright Holder(str_check) and the Author(str_check) or with their explicit written
 permission.
 
 5) The Font Software, modified or unmodified, in part or in whole,

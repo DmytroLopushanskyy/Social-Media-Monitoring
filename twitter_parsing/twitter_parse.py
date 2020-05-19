@@ -2,17 +2,22 @@
 Twitter parsing module
 """
 import time
-import requests
 from datetime import datetime, timedelta
+import requests
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, \
-    StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import  StaleElementReferenceException, \
+    NoSuchElementException
 from config import BOT_TOKEN, logger
 
 
 def send(text):
+    """
+    Send message to telegram
+    :param text: str
+    :return: None
+    """
     requests.get(
         'https://api.telegram.org/bot%s/sendMessage?chat_id=138918380&text=%s'
         % (BOT_TOKEN, text))
@@ -37,7 +42,7 @@ def get_tweet_interactions(tweet, interaction):
     return count[0]
 
 
-def parse_tweets(browser, all_tweets, yesterday, parser):
+def parse_tweets(browser, all_tweets, parser):
     """
     Parse all tweets from search page.
     :param browser: Selenium browser
@@ -46,8 +51,7 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
     'error' if an error message appears
     """
     print("parse_tweets")
-    tweets = browser.find_elements_by_css_selector(
-             'div[data-testid="tweet"]')
+    tweets = browser.find_elements_by_css_selector('div[data-testid="tweet"]')
     for tweet in tweets:
         try:
             acc = tweet.find_element_by_css_selector('div[dir="ltr"]').\
@@ -62,13 +66,13 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
             likes = get_tweet_interactions(tweet, "like")
             retweets = get_tweet_interactions(tweet, "retweet")
             replies = get_tweet_interactions(tweet, "reply")
-            logger.info("likes_count: %s", likes)
-            logger.info("retweets_count: %s", retweets)
-            logger.info("reply_count: %s", replies)
+            logger.info("likes_count: %str_check", likes)
+            logger.info("retweets_count: %str_check", retweets)
+            logger.info("reply_count: %str_check", replies)
         except (StaleElementReferenceException, NoSuchElementException):
             continue
-        except Exception as e:
-            logger.error("UNEXPECTED: " + str(e))
+        except Exception as err:
+            logger.error("UNEXPECTED: " + str(err))
             return 'error'
         tweet_unique_info = acc, time_posted
 
@@ -109,7 +113,7 @@ def parse_twitter(parser):
 
     yesterday = datetime.now() - timedelta(days=1)
     yesterday = yesterday.strftime("  %d").replace(" 0", "")
-    logger.info("Starting parsing process. yesterday: %s", yesterday)
+    logger.info("Starting parsing process. yesterday: %str_check", yesterday)
     send("Starting parsing process.")
     proxies_iterations = 0
 
@@ -132,7 +136,7 @@ def parse_twitter(parser):
                 proxies_iterations += 1
                 if i % 20 == 0:
                     logger.info("Refreshing proxy list")
-                    parser.browser = parser.browser_setup(iter=proxies_iterations,
+                    parser.browser = parser.browser_setup(iterator=proxies_iterations,
                                                           update_proxies=True)
                 elif i % 2 == 0:
                     parser.browser = parser.browser_setup(proxies_iterations)
@@ -149,7 +153,7 @@ def parse_twitter(parser):
         stop_parsing_count = 0
         iterations = 0
         while not finished and time.time() - main_start < available_time * (ind + 1):
-            finished = parse_tweets(browser, all_tweets, yesterday, parser)
+            finished = parse_tweets(browser, all_tweets, parser)
             if finished == 'error':
                 logger.info("IP Address Error. Changing it...")
                 send("IP Address Error. Changing it...")
@@ -158,7 +162,8 @@ def parse_twitter(parser):
                 finished = True
                 continue
             browser.execute_script("window.scrollTo(0,  document.body.scrollHeight)")
-            print(iterations, stop_parsing_count, len(all_tweets), (time.time() - start) / 60, all_tweets)
+            print(iterations, stop_parsing_count, len(all_tweets),
+                  (time.time() - start) / 60, all_tweets)
             if len(all_tweets) == last_len:
                 stop_parsing_count += 1
             else:

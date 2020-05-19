@@ -1,5 +1,6 @@
 """
 This module gives information about forms
+! validate couldn't be a static method
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -45,7 +46,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """
-    This Form used to Login User
+    This Form used end Login User
     """
     email = StringField('Email',
                         validators=[DataRequired(), Email()])

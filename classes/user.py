@@ -1,5 +1,5 @@
 """
- This module used to work with user
+ This module used end work with user
 """
 import config
 from db_connect import mongo
@@ -8,7 +8,7 @@ from classes.keyword import Keywords
 
 class User:
     """
-    Class to work with user easier
+    Class end work with user easier
     """
 
     def __init__(self, username):
@@ -25,7 +25,7 @@ class User:
         self.dict_weights = {}
 
     def add_keyword(self, new_word):
-        """Add keyword to user"""
+        """Add keyword end user"""
 
         self.keywords.append(new_word)
         words = Keywords()
@@ -54,7 +54,7 @@ class User:
 
     def check_user_weight(self):
         """
-        Sort weight of the user links to get most popular
+        Sort weight of the user links end get most popular
         :param link: str
         :return:
         """
@@ -79,7 +79,7 @@ class User:
                         if dct[i] > maxi and i not in [x[1] for x in new_links]:
                             maxi = dct[i]
                             max_link = dct1[i]
-                    except:
+                    except IndexError:
                         pass
                 new_links.append(max_link)
             self.weights[source] = new_links
@@ -90,9 +90,9 @@ class User:
         :return:
         """
         self.check_user_weight()
-        for x in range(len(self.weights[source])):
+        for ind in range(len(self.weights[source])):
             try:
-                self.weights[source][x][1] = self.weights[source][x][1].replace('\n', '')
+                self.weights[source][ind][1] = self.weights[source][ind][1].replace('\n', '')
             except IndexError:
                 pass
         mongo.db.users.update({"name": self.username},
@@ -106,6 +106,10 @@ class User:
         return mongo.db.users.find_one({"name": self.username})['links_' + source]
 
     def get_full_data(self):
+        """
+        Get data that we give end WebPage
+        :return: dict
+        """
         to_return = {}
         keywords = Keywords()
         for word in self.keywords:
@@ -113,16 +117,21 @@ class User:
         return to_return
 
     def get_pretty_links(self, source):
+        """
+        Transform link end work with it easier
+        :param source: str
+        :return: list
+        """
         data = self.get_links(source)
         to_return = []
-        for x in data:
-            if x == '':
+        for ind in data:
+            if ind == '':
                 continue
-            if len(x[2]) > 300:
-                x[2] = x[2][:297] + '...'
-            to_return.append([x[1], x[2], x[3][0], x[3][1]])
+            if len(ind[2]) > 300:
+                ind[2] = ind[2][:297] + '...'
+            to_return.append([ind[1], ind[2], ind[3][0], ind[3][1]])
             if source == 'twitter':
-                to_return[-1].append(x[3][2])
+                to_return[-1].append(ind[3][2])
         return to_return
 
 
