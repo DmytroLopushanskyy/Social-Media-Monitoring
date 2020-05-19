@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html_documentation class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Main &mdash; TrackMe 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="TrackMe 0.1 documentation" href="index.html"/>
+        <link rel="next" title="Twitter Parsing" href="twitter_parsing.html"/>
+        <link rel="prev" title="Welcome to MyTrack’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TrackMe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twitter_parsing.html">Twitter Parsing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telegram_parsing.html">Telegram Parsing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TrackMe</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/main.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-app">
+<span id="main"></span><h1>Main<a class="headerlink" href="#module-app" title="Permalink to this headline">¶</a></h1>
+<p>Main module run it end run application</p>
+<dl class="py function">
+<dt id="app.add">
+<code class="sig-prename descclassname">app.</code><code class="sig-name descname">add</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add new keyword for user
+:return: redirect end Home page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="app.index">
+<code class="sig-prename descclassname">app.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home page
+:return: html</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="app.login">
+<code class="sig-prename descclassname">app.</code><code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Login Page
+:return: html</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="app.logout">
+<code class="sig-prename descclassname">app.</code><code class="sig-name descname">logout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logout user
+:return: redirect end Login Page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="app.register">
+<code class="sig-prename descclassname">app.</code><code class="sig-name descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register page
+:return: html</p>
+</dd></dl>
+
+<span class="target" id="module-db_connect"></span><span class="target" id="module-forms"></span><p>This module gives information about forms
+! validate couldn’t be a static method</p>
+<dl class="py class">
+<dt id="forms.LoginForm">
+<em class="property">class </em><code class="sig-prename descclassname">forms.</code><code class="sig-name descname">LoginForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#forms.LoginForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Form used end Login User</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="forms.RegistrationForm">
+<em class="property">class </em><code class="sig-prename descclassname">forms.</code><code class="sig-name descname">RegistrationForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#forms.RegistrationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Form used in registration</p>
+<dl class="py method">
+<dt id="forms.RegistrationForm.validate_email">
+<code class="sig-name descname">validate_email</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span></em><span class="sig-paren">)</span><a class="headerlink" href="#forms.RegistrationForm.validate_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check email is not used earlier
+:param email: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="forms.RegistrationForm.validate_username">
+<code class="sig-name descname">validate_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#forms.RegistrationForm.validate_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check username is not used earlier
+:param username: str
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-main_parsing"></span><p>Main parsing module.</p>
+<dl class="py class">
+<dt id="main_parsing.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_proxy</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main Parser class.</p>
+<dl class="py method">
+<dt id="main_parsing.Parser.browser_setup">
+<code class="sig-name descname">browser_setup</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterator</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">update_proxies</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_proxy</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.browser_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial browser setup
+:param update_proxies: bool
+:param iterator: int
+:return: Selenium WebDriver</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="main_parsing.Parser.by_class">
+<em class="property">static </em><code class="sig-name descname">by_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">search_in</span></em>, <em class="sig-param"><span class="n">class_name</span></em>, <em class="sig-param"><span class="n">get_text</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">parse_all</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.by_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for an element by its class_name.
+:param search_in: Selenium WebElement
+:param class_name: str
+:param get_text: bool
+:param parse_all: bool
+:return: Selenium WebElement or None if not found</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="main_parsing.Parser.new_link">
+<code class="sig-name descname">new_link</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">link</span></em>, <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.new_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function get information about post, and
+update weights of keywords and user end get most popular one
+:param text: str
+:param link: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="main_parsing.Parser.parse_telegram">
+<code class="sig-name descname">parse_telegram</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.parse_telegram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launches telegram channels parsing.
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="main_parsing.Parser.parse_twitter">
+<code class="sig-name descname">parse_twitter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.parse_twitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launches telegram channels parsing.
+:param keywords: list
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="main_parsing.Parser.quit">
+<code class="sig-name descname">quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.Parser.quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quit parsing by safely closing and quitting the browser.
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="main_parsing.attach_to_session">
+<code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">attach_to_session</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">executor_url</span></em>, <em class="sig-param"><span class="n">session_id</span></em>, <em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">proxy</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.attach_to_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach browser end session.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main_parsing.is_bad_proxy">
+<code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">is_bad_proxy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.is_bad_proxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple prxoy validation.
+:param pip: str
+:return: bool</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main_parsing.start_parsing">
+<code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">start_parsing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.start_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main parsing starting function.
+:return: None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main_parsing.start_twitter_parsing">
+<code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">start_twitter_parsing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.start_twitter_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main parsing starting function.
+:return: None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main_parsing.update">
+<code class="sig-prename descclassname">main_parsing.</code><code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main_parsing.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function push information into database
+:return: None</p>
+</dd></dl>
+
+<span class="target" id="module-ukr_stemmer"></span><p>This code is already uploaded in Github:
+<a class="reference external" href="https://github.com/Amice13/ukr_stemmer">https://github.com/Amice13/ukr_stemmer</a></p>
+<p>Russian stemming algorithm provided by Dr Martin Porter (snowball.tartarus.org):
+<a class="reference external" href="http://snowball.tartarus.org/algorithms/russian/stemmer.html">http://snowball.tartarus.org/algorithms/russian/stemmer.html</a>
+Algorithm implementation in PHP provided by Dmitry Koterov (dklab.ru):
+<a class="reference external" href="http://forum.dklab.ru/php/advises/HeuristicWithoutTheDictionaryExtractionOfARootFromRussianWord.html">http://forum.dklab.ru/php/advises/HeuristicWithoutTheDictionaryExtractionOfARootFromRussianWord.html</a>
+Algorithm implementation adopted for Drupal by Algenon (<a class="reference external" href="mailto:4algenon&#37;&#52;&#48;gmail&#46;com">4algenon<span>&#64;</span>gmail<span>&#46;</span>com</a>):
+<a class="reference external" href="https://drupal.org/project/ukstemmer">https://drupal.org/project/ukstemmer</a>
+Algorithm implementation in Python by Zakharov Kyrylo
+<a class="reference external" href="https://github.com/Amice13">https://github.com/Amice13</a></p>
+<dl class="py class">
+<dt id="ukr_stemmer.UkrainianStemmer">
+<em class="property">class </em><code class="sig-prename descclassname">ukr_stemmer.</code><code class="sig-name descname">UkrainianStemmer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ukr_stemmer.UkrainianStemmer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to get origin of the word</p>
+<dl class="py method">
+<dt id="ukr_stemmer.UkrainianStemmer.stem_word">
+<code class="sig-name descname">stem_word</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ukr_stemmer.UkrainianStemmer.stem_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the origin of ukrainian word
+:return: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ukr_stemmer.UkrainianStemmer.str_check">
+<code class="sig-name descname">str_check</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">reg</span></em>, <em class="sig-param"><span class="n">end</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ukr_stemmer.UkrainianStemmer.str_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check string
+:param start: str
+:param reg: int
+:param end: int
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ukr_stemmer.UkrainianStemmer.ukstemmer_search_preprocess">
+<em class="property">static </em><code class="sig-name descname">ukstemmer_search_preprocess</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ukr_stemmer.UkrainianStemmer.ukstemmer_search_preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change russian symbols end ukrainian
+:param word:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="twitter_parsing.html" class="btn btn-neutral float-right" title="Twitter Parsing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to MyTrack’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Bohdan Vey and Dmytro Lopushanskyy.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html_documentation',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

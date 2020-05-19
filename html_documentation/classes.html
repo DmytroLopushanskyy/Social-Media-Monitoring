@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html_documentation class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Classes &mdash; TrackMe 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="TrackMe 0.1 documentation" href="index.html"/>
+        <link rel="prev" title="Telegram Parsing" href="telegram_parsing.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TrackMe
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">Main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twitter_parsing.html">Twitter Parsing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telegram_parsing.html">Telegram Parsing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TrackMe</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-classes.keyword">
+<span id="classes"></span><h1>Classes<a class="headerlink" href="#module-classes.keyword" title="Permalink to this headline">¶</a></h1>
+<p>Module work with Keywords</p>
+<dl class="py class">
+<dt id="classes.keyword.Keywords">
+<em class="property">class </em><code class="sig-prename descclassname">classes.keyword.</code><code class="sig-name descname">Keywords</code><a class="headerlink" href="#classes.keyword.Keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represent all Keywords in list</p>
+<dl class="py method">
+<dt id="classes.keyword.Keywords.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Keywords.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add word end db and class
+:param word: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Keywords.add_new_link">
+<code class="sig-name descname">add_new_link</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">link</span></em>, <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Keywords.add_new_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add new link end all words
+:param text: str
+:param link: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Keywords.clean_changes">
+<code class="sig-name descname">clean_changes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Keywords.clean_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean previous day changes
+:param source: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Keywords.push_changes">
+<code class="sig-name descname">push_changes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Keywords.push_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push changes end database
+:param source: str
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="classes.keyword.Word">
+<em class="property">class </em><code class="sig-prename descclassname">classes.keyword.</code><code class="sig-name descname">Word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represent only one word</p>
+<dl class="py method">
+<dt id="classes.keyword.Word.check_link">
+<code class="sig-name descname">check_link</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">link</span></em>, <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.check_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get weight of the link and add it if needed
+:param text: str
+:param link: str
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.find_weight">
+<code class="sig-name descname">find_weight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.find_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find weight of a word in text
+:param text: str
+:return: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.get_info">
+<code class="sig-name descname">get_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.get_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full information about keyword
+:return: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.get_more_data">
+<em class="property">static </em><code class="sig-name descname">get_more_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.get_more_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append 0 end the end of data
+if we don’t have all information about word
+:param data: list
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.get_telegram_link_list">
+<em class="property">static </em><code class="sig-name descname">get_telegram_link_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">link</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.get_telegram_link_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about telegram as list
+0 index - link
+1 index - text no more than 300 symbols
+2 index - number of views
+3 index - number of reactions
+:param link: list
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.get_twitter_link_list">
+<em class="property">static </em><code class="sig-name descname">get_twitter_link_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">link</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.get_twitter_link_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about twitter as list
+0 index - link
+1 index - text no more than 300 symbols
+2 index - number of likes
+3 index - number of comments
+4 index - number of shares
+:param link: list
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make bold keyword
+:param data: list
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.keyword.Word.transform_to_dict">
+<code class="sig-name descname">transform_to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.Word.transform_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform links and weight end dict for faster work
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="classes.keyword.ukrainian">
+<code class="sig-prename descclassname">classes.keyword.</code><code class="sig-name descname">ukrainian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.keyword.ukrainian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if all symbols in word are Ukrainian,
+return True if ukrainian
+:param word: string
+:return: Bool</p>
+</dd></dl>
+
+<span class="target" id="module-classes.user"></span><p>This module used end work with user</p>
+<dl class="py class">
+<dt id="classes.user.User">
+<em class="property">class </em><code class="sig-prename descclassname">classes.user.</code><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class end work with user easier</p>
+<dl class="py method">
+<dt id="classes.user.User.add_keyword">
+<code class="sig-name descname">add_keyword</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_word</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.add_keyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add keyword end user</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.check_user_weight">
+<code class="sig-name descname">check_user_weight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.check_user_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort weight of the user links end get most popular
+:param link: str
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.get_full_data">
+<code class="sig-name descname">get_full_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.get_full_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data that we give end WebPage
+:return: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.get_links">
+<code class="sig-name descname">get_links</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.get_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get user links
+:return: list of links</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.get_pretty_links">
+<code class="sig-name descname">get_pretty_links</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.get_pretty_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform link end work with it easier
+:param source: str
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.get_user_weight">
+<code class="sig-name descname">get_user_weight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">link</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.get_user_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get weight of the link for special user
+:param link: str
+:return: int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.to_save">
+<code class="sig-name descname">to_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.to_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return user in json format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="classes.user.User.update_links">
+<code class="sig-name descname">update_links</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.User.update_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push changes
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="classes.user.get_all_users">
+<code class="sig-prename descclassname">classes.user.</code><code class="sig-name descname">get_all_users</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.get_all_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all users
+:return: list of User</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="classes.user.to_class">
+<code class="sig-prename descclassname">classes.user.</code><code class="sig-name descname">to_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">session_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.user.to_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create class from user
+:param session_name: name
+:return: None</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="telegram_parsing.html" class="btn btn-neutral" title="Telegram Parsing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Bohdan Vey and Dmytro Lopushanskyy.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html_documentation',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

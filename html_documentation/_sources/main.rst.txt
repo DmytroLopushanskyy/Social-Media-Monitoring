@@ -1,0 +1,12 @@
+Main
+===================
+.. automodule:: app
+   :members:
+.. automodule:: db_connect
+   :members:
+.. automodule:: forms
+   :members:
+.. automodule:: main_parsing
+   :members:
+.. automodule:: ukr_stemmer
+   :members:

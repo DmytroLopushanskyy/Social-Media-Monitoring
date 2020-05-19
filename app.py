@@ -20,7 +20,7 @@ app.config['MONGO_DBNAME'] = config.mongoname
 def index():
     """
     Home page
-    :return: html
+    :return: html_documentation
     """
     if 'user' in session:
         try:
@@ -38,7 +38,7 @@ def index():
 def register():
     """
     Register page
-    :return: html
+    :return: html_documentation
     """
     form = RegistrationForm()
     print()
@@ -63,7 +63,7 @@ def register():
 def login():
     """
     Login Page
-    :return: html
+    :return: html_documentation
     """
     form = LoginForm()
     if form.validate_on_submit():
