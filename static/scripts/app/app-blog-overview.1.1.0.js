@@ -168,7 +168,7 @@ function drawLineChart(twitter_arr, telegram_arr) {
           ticks: {
             callback: function (tick, index) {
               // Jump every 7 values on the X axis labels to avoid clutter.
-              return (d.getDate() + index) + " " + month_names_short[d.getMonth()];
+              return (d.getDate() - index) + " " + month_names_short[d.getMonth()];
             }
           }
         }],

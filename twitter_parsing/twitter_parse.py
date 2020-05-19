@@ -88,7 +88,7 @@ def parse_tweets(browser, all_tweets, yesterday, parser):
                 parser.new_link(text, url, "twitter", (likes, retweets, replies))
                 all_tweets.add(tweet_unique_info)
 
-        if time_posted.endswith(yesterday):
+        if "m" not in time_posted or "h" not in time_posted:
             return True
     return False
 
@@ -104,7 +104,7 @@ def parse_twitter(parser):
     print(start)
     keywords = parser.keywords.keywords
     browser = parser.browser
-    available_time = 0.5 * 60 * 60 / len(keywords)  # 30 minutes total available
+    available_time = 10 * 60 * 60 / len(keywords)  # 30 minutes total available
     logger.info("Maximum available time per word: %s seconds" % available_time)
 
     yesterday = datetime.now() - timedelta(days=1)

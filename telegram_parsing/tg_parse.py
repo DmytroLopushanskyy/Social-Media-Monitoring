@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
-from twitter_parsing.twitter_parse import send
+from twitter_parsing.twitter_parse_bug import send
 from config import logger
 
 def parse_telegram(parser):
@@ -22,8 +22,8 @@ def parse_telegram(parser):
     browser = parser.browser
     channels = get_channels(parser.tg_sources_path)
 
-    dates = [get_date(datetime.now()),
-             get_date(datetime.now() - timedelta(days=1))]
+    to_parse = [get_date(datetime.now() - timedelta(days=1))]
+    dates = [get_date(datetime.now())]
     logger.info("Starting parsing process. Dates: %s", dates)
     missed = set()
     got_text = 0
@@ -58,8 +58,10 @@ def parse_telegram(parser):
                 continue
 
             post_date = post_date.get_attribute('innerHTML')
-            if post_date not in dates:
+            if post_date not in dates and post_date not in to_parse:
                 break
+            elif post_date in dates:
+                continue
 
             post = post.find_element_by_class_name('tgme_widget_message')
             post_id = post.get_attribute('data-post').split('/')[1]
@@ -69,9 +71,21 @@ def parse_telegram(parser):
             button_link = parser. \
                 by_class(post, 'tgme_widget_message_inline_button')
             external_link_text = parser. \
-                by_class(post, 'tgme_widget_message_inline_button_text', True)
-            views = parser.by_class(post, 'tgme_widget_message_views', True)
+                by_class(post, 'tgme_widget_message_inline_button_text', True, True)
             reactions = 0
+            if external_link_text:
+
+                for el in external_link_text:
+                    try:
+                        btn_num = el.text.split()[-1]
+                        if btn_num.endswith("K"):
+                            btn_num = float(btn_num[:-1]) * 1000
+                        btn_num = int(btn_num)
+                        reactions += btn_num
+                    except ValueError:
+                         continue
+
+            views = parser.by_class(post, 'tgme_widget_message_views', True)
 
             if text:
                 got_text += 1
@@ -79,23 +93,17 @@ def parse_telegram(parser):
                 link = link.get_attribute('href')
             if button_link:
                 button_link = button_link.get_attribute('href')
-            if button_link == 'https://t.me/' + source[1:] + '/' + \
-                    str(post_id):
-                reactions_list = post.find_elements_by_class_name(
-                    'tgme_widget_message_inline_button_text')
-                for reaction_div in reactions_list:
-                    react_num = re.search(r'\d+', reaction_div.text)
-                    if react_num:
-                        reactions += int(react_num.group())
 
             if text:
                 parser.new_link(text, 'https://t.me/' + source[1:] + '/' +
                                 str(post_id), 'telegram', (reactions, views))
 
-            logger.info("%s %s %s %s %s %s", views, reactions, link,
+            logger.info("%s %s %s %s %s %s %s", 'https://t.me/' + source[1:] + '/' +
+                                str(post_id), views, reactions, link,
                          button_link, external_link_text, text)
+            print("reactions", reactions)
             
-        if num % 10 == 0:
+        if num % 50 == 0:
             send("Parsed %s TG channels out of %s" % (num, len(channels)))
             
     parse_data = "Parsing process finished. Result:\n%s missed channels;\n" \

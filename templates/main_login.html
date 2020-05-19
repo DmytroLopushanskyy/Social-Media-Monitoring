@@ -59,7 +59,13 @@
                         Вхід
                     </button>
                 </div>
-                <p id="mess">Помилка з поштою!</p>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <p id="mess">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <div class="text-center p-t-50">
 
                     <a class="txt2" href=" {{ url_for('register') }}">

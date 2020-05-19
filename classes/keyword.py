@@ -76,7 +76,7 @@ class Word:
                 try:
                     self.telegram_views += int(info[1])
                 except:
-                    self.telegram_views += int(info[1].split('.')[0]) * 1000
+                    self.telegram_views += float(info[1][:-1]) * 1000
                 self.telegram_posts += 1
             elif source == 'twitter':
                 self.twitter_posts += 1
@@ -84,7 +84,7 @@ class Word:
                 try:
                     self.twitter_retweets += int(info[1])
                 except:
-                    self.twitter_retweets += int(info[1].split('.')[0]) * 1000
+                    self.twitter_retweets += float(info[1][:-1]) * 1000
                 self.twitter_replies += int(info[2])
 
         to_add = True
@@ -203,12 +203,13 @@ class Keywords:
         """
         if not mongo.db.keywords.find_one({'keyword': word}):
             mongo.db.keywords.insert({'keyword': word, 'links_twitter': [],
-                                      'links_telegram': [], 'telegram_info': [], 'twitter_info': []})
+                                      'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
+                                      'links_twitter_data': [], 'links_telegram_data': []})
             self.keywords[word] = Word({'keyword': word, 'links_twitter': [],
                                         'links_telegram': [], 'telegram_info': [], 'twitter_info': [],
                                         'telegram_views': 0, 'telegram_reaction': 0, 'telegram_posts': 0,
                                         'twitter_replies': 0, 'twitter_likes': 0, 'twitter_retweets': 0,
-                                        'twitter_posts': 0})
+                                        'twitter_posts': 0, 'links_twitter_data': [], 'links_telegram_data': []})
 
     def __getitem__(self, item):
         """
@@ -268,12 +269,15 @@ class Keywords:
     def clean_changes(self, source):
         for word in self.keywords:
             word = self.keywords[word]
-            mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [], 'links_twitter': [],
+            if source == 'telegram':
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_telegram": [],
                                                                           "links_telegram_data": word.links['telegram'][
-                                                                                                 :5],
-                                                                          "links_twitter_data": word.links['twitter'][
-                                                                                                :5]
-                                                                          }})
+                                                                                                 :5]}})
+            else:
+                mongo.db.keywords.update({"keyword": word.keyword}, {"$set": {"links_twitter": [],
+                                                                              "links_twitter_data": word.links[
+                                                                                                         'twitter'][
+                                                                                                     :5]}})
         self.keywords = {}
         all_keywords = mongo.db.keywords.find({})
         for keyword in all_keywords:

@@ -53,6 +53,7 @@ def is_bad_proxy(pip):
     :param pip: str
     :return: bool
     """
+    print(pip)
     try:
         proxy_handler = urllib.request.ProxyHandler({'http': pip})
         opener = urllib.request.build_opener(proxy_handler)
@@ -164,7 +165,7 @@ class Parser:
             proxies = req_proxy.get_proxy_list()
 
         if use_proxy:
-            socket.setdefaulttimeout(120)
+            # socket.setdefaulttimeout(120)
 
             for current_proxy in proxies:
                 proxy = proxies[iter].get_address()
@@ -181,11 +182,10 @@ class Parser:
         else:
             proxy = None
 
-
         options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.notifications": 2}
         options.add_experimental_option("prefs", prefs)
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument('--start-maximized')
         options.add_argument('disable-infobars')
         options.add_argument('--disable-extensions')
@@ -208,7 +208,7 @@ class Parser:
         # browser.desired_capabilities.update(options.to_capabilities())
 
         #browser.set_window_position(0, 0)
-        #browser.set_window_size(320, 9999)
+        browser.set_window_size(320, 9999)
         # browser.header_overrides = {
         #     'user-agent': 'Mozilla/5.0',
         # }
