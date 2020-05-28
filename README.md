@@ -29,7 +29,7 @@ _For more examples and usage, please refer to the [Wiki][wiki]._
 
 ## Demo
 
-You can watch our demo video [on YouTube](https://newskitbot6.herokuapp.com/)
+You can watch our demo video [on YouTube](https://youtu.be/HXqyc6a6WKY)
 
 ## Development setup
 
