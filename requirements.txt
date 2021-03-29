@@ -95,7 +95,7 @@ pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycparser==2.18
 PyDispatcher==2.0.5
-Pygments==2.3.1
+Pygments==2.7.4
 pylint==2.4.4
 pymongo==3.10.1
 pymorphy2==0.8
