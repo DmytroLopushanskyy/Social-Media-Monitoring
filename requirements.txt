@@ -62,7 +62,7 @@ Kivy==1.11.1
 Kivy-Garden==0.1.4
 kiwisolver==1.0.1
 lazy-object-proxy==1.4.3
-lxml==4.2.0
+lxml==4.9.1
 Markdown==3.1.1
 MarkupSafe==1.0
 maxminddb==1.4.1
