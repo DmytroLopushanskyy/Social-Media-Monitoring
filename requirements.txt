@@ -67,7 +67,7 @@ Markdown==3.1.1
 MarkupSafe==1.0
 maxminddb==1.4.1
 mccabe==0.6.1
-mistune==0.8.4
+mistune==2.0.3
 mock==2.0.0
 more-itertools==8.0.2
 multidict==4.1.0
