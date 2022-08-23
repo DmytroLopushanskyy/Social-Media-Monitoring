@@ -71,7 +71,7 @@ mistune==0.8.4
 mock==2.0.0
 more-itertools==8.0.2
 multidict==4.1.0
-nbconvert==5.4.0
+nbconvert==6.5.1
 nbformat==4.4.0
 oauthlib==3.1.0
 packaging==20.3
